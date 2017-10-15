@@ -20,6 +20,8 @@ mongoose.connect('mongodb://Brenton:password420@ds155634.mlab.com:55634/todolist
 // IMPORTS //
 var indexRoutes = require('./routes/index')
 var userRoutes = require('./routes/userRoutes');
+var todoListRoutes = require('./routes/todoListRoutes');
+
 
 // CREATE APP //
 var app = express();
@@ -39,6 +41,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 // ROUTES //
 app.use('/', indexRoutes);
 app.use('/users', userRoutes);
+app.use('/todoList', todoListRoutes);
 
 // ERROR HANDLER //
 app.use(function(err, req, res, next){

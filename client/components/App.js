@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TodoList from './TodoList';
-import Login from './Login';
+import Home from './Home';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -36,15 +36,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      <input onChange={this.onInputChange.bind(this)} value={this.state.value} type="text"></input>
+      {/*<input onChange={this.onInputChange.bind(this)} value={this.state.value} type="text"></input>
       <button type="button" onClick={this.addItem.bind(this)}>Add Item</button>
       <br />
       <br />
       My Todo List
-      {/* This Calls the TodoList component with the current items in the
-          this.state.items array, it should re-render on the this.setState call */}
       <TodoList items = {this.state.items}/>
-      <Login />
+      <Login />*/}
+      <Home />
       </div>
     );
   }
