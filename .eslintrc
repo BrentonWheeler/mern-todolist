@@ -1,0 +1,11 @@
+{
+  "extends": "react",
+  // Your overrides...
+  //   "rules": {
+  //     "eslint no-undef": "error"
+  //"eslint no-console": ["error", { "allow": ["warn", "error"] }]
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}
