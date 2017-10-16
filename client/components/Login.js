@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { loginAction } from "../actions/loginAction";
-import { register, login } from "../tasks/user";
+import { register, login } from "../api/user";
 
 const LoggedInOutput = props => {
     if (props.loggedIn) {

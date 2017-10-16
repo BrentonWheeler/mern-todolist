@@ -1,6 +1,8 @@
+import { USER_LOGIN } from "../actions/types";
+
 export default function (state = null, action) {
     switch (action.type) {
-        case "USER_LOGIN":
+        case USER_LOGIN:
             return {
                 loggedIn: true,
                 username: action.payload

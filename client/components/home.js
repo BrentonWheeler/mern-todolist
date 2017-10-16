@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-// import PropTypes from 'prop-types';
-// import {bindActionCreators} from 'redux';
-// import {connect} from 'react-redux';
-import { getTodoListID } from "../tasks/createTodoList";
+import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import createTodoList from "../actions/createTodoAction";
+//import todoList from "../api/todoList";
 
 class Home extends Component {
     constructor (props) {
@@ -15,15 +16,9 @@ class Home extends Component {
         //window.alert("test");
     }
 
-    // Button onClick
+    // Button onClick to create a unique todo page
     newTodoList () {
-        getTodoListID()
-            .then(function (fromResolve) {
-                console.log(fromResolve.data.id);
-            })
-            .catch(function (fromReject) {
-                console.log(fromReject);
-            });
+        this.props.createTodoList();
     }
 
     render () {
@@ -31,22 +26,26 @@ class Home extends Component {
             <div>
                 <button onClick={this.loginClicked}>Login/Register</button>
                 <button onClick={this.newTodoList}>Create new TodoList</button>
+                <h1>{this.props.todoList.id}</h1>
             </div>
         );
     }
 }
 
-// const mapStateToProps = state => {
-//     return {
-//         users: state.users,
-//         loginState: state.loginState
-//     };
-// };
+const mapStateToProps = state => {
+    return {
+        todoList: state.todoList
+    };
+};
 
-// const matchDispatchToProps = (dispatch) => {
-//     return bindActionCreators({loginAction: loginAction}, dispatch)
-// }
+const matchDispatchToProps = dispatch => {
+    return bindActionCreators({ createTodoList: createTodoList }, dispatch);
+};
 
-Home.PropTypes = {};
+Home.PropTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired
+};
 
-export default Home;
+export default connect(mapStateToProps, matchDispatchToProps)(Home);
