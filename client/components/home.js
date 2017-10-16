@@ -26,7 +26,7 @@ class Home extends Component {
             <div>
                 <button onClick={this.loginClicked}>Login/Register</button>
                 <button onClick={this.newTodoList}>Create new TodoList</button>
-                <h1>{this.props.todoList.id}</h1>
+                <h1>Unique id: {this.props.todoList.id}</h1>
             </div>
         );
     }

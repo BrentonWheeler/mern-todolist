@@ -35,17 +35,4 @@ UserRouter.route("/login").post(function (req, res) {
     //console.log(req.body)
 });
 
-// Defined get data(index or listing) route
-UserRouter.route("/").get(function (req, res) {
-    // Item.find(function (err, itms){
-    //   if(err){
-    //     console.log(err);
-    //   }
-    //   else {
-    //     res.json(itms);
-    //   }
-    // });
-    res.send("test");
-});
-
 module.exports = UserRouter;

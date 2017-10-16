@@ -4,6 +4,9 @@
   //   "rules": {
   //     "eslint no-undef": "error"
   //"eslint no-console": ["error", { "allow": ["warn", "error"] }]
+  "rules": {
+    "react/prop-types": 0
+  },
   "env": {
     "browser": true,
     "node": true

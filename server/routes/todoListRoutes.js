@@ -13,17 +13,4 @@ UserRouter.route("/create").post(function (req, res) {
     res.json(tempID);
 });
 
-// Defined get data(index or listing) route
-UserRouter.route("/").get(function (req, res) {
-    // Item.find(function (err, itms){
-    //   if(err){
-    //     console.log(err);
-    //   }
-    //   else {
-    //     res.json(itms);
-    //   }
-    // });
-    res.send("test");
-});
-
 module.exports = UserRouter;
