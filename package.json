@@ -19,6 +19,7 @@
     "eslint-config-standard-react": "^5.0.0",
     "express": "^4.16.1",
     "mongoose": "^4.11.14",
+    "nodemon": "^1.12.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
