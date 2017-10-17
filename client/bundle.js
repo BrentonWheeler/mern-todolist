@@ -26730,11 +26730,6 @@ var Home = function (_Component) {
                 null,
                 _react2.default.createElement(
                     "button",
-                    { onClick: this.loginClicked },
-                    "Login/Register"
-                ),
-                _react2.default.createElement(
-                    "button",
                     { onClick: this.newTodoList },
                     "Create new TodoList"
                 ),

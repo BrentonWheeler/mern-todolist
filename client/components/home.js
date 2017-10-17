@@ -24,7 +24,7 @@ class Home extends Component {
     render () {
         return (
             <div>
-                <button onClick={this.loginClicked}>Login/Register</button>
+                {/*<button onClick={this.loginClicked}>Login/Register</button>*/}
                 <button onClick={this.newTodoList}>Create new TodoList</button>
                 <h1>New Todo's unique id: {this.props.todoList.id}</h1>
             </div>
