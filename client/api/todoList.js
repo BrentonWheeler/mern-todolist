@@ -5,7 +5,7 @@ import axios from "axios";
 // }
 
 let todolist = {
-    create: () => axios.post("http://localhost:4200/todoList/create")
+    create: () => axios.post("/todoList/create")
 };
 
 export default todolist;
