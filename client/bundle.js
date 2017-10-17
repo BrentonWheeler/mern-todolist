@@ -26847,7 +26847,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var todolist = {
     create: function create() {
-        return _axios2.default.post("http://localhost:4200/todoList/create");
+        return _axios2.default.post("/todoList/create");
     }
 };
 
