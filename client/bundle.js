@@ -26836,13 +26836,22 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// export function getTodoListID () {
-//     return axios.post("http://localhost:4200/todoList/create");
-// }
-
+// let todolist = {
+//     create: () =>
+//         fetch("/todoList/create", {
+//             method: "post",
+//             body: 1
+//         })
+// };
+var endpoint = "http://localhost:4200";
+console.log(true);
+if (true) {
+    console.log("production mode");
+    endpoint = "";
+}
 var todolist = {
     create: function create() {
-        return _axios2.default.post("/todoList/create");
+        return _axios2.default.post(endpoint + "/todoList/create");
     }
 };
 

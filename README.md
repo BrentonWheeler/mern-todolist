@@ -1,2 +1,2 @@
 backend development = npm start
-frontend development = npm tes
+frontend development = npm run dev

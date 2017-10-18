@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "webpack-dev-server --content-base client/",
+    "dev": "webpack-dev-server --content-base client/",
     "start": "nodemon bin/www",
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.prod.config.js",
     "eject": "react-scripts eject"
   },
   "author": "Brenton Wheeler",
