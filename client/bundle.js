@@ -26847,7 +26847,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //             body: 1
 //         })
 // };
-console.log("test");
 var todolist = {
     create: function create() {
         return _axios2.default.post(_url2.default + "/todoList/create");
