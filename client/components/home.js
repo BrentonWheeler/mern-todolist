@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import createTodoList from "../actions/createTodoAction";
+import promisify from "es6-promisify";
 //import todoList from "../api/todoList";
 
 class Home extends Component {
@@ -12,13 +13,17 @@ class Home extends Component {
         this.newTodoList = this.newTodoList.bind(this);
     }
 
-    loginClicked () {
-        //window.alert("test");
-    }
+    loginClicked () {}
 
     // Button onClick to create a unique todo page
     newTodoList () {
-        this.props.createTodoList();
+        //TODO figure out how to get newly refreshed this.props.todoList.id
+        let newTodoPage = () => {
+            this.props.history.push("/todoList/" + this.props.todoList.id);
+            console.log(this.props.todoList.id);
+        };
+
+        promisify(this.props.createTodoList)().then(newTodoPage());
     }
 
     render () {
@@ -26,7 +31,7 @@ class Home extends Component {
             <div>
                 {/*<button onClick={this.loginClicked}>Login/Register</button>*/}
                 <button onClick={this.newTodoList}>Create new TodoList</button>
-                <h1>New Todo's unique id: {this.props.todoList.id}</h1>
+                {/*<h1>New Todo's unique id: {this.props.todoList.id}</h1>*/}
             </div>
         );
     }
@@ -42,7 +47,7 @@ const matchDispatchToProps = dispatch => {
     return bindActionCreators({ createTodoList: createTodoList }, dispatch);
 };
 
-Home.PropTypes = {
+Home.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired

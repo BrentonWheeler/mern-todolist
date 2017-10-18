@@ -4,21 +4,23 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import allReducers from "./reducers/index";
-import App from "./components/App";
-import Login from "./components/Login";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import rootReducer from "./reducers/rootReducer";
+import Home from "./components/home";
+import Login from "./components/login";
+import App from "./components/app";
+import { BrowserRouter, Route } from "react-router-dom";
 
-const store = createStore(allReducers, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 ReactDOM.render(
-    <Router>
+    <BrowserRouter>
         <Provider store={store}>
             <div>
-                <Route exact path="/" component={App} />
+                <Route exact path="/" component={Home} />
+                <Route path="/todoList/:id" component={App} />
                 <Route exact path="/login" component={Login} />
             </div>
         </Provider>
-    </Router>,
+    </BrowserRouter>,
     document.getElementById("root")
 );

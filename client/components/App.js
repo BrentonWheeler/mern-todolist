@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-//import TodoList from "./TodoList";
-import Home from "./Home";
+import TodoList from "./todoList";
+//import Login from "./login";
+import { connect } from "react-redux";
 //import { bindActionCreators } from "redux";
 //import { connect } from "react-redux";
 
@@ -36,17 +37,25 @@ class App extends Component {
     render () {
         return (
             <div className="App">
-                {/*<input onChange={this.onInputChange.bind(this)} value={this.state.value} type="text"></input>
-      <button type="button" onClick={this.addItem.bind(this)}>Add Item</button>
-      <br />
-      <br />
-      My Todo List
-      <TodoList items = {this.state.items}/>
-      <Login />*/}
-                <Home />
+                <h1>Todolist Unique ID: {this.props.todoList.id}</h1>
+                My Todo List
+                <br />
+                <input onChange={this.onInputChange.bind(this)} value={this.state.value} type="text" />
+                <button type="button" onClick={this.addItem.bind(this)}>
+                    Add Item
+                </button>
+                <br />
+                <TodoList items={this.state.items} />
+                {/* {<Login />} */}
             </div>
         );
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        todoList: state.todoList
+    };
+};
+
+export default connect(mapStateToProps, null)(App);

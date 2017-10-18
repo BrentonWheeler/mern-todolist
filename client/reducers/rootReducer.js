@@ -2,9 +2,7 @@ import { combineReducers } from "redux";
 import LoginStateReducer from "./loginState";
 import TodoListReducer from "./todoList";
 
-const allReducers = combineReducers({
+export default combineReducers({
     loginState: LoginStateReducer,
     todoList: TodoListReducer
 });
-
-export default allReducers;

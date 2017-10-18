@@ -15,10 +15,15 @@ import { CREATE_TODO } from "./types";
 
 export default function createTodoAction () {
     return dispatch => {
-        todoList.create().then(res => {
-            let id = res.data.id;
-            dispatch(createTodoActionAsync(id));
-        });
+        todoList
+            .create()
+            .then(res => {
+                let id = res.data.id;
+                dispatch(createTodoActionAsync(id));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
 }
 
