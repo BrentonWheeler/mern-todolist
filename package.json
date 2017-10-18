@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --content-base client/",
-    "api": " nodemon bin/www",
-    "start": "webpack --config webpack.prod.config.js && nodemon bin/www",
+    "api": "webpack --config webpack.prod.config.js && nodemon bin/www",
+    "start": "nodemon bin/www",
     "build": "webpack --config webpack.prod.config.js",
     "eject": "react-scripts eject"
   },
