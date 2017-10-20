@@ -5,6 +5,9 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin({
             PRODUCTION: JSON.stringify(false)
+        }),
+        new webpack.SourceMapDevToolPlugin({
+            filename: "[file].map"
         })
     ],
     entry: "./client/index.js",
