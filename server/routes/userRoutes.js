@@ -5,7 +5,7 @@ var express = require("express");
 var UserRouter = new express.Router();
 
 // Require Item model in our routes module
-var User = require("../models/user");
+var User = require("../models/userModels");
 
 // Defined register route
 UserRouter.route("/register").post(function (req, res) {
@@ -24,7 +24,7 @@ UserRouter.route("/register").post(function (req, res) {
 // Defined login route
 UserRouter.route("/login").post(function (req, res) {
     User.findOne({ username: req.body.data.username }, function (err, docs) {
-        if (docs.length === 0) {
+        if (docs === null) {
             res.status(400).send("username doesnt exist");
         } else if (docs.password === req.body.data.password) {
             res.status(200).send("logged in");
