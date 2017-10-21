@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import TodoList from "./todoList";
 //import Login from "./login";
 import { connect } from "react-redux";
-//import { bindActionCreators } from "redux";
-//import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import createTodoItemAction from "../actions/createTodoItemAction";
 
 class App extends Component {
     constructor (props) {
@@ -19,12 +19,14 @@ class App extends Component {
 
     // Button click handler, adds a new hardcoded item to the this.state.items array
     addItem () {
-        let tempItems = this.state.items.slice();
-        tempItems.push({
-            text: this.state.value,
-            completed: false
-        });
-        this.setState({ items: tempItems });
+        console.log("1: " + this.state.value);
+        this.props.createTodoItemAction(this.state.value);
+        // let tempItems = this.state.items.slice();
+        // tempItems.push({
+        //     text: this.state.value,
+        //     completed: false
+        // });
+        // this.setState({ items: tempItems });
     }
 
     // Input onChange handler
@@ -58,4 +60,8 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, null)(App);
+const matchDispatchToProps = dispatch => {
+    return bindActionCreators({ createTodoItemAction: createTodoItemAction }, dispatch);
+};
+
+export default connect(mapStateToProps, matchDispatchToProps)(App);

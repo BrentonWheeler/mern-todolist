@@ -1,6 +1,12 @@
 import { USER_LOGIN } from "../actions/types";
 
-export default function (state = null, action) {
+// TODO: Add cookie later
+const initialState = {
+    loggedIn: false,
+    username: ""
+};
+
+export default function (state = initialState, action) {
     switch (action.type) {
         case USER_LOGIN:
             return {
@@ -8,9 +14,7 @@ export default function (state = null, action) {
                 username: action.payload
             };
             break;
+        default:
+            return state;
     }
-    return {
-        loggedIn: false,
-        username: ""
-    };
 }

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import createTodoList from "../actions/createTodoAction";
+import createTodoListAction from "../actions/createTodoAction";
 //import todoList from "../api/todoList";
 
 class Home extends Component {
@@ -10,14 +10,13 @@ class Home extends Component {
         super(props);
         this.loginClicked = this.loginClicked.bind(this);
         this.newTodoList = this.newTodoList.bind(this);
-        console.log(this.context);
     }
 
     loginClicked () {}
 
-    // Button onClick to create a unique todo page
+    // Button onClick to create a unique TodoList page
     newTodoList () {
-        this.props.createTodoList(this.props.history);
+        this.props.createTodoListAction(this.props.history);
     }
 
     render () {
@@ -25,20 +24,13 @@ class Home extends Component {
             <div>
                 {/*<button onClick={this.loginClicked}>Login/Register</button>*/}
                 <button onClick={this.newTodoList}>Create new TodoList</button>
-                {/*<h1>New Todo's unique id: {this.props.todoList.id}</h1>*/}
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        todoList: state.todoList
-    };
-};
-
 const matchDispatchToProps = dispatch => {
-    return bindActionCreators({ createTodoList: createTodoList }, dispatch);
+    return bindActionCreators({ createTodoListAction: createTodoListAction }, dispatch);
 };
 
 Home.propTypes = {
@@ -47,4 +39,4 @@ Home.propTypes = {
     }).isRequired
 };
 
-export default connect(mapStateToProps, matchDispatchToProps)(Home);
+export default connect(null, matchDispatchToProps)(Home);

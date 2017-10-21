@@ -1,5 +1,5 @@
-import todoList from "../api/todoList";
-import { CREATE_TODO_LIST } from "./types";
+//import todoList from "../api/todoList";
+import { CREATE_TODO_ITEM } from "./types";
 
 // export const createTodoID = () => dispatch => {
 //     todoList
@@ -13,20 +13,23 @@ import { CREATE_TODO_LIST } from "./types";
 //         });
 // };
 
-export default function createTodoAction (history) {
+export default function createTodoItemAction (text) {
+    console.log("2: " + text);
     return dispatch => {
-        todoList.create().then(res => {
-            let id = res.data.id;
-            dispatch(createTodoActionAsync(id));
-            history.push("/todoList/" + id);
-        });
+        //TODO: backend create item handling
+        // todoList.create().then(res => {
+        //     let id = res.data.id;
+        console.log("3: " + text);
+        dispatch(createTodoItemActionAsync(text));
+        //});
     };
 }
 
-function createTodoActionAsync (id) {
+function createTodoItemActionAsync (text) {
+    console.log("4: " + text);
     return {
-        type: CREATE_TODO_LIST,
-        id: id
+        type: CREATE_TODO_ITEM,
+        text: text
     };
 }
 

@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import LoginStateReducer from "./loginState";
-import TodoListReducer from "./todoList";
+import LoginStateReducer from "./loginStateReducer";
+import TodoListReducer from "./todoListReducer";
 
 export default combineReducers({
     loginState: LoginStateReducer,
