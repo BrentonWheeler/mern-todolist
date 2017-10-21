@@ -26642,7 +26642,7 @@ var Home = function (_Component) {
                 console.log(_this2.props.todoList.id);
             };
 
-            (0, _es6Promisify2.default)(this.props.createTodoList)().then(newTodoPage());
+            this.props.createTodoList().then(newTodoPage());
         }
     }, {
         key: "render",
@@ -26714,9 +26714,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function createTodoAction() {
     return function (dispatch) {
+        debugger;
         _todoList2.default.create().then(function (res) {
             var id = res.data.id;
             dispatch(createTodoActionAsync(id));
+            return Promise.resolve();
         }).catch(function (error) {
             console.log(error);
         });

@@ -13,17 +13,14 @@ import { CREATE_TODO } from "./types";
 //         });
 // };
 
-export default function createTodoAction () {
+export default function createTodoAction (history) {
     return dispatch => {
-        todoList
-            .create()
-            .then(res => {
-                let id = res.data.id;
-                dispatch(createTodoActionAsync(id));
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        todoList.create().then(res => {
+            let id = res.data.id;
+            dispatch(createTodoActionAsync(id));
+            history.push("/todoList/" + id);
+            console.log("1: " + id);
+        });
     };
 }
 

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import createTodoList from "../actions/createTodoAction";
-import promisify from "es6-promisify";
 //import todoList from "../api/todoList";
 
 class Home extends Component {
@@ -11,19 +10,14 @@ class Home extends Component {
         super(props);
         this.loginClicked = this.loginClicked.bind(this);
         this.newTodoList = this.newTodoList.bind(this);
+        console.log(this.context);
     }
 
     loginClicked () {}
 
     // Button onClick to create a unique todo page
     newTodoList () {
-        //TODO figure out how to get newly refreshed this.props.todoList.id
-        let newTodoPage = () => {
-            this.props.history.push("/todoList/" + this.props.todoList.id);
-            console.log(this.props.todoList.id);
-        };
-
-        promisify(this.props.createTodoList)().then(newTodoPage());
+        this.props.createTodoList(this.props.history);
     }
 
     render () {
