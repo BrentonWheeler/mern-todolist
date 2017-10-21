@@ -1,12 +1,12 @@
 import todoList from "../api/todoList";
 import { CREATE_TODO_LIST } from "./types";
 
-export default function createTodoAction (history) {
+export default function createTodoAction () {
     return dispatch => {
-        todoList.create().then(res => {
+        return todoList.create().then(res => {
             let id = res.data.id;
             dispatch(createTodoActionAsync(id));
-            history.push("/" + id);
+            return id;
         });
     };
 }
