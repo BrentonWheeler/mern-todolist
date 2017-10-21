@@ -11,7 +11,7 @@ class App extends Component {
         // Temporarily hardcoded base state to check things are working
         this.state = {
             items: [],
-            value: ""
+            addItemText: ""
         };
         this.addItem = this.addItem;
         this.onInputChange = this.onInputChange;
@@ -19,11 +19,10 @@ class App extends Component {
 
     // Button click handler, adds a new hardcoded item to the this.state.items array
     addItem () {
-        console.log("1: " + this.state.value);
-        this.props.createTodoItemAction(this.state.value);
+        this.props.createTodoItemAction(this.state.addItemText);
         // let tempItems = this.state.items.slice();
         // tempItems.push({
-        //     text: this.state.value,
+        //     text: this.state.addItemText,
         //     completed: false
         // });
         // this.setState({ items: tempItems });
@@ -32,7 +31,7 @@ class App extends Component {
     // Input onChange handler
     onInputChange (e) {
         this.setState({
-            value: e.target.value
+            addItemText: e.target.value
         });
     }
 
@@ -42,18 +41,19 @@ class App extends Component {
                 <h1>Todolist Unique ID: {this.props.todoList.id}</h1>
                 My Todo List
                 <br />
-                <input onChange={this.onInputChange.bind(this)} value={this.state.value} type="text" />
+                <input onChange={this.onInputChange.bind(this)} value={this.state.addItemText} type="text" />
                 <button type="button" onClick={this.addItem.bind(this)}>
                     Add Item
                 </button>
                 <br />
-                <TodoList items={this.state.items} />
+                <TodoList />
                 {/* {<Login />} */}
             </div>
         );
     }
 }
 
+// Redux Connections
 const mapStateToProps = state => {
     return {
         todoList: state.todoList

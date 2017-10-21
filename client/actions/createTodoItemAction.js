@@ -14,19 +14,16 @@ import { CREATE_TODO_ITEM } from "./types";
 // };
 
 export default function createTodoItemAction (text) {
-    console.log("2: " + text);
     return dispatch => {
         //TODO: backend create item handling
         // todoList.create().then(res => {
         //     let id = res.data.id;
-        console.log("3: " + text);
         dispatch(createTodoItemActionAsync(text));
         //});
     };
 }
 
 function createTodoItemActionAsync (text) {
-    console.log("4: " + text);
     return {
         type: CREATE_TODO_ITEM,
         text: text

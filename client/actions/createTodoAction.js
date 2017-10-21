@@ -18,7 +18,7 @@ export default function createTodoAction (history) {
         todoList.create().then(res => {
             let id = res.data.id;
             dispatch(createTodoActionAsync(id));
-            history.push("/todoList/" + id);
+            history.push("/" + id);
         });
     };
 }

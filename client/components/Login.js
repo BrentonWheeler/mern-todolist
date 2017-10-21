@@ -67,6 +67,9 @@ class Login extends Component {
     }
 }
 
+Login.PropTypes = {};
+
+// Redux Connections
 const mapStateToProps = state => {
     return {
         users: state.users,
@@ -77,7 +80,5 @@ const mapStateToProps = state => {
 const matchDispatchToProps = dispatch => {
     return bindActionCreators({ loginAction: loginAction }, dispatch);
 };
-
-Login.PropTypes = {};
 
 export default connect(mapStateToProps, matchDispatchToProps)(Login);

@@ -14,7 +14,7 @@ export default function (state = initialState, action) {
             break;
         case CREATE_TODO_ITEM:
             return Object.assign({}, state, {
-                listItems: insertItem(state.listItems, action)
+                listItems: addTodoItemToArray(state.listItems, action)
             });
             break;
         default:
@@ -22,8 +22,8 @@ export default function (state = initialState, action) {
     }
 }
 
-function insertItem (array, action) {
+function addTodoItemToArray (array, action) {
     let newArray = array.slice();
-    newArray.push(action.text);
+    newArray.push({ text: action.text, completed: false });
     return newArray;
 }
