@@ -11,6 +11,7 @@ class Home extends Component {
         super(props);
         this.loginClicked = this.loginClicked.bind(this);
         this.newTodoList = this.newTodoList.bind(this);
+        console.log(this.context);
     }
 
     loginClicked () {}
@@ -18,12 +19,11 @@ class Home extends Component {
     // Button onClick to create a unique todo page
     newTodoList () {
         //TODO figure out how to get newly refreshed this.props.todoList.id
-        let newTodoPage = () => {
-            this.props.history.push("/todoList/" + this.props.todoList.id);
-            console.log(this.props.todoList.id);
+        let newTodoPage = id => {
+            this.props.history.push("/todoList/" + id);
+            console.log(id);
         };
-
-        promisify(this.props.createTodoList)().then(newTodoPage());
+        this.props.createTodoList().then(res => console.log("4: " + res));
     }
 
     render () {
