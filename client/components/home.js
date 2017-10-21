@@ -13,7 +13,7 @@ class Home extends Component {
     }
 
     loginClicked () {
-        this.props.history.push("/login");
+        //this.props.history.push("/login");
     }
 
     // Button onClick to create a unique TodoList page
@@ -24,7 +24,7 @@ class Home extends Component {
     render () {
         return (
             <div>
-                {<button onClick={this.loginClicked}>Login/Register</button>}
+                {/* {<button onClick={this.loginClicked}>Login/Register</button>} */}
                 <button onClick={this.newTodoList}>Create new TodoList</button>
             </div>
         );

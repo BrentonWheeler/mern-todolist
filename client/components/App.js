@@ -19,7 +19,7 @@ class App extends Component {
 
     // Button click handler, adds a new hardcoded item to the this.state.items array
     addItem () {
-        this.props.createTodoItemAction(this.state.addItemText);
+        this.props.createTodoItemAction(this.state.addItemText, this.props.match.params.id);
         // let tempItems = this.state.items.slice();
         // tempItems.push({
         //     text: this.state.addItemText,
@@ -38,7 +38,7 @@ class App extends Component {
     render () {
         return (
             <div className="App">
-                <h1>Todolist Unique ID: {this.props.todoList.id}</h1>
+                <h1>Todolist Unique ID: {this.props.match.params.id}</h1>
                 My Todo List
                 <br />
                 <input onChange={this.onInputChange.bind(this)} value={this.state.addItemText} type="text" />
@@ -56,7 +56,7 @@ class App extends Component {
 // Redux Connections
 const mapStateToProps = state => {
     return {
-        todoList: state.todoList
+        todoList: state.todoLists
     };
 };
 

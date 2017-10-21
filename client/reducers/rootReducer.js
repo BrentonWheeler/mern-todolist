@@ -4,5 +4,5 @@ import TodoListReducer from "./todoListReducer";
 
 export default combineReducers({
     loginState: LoginStateReducer,
-    todoList: TodoListReducer
+    todoLists: TodoListReducer
 });

@@ -11,10 +11,6 @@ class TodoList extends Component {
     render () {
         return (
             <ul className="TodoList">
-                {/* Dynamically loads each Todo list item "TodoItem" from the given (this.props.items)
-            items array, passed from the App component's state */}
-                {/* this.props.items.map((item, i) => <TodoItem key={i} text={item.text} />) */}
-                {console.log(this.props.todoList.listItems)}
                 {this.props.todoList.listItems.map((item, i) => <TodoItem key={i} text={item.text} />)}
             </ul>
         );
@@ -29,7 +25,7 @@ class TodoList extends Component {
 // Redux Connections
 const mapStateToProps = state => {
     return {
-        todoList: state.todoList
+        todoList: state.todoLists
     };
 };
 
