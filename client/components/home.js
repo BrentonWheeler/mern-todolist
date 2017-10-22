@@ -26,6 +26,7 @@ class Home extends Component {
     newTodoList () {
         this.props.createTodoListAction().then(id => {
             console.log("new ID is: " + id);
+            this.props.history.push("/" + id);
         });
     }
 
