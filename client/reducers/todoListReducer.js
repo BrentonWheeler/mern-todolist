@@ -34,6 +34,7 @@ export default function (state = initialState, action) {
     }
 }
 
+/* Helper functions */
 function addTodoItemToArray (array, action) {
     let newArray = array.slice();
     newArray.push({ text: action.text, completed: false });

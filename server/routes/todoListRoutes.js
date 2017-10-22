@@ -41,6 +41,7 @@ TodoListRouter.route("/addItem").post(function (req, res) {
             console.log(err);
         }
     );
+    res.json({ success: true });
 });
 
 TodoListRouter.route("/getItems").post(function (req, res) {

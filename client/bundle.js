@@ -26620,7 +26620,6 @@ exports.default = function () {
             });
             break;
         case _types.GET_TODO_ITEMS:
-            console.log(state);
             return Object.assign({}, {
                 id: action.todoListID
             }, {
@@ -28068,10 +28067,7 @@ var TodoList = function (_Component) {
         key: "componentWillMount",
         value: function componentWillMount() {
             if (this.props.todoList.id === "") {
-                this.props.getTodoItemsAction(this.props.urlID).then(function (res) {
-                    console.log("herer");
-                    console.log(res);
-                });
+                this.props.getTodoItemsAction(this.props.urlID);
             }
         }
     }, {
@@ -28233,7 +28229,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function createTodoItemAction(text, todoListID) {
     return function (dispatch) {
-        _todoList2.default.addItem({ text: text, todoListID: todoListID }).then(function (res) {
+        return _todoList2.default.addItem({ text: text, todoListID: todoListID }).then(function (res) {
             dispatch(createTodoItemActionAsync(text, todoListID));
         });
     };
