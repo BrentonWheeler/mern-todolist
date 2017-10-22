@@ -8,42 +8,42 @@ var Promise = require("promise");
 var TodoList = require("../models/todoListModels");
 
 // create TodoList route
-TodoListRouter.route("/create").post(function (req, response) {
-    var id = new Promise(function (resolve, reject) {
-        doesntExistInDB("test")
-            .then(res => {
-                console.log("2: " + res);
-                return resolve(res);
+TodoListRouter.route("/create").post(function (req, res) {
+    var newID;
+    let findUniqueID = new Promise(function (resolve, reject) {
+        doesntExistInDB(shortid.generate(), function (response) {
+            resolve(response);
+        });
+    });
+
+    findUniqueID.then(response => {
+        newID = { id: response };
+        console.log(newID);
+        createTodoListInDB(newID)
+            .then(entry => {
+                res.status(200).json(newID);
             })
-            .then(res => {
-                console.log("3: " + res);
+            .catch(err => {
+                res.status(400).send("unable to save to database");
             });
     });
-    let test = id();
-    //console.log(tempID);
-    console.log("4: " + test);
-
-    // USE THIS AFTER PROMISE
-    //console.log(res);
-    //res.json(res);
-
-    // check if short id exists in db
-    // if no continue
-    // if yes re-gen
 });
 
-// helper functions
-
-// this is recursive
-function doesntExistInDB (tempID) {
-    TodoList.findOne({ id: tempID }, function (err, docs) {
+// helper functions //
+//this is recursive
+function doesntExistInDB (shortID, callback) {
+    TodoList.findOne({ id: shortID }, function (err, docs) {
         if (docs === null) {
-            console.log("1: " + tempID);
-            return Promise.resolve(tempID);
+            return callback(shortID);
         } else {
-            //console.log("got here 1 " + tempID);
-            doesntExistInDB(shortid.generate());
+            doesntExistInDB(shortid.generate(), callback);
         }
     });
 }
+
+function createTodoListInDB (newID) {
+    var todoList = new TodoList(newID);
+    return todoList.save();
+}
+
 module.exports = TodoListRouter;
