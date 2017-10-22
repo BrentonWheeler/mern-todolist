@@ -3,9 +3,9 @@ import { CREATE_TODO_ITEM } from "./types";
 
 export default function createTodoItemAction (text, todoListID) {
     return dispatch => {
-        todoList.addItem({ text: text, todoListID: todoListID }).then(res => {
-            dispatch(createTodoItemActionAsync(text, todoListID));
-        });
+        //todoList.addItem({ text: text, todoListID: todoListID }).then(res => {
+        dispatch(createTodoItemActionAsync(text, todoListID));
+        //});
     };
 }
 
