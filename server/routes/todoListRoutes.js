@@ -33,15 +33,16 @@ TodoListRouter.route("/create").post(function (req, res) {
 });
 
 TodoListRouter.route("/addItem").post(function (req, res) {
+    let shortID = shortid.generate();
     TodoList.findOneAndUpdate(
         { id: req.body.todoListID },
-        { $push: { listItems: { text: req.body.text, completed: false } } },
+        { $push: { listItems: { text: req.body.text, completed: false, shortID: shortID } } },
         { safe: true, upsert: true },
         function (err, model) {
             console.log(err);
         }
     );
-    res.json({ success: true });
+    res.json({ success: true, shortID: shortID });
 });
 
 TodoListRouter.route("/getItems").post(function (req, res) {
@@ -54,6 +55,18 @@ TodoListRouter.route("/getItems").post(function (req, res) {
             res.json({ itemArray: docs.listItems });
         }
     });
+});
+
+TodoListRouter.route("/deleteItem").post(function (req, res) {
+    console.log("list id: " + req.body.tlID + "     item id: " + req.body.tiID);
+    TodoList.update(
+        { id: req.body.tlID },
+        { $pull: { listItems: { shortID: req.body.tiID } } },
+        { safe: true, multi: true },
+        function (err, obj) {
+            res.json({ err: err });
+        }
+    );
 });
 
 TodoListRouter.route("/:id").get(function (req, res) {

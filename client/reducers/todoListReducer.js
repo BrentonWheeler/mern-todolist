@@ -1,4 +1,4 @@
-import { CREATE_TODO_LIST, CREATE_TODO_ITEM, GET_TODO_ITEMS } from "../actions/types";
+import { CREATE_TODO_LIST, CREATE_TODO_ITEM, GET_TODO_ITEMS, DELETE_TODO_ITEM } from "../actions/types";
 
 const initialState = {
     id: "",
@@ -29,6 +29,11 @@ export default function (state = initialState, action) {
                 }
             );
             break;
+        case DELETE_TODO_ITEM:
+            return Object.assign({}, state, {
+                listItems: removeTodoItemFromArray(state.listItems, action)
+            });
+            break;
         default:
             return state;
     }
@@ -37,6 +42,20 @@ export default function (state = initialState, action) {
 /* Helper functions */
 function addTodoItemToArray (array, action) {
     let newArray = array.slice();
-    newArray.push({ text: action.text, completed: false });
+    newArray.push({ text: action.text, completed: false, shortID: action.shortID });
+    return newArray;
+}
+
+function removeTodoItemFromArray (array, action) {
+    let newArray = array.slice();
+    console.log(newArray);
+    for (let i = 0; i < newArray.length; i++) {
+        if (newArray[i].shortID === action.todoItemID) {
+            console.log(i);
+            newArray.splice(i, 1);
+            break;
+        }
+    }
+    console.log(newArray);
     return newArray;
 }

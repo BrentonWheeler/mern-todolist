@@ -38,7 +38,7 @@ app.engine("html", function (path, options, callback) {
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "../client")));
+//app.use(express.static(path.join(__dirname, "/client")));
 
 // ROUTES //
 app.use("/", indexRoutes);

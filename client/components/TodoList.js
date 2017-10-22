@@ -8,6 +8,7 @@ import getTodoItemsAction from "../actions/getTodoItemsAction";
 class TodoList extends Component {
     constructor (props) {
         super(props);
+        this.handleDelete = this.handleDelete;
     }
 
     componentWillMount () {
@@ -16,10 +17,24 @@ class TodoList extends Component {
         }
     }
 
+    handleDelete (test) {
+        this.props.deleteTodoItemAction(this.props.listID, this.props.shortID);
+    }
+
     render () {
         return (
             <ul className="TodoList">
-                {this.props.todoList.listItems.map((item, i) => <TodoItem key={i} text={item.text} />)}
+                {this.props.todoList.listItems.map((item, i) => (
+                    <TodoItem
+                        listID={this.props.todoList.id}
+                        handleDelete={this.handleDelete}
+                        key={i}
+                        pos={i}
+                        text={item.text}
+                        shortID={item.shortID}
+                        completed={item.completed}
+                    />
+                ))}
             </ul>
         );
     }
