@@ -3,6 +3,9 @@ var express = require("express");
 var TodoListRouter = new express.Router();
 var shortid = require("shortid");
 var Promise = require("promise");
+var path = require("path");
+
+TodoListRouter.use(express.static(path.join(__dirname, "../../client")));
 
 // Require Item model in our routes module
 var TodoList = require("../models/todoListModels");
@@ -40,15 +43,28 @@ TodoListRouter.route("/addItem").post(function (req, res) {
     );
 });
 
+TodoListRouter.route("/getItems").post(function (req, res) {
+    TodoList.findOne({ id: req.body.urlID }, function (err, docs) {
+        if (docs === null) {
+            console.log("id not found");
+            res.json({ err: "error" });
+        } else {
+            console.log(docs.listItems);
+            res.json({ itemArray: docs.listItems });
+        }
+    });
+});
+
 TodoListRouter.route("/:id").get(function (req, res) {
     TodoList.findOne({ id: req.params.id }, function (err, docs) {
         if (docs === null) {
             console.log("id not found");
+            res.send("todolist id not found");
         } else {
             console.log("found");
+            res.sendFile(path.join(__dirname, "../../client", "index.html"));
         }
     });
-    res.send("test");
 });
 
 // helper functions //

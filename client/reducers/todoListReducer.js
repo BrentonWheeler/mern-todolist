@@ -1,6 +1,9 @@
-import { CREATE_TODO_LIST, CREATE_TODO_ITEM } from "../actions/types";
+import { CREATE_TODO_LIST, CREATE_TODO_ITEM, GET_TODO_ITEMS } from "../actions/types";
 
-const initialState = {};
+const initialState = {
+    id: "",
+    listItems: []
+};
 
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -11,10 +14,20 @@ export default function (state = initialState, action) {
             });
             break;
         case CREATE_TODO_ITEM:
-            console.log(state);
             return Object.assign({}, state, {
                 listItems: addTodoItemToArray(state.listItems, action)
             });
+            break;
+        case GET_TODO_ITEMS:
+            return Object.assign(
+                {},
+                {
+                    id: action.todoListID
+                },
+                {
+                    listItems: action.itemArray
+                }
+            );
             break;
         default:
             return state;
