@@ -29,6 +29,17 @@ TodoListRouter.route("/create").post(function (req, res) {
     });
 });
 
+TodoListRouter.route("/addItem").post(function (req, res) {
+    TodoList.findOneAndUpdate(
+        { id: req.body.todoListID },
+        { $push: { listItems: req.body.text } },
+        { safe: true, upsert: true },
+        function (err, model) {
+            console.log(err);
+        }
+    );
+});
+
 // helper functions //
 //this is recursive
 function doesntExistInDB (shortID, callback) {

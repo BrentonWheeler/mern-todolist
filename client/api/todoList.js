@@ -8,7 +8,8 @@ import endpoint from "../api/url";
 //         })
 // };
 let todolist = {
-    create: () => axios.post(endpoint + "/todoList/create")
+    create: () => axios.post(endpoint + "/todoList/create"),
+    addItem: item => axios.post(endpoint + "/todoList/addItem", item)
 };
 
 export default todolist;
