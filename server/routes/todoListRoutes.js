@@ -3,8 +3,6 @@ var express = require("express");
 var TodoListRouter = new express.Router();
 var shortid = require("shortid");
 var Promise = require("promise");
-var React = require("react/addons");
-var App = require("../../client/components/App");
 
 // Require Item model in our routes module
 var TodoList = require("../models/todoListModels");
