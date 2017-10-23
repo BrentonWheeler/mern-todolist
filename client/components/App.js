@@ -20,12 +20,6 @@ class App extends Component {
     // Button click handler, adds a new hardcoded item to the this.state.items array
     addItem () {
         this.props.createTodoItemAction(this.state.addItemText, this.props.match.params.id);
-        // let tempItems = this.state.items.slice();
-        // tempItems.push({
-        //     text: this.state.addItemText,
-        //     completed: false
-        // });
-        // this.setState({ items: tempItems });
     }
 
     // Input onChange handler
@@ -46,7 +40,7 @@ class App extends Component {
                     Add Item
                 </button>
                 <br />
-                <TodoList />
+                <TodoList urlID={this.props.match.params.id} />
                 {/* {<Login />} */}
             </div>
         );

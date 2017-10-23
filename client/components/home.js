@@ -12,12 +12,6 @@ class Home extends Component {
         this.newTodoList = this.newTodoList.bind(this);
     }
 
-    componentWillReceiveProps (nextProps) {
-        if (this.props.urlId !== nextProps.urlId) {
-            console.log("our ID has updated to: " + nextProps.urlId);
-        }
-    }
-
     loginClicked () {
         //this.props.history.push("/login");
     }
@@ -25,8 +19,7 @@ class Home extends Component {
     // Button onClick to create a unique TodoList page
     newTodoList () {
         this.props.createTodoListAction().then(id => {
-            console.log("new ID is: " + id);
-            this.props.history.push("/" + id);
+            this.props.history.push("todolist/" + id);
         });
     }
 
