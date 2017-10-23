@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import deleteTodoItemAction from "../actions/deleteTodoItemAction";
+import toggleCompleteAction from "../actions/toggleCompleteAction";
 
 class TodoItem extends Component {
     constructor (props) {
@@ -11,13 +12,18 @@ class TodoItem extends Component {
             text: this.props.text,
             completed: this.props.completed
         };
-        //this.handleDelete = this.props.handleDelete().bind(this);
     }
 
     render () {
         return (
             <li className="TodoItem">
-                {this.state.text} <button onClick={this.props.handleDelete.bind(this)}>x</button>
+                <input
+                    type="checkbox"
+                    onChange={this.props.handleComplete.bind(this)}
+                    defaultChecked={this.state.completed}
+                />
+                {this.state.text}
+                <button onClick={this.props.handleDelete.bind(this)}>x</button>
             </li>
         );
     }
@@ -28,7 +34,10 @@ TodoItem.PropTypes = {
 };
 
 const matchDispatchToProps = dispatch => {
-    return bindActionCreators({ deleteTodoItemAction: deleteTodoItemAction }, dispatch);
+    return bindActionCreators(
+        { deleteTodoItemAction: deleteTodoItemAction, toggleCompleteAction: toggleCompleteAction },
+        dispatch
+    );
 };
 
 export default connect(null, matchDispatchToProps)(TodoItem);

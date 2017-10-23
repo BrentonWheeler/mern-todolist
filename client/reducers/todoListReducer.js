@@ -1,4 +1,10 @@
-import { CREATE_TODO_LIST, CREATE_TODO_ITEM, GET_TODO_ITEMS, DELETE_TODO_ITEM } from "../actions/types";
+import {
+    CREATE_TODO_LIST,
+    CREATE_TODO_ITEM,
+    GET_TODO_ITEMS,
+    DELETE_TODO_ITEM,
+    TOGGLE_TODO_ITEM
+} from "../actions/types";
 
 const initialState = {
     id: "",
@@ -34,12 +40,18 @@ export default function (state = initialState, action) {
                 listItems: removeTodoItemFromArray(state.listItems, action)
             });
             break;
+        case TOGGLE_TODO_ITEM:
+            return Object.assign({}, state, {
+                listItems: toggleCompleteInArray(state.listItems, action)
+            });
+            break;
         default:
             return state;
     }
 }
 
 /* Helper functions */
+
 function addTodoItemToArray (array, action) {
     let newArray = array.slice();
     newArray.push({ text: action.text, completed: false, shortID: action.shortID });
@@ -48,14 +60,22 @@ function addTodoItemToArray (array, action) {
 
 function removeTodoItemFromArray (array, action) {
     let newArray = array.slice();
-    console.log(newArray);
     for (let i = 0; i < newArray.length; i++) {
         if (newArray[i].shortID === action.todoItemID) {
-            console.log(i);
             newArray.splice(i, 1);
             break;
         }
     }
-    console.log(newArray);
+    return newArray;
+}
+
+function toggleCompleteInArray (array, action) {
+    let newArray = array.slice();
+    for (let i = 0; i < newArray.length; i++) {
+        if (newArray[i].shortID === action.todoItemID) {
+            newArray[i].completed = !action.currentState;
+            break;
+        }
+    }
     return newArray;
 }

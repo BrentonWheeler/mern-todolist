@@ -69,6 +69,21 @@ TodoListRouter.route("/deleteItem").post(function (req, res) {
     );
 });
 
+TodoListRouter.route("/toggleItem").post(function (req, res) {
+    TodoList.update(
+        { "listItems.shortID": req.body.tiID },
+        {
+            $set: {
+                "listItems.0.completed": !req.body.currentState
+            }
+        },
+        function (err) {
+            console.log("togged todo item");
+            res.json({ success: true });
+        }
+    );
+});
+
 TodoListRouter.route("/:id").get(function (req, res) {
     TodoList.findOne({ id: req.params.id }, function (err, docs) {
         if (docs === null) {

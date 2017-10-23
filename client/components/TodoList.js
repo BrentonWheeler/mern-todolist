@@ -9,18 +9,30 @@ class TodoList extends Component {
     constructor (props) {
         super(props);
         this.handleDelete = this.handleDelete;
+        this.handleComplete = this.handleComplete;
     }
 
+    // Loads todo items if url accessed directly
     componentWillMount () {
         if (this.props.todoList.id === "") {
             this.props.getTodoItemsAction(this.props.urlID);
         }
     }
 
-    handleDelete (test) {
+    handleDelete () {
         this.props.deleteTodoItemAction(this.props.listID, this.props.shortID);
     }
 
+    handleComplete () {
+        this.props.toggleCompleteAction(this.props.listID, this.props.shortID, this.state.completed).then(() => {
+            // TODO: make this use redux state?
+            this.setState(() => {
+                return { completed: !this.state.completed };
+            });
+        });
+    }
+
+    // TODO: make this look better, perhaps do more work on the item components
     render () {
         return (
             <ul className="TodoList">
@@ -28,6 +40,7 @@ class TodoList extends Component {
                     <TodoItem
                         listID={this.props.todoList.id}
                         handleDelete={this.handleDelete}
+                        handleComplete={this.handleComplete}
                         key={i}
                         pos={i}
                         text={item.text}
