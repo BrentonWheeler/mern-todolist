@@ -18,7 +18,6 @@ TodoListRouter.route("/create").post(function (req, res) {
 
     findUniqueID.then(response => {
         newID = { id: response };
-        console.log(newID);
         createTodoListInDB(newID)
             .then(entry => {
                 res.status(200).json(newID);
@@ -57,7 +56,6 @@ TodoListRouter.route("/getItems").post(function (req, res) {
 
 // Route to delete individual item in a todoList
 TodoListRouter.route("/deleteItem").post(function (req, res) {
-    console.log("list id: " + req.body.tlID + "     item id: " + req.body.tiID);
     TodoList.update(
         { id: req.body.tlID },
         { $pull: { listItems: { shortID: req.body.tiID } } },
@@ -78,7 +76,6 @@ TodoListRouter.route("/toggleItem").post(function (req, res) {
             }
         },
         function (err) {
-            console.log("togged todo item");
             res.json({ success: true });
         }
     );
@@ -91,7 +88,6 @@ TodoListRouter.route("/:id").get(function (req, res) {
             console.log("id not found");
             res.send("todolist id not found");
         } else {
-            console.log("found");
             res.sendFile(path.join(__dirname, "../../client", "index.html"));
         }
     });

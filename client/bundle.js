@@ -2516,10 +2516,10 @@ module.exports = DOMProperty;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-// User types //
+// User types
 var USER_LOGIN = exports.USER_LOGIN = "user_login";
 
-// Todo types //
+// Todo types
 var CREATE_TODO_LIST = exports.CREATE_TODO_LIST = "create_todo_list";
 var CREATE_TODO_ITEM = exports.CREATE_TODO_ITEM = "create_todo_item";
 var GET_TODO_ITEMS = exports.GET_TODO_ITEMS = "get_todo_items";
@@ -4023,13 +4023,6 @@ var _url2 = _interopRequireDefault(_url);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// let todolist = {
-//     create: () =>
-//         fetch("/todoList/create", {
-//             method: "post",
-//             body: 1
-//         })
-// };
 var todolist = {
     create: function create() {
         return _axios2.default.post(_url2.default + "/todoList/create");
@@ -26723,8 +26716,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-//import todoList from "../api/todoList";
-
 var Home = function (_Component) {
     _inherits(Home, _Component);
 
@@ -28327,16 +28318,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function toggleCompleteAction(todoListID, todoItemID, currentState) {
     return function (dispatch) {
         return _todoList2.default.toggleItem(todoListID, todoItemID, currentState).then(function () {
-            console.log("got here 1");
             dispatch(toggleCompleteActionAsync(todoItemID, currentState));
-            console.log("got here 3");
             return;
         });
     };
 }
 
 function toggleCompleteActionAsync(todoItemID, currentState) {
-    console.log("got here 2");
     return {
         type: _types.TOGGLE_TODO_ITEM,
         todoItemID: todoItemID,
