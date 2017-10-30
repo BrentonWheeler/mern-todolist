@@ -2,7 +2,7 @@ import React, { Component } from "react";
 //import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { loginAction } from "../actions/loginAction";
+import { loginAction } from "../redux/actions/loginAction";
 import { register, login } from "../api/user";
 
 const LoggedInOutput = props => {

@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import deleteTodoItemAction from "../actions/deleteTodoItemAction";
-import toggleCompleteAction from "../actions/toggleCompleteAction";
+import deleteTodoItemAction from "../redux/actions/deleteTodoItemAction";
+import toggleCompleteAction from "../redux/actions/toggleCompleteAction";
 
 class TodoItem extends Component {
     constructor (props) {

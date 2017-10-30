@@ -1,4 +1,4 @@
-import todoList from "../api/todoList";
+import todoList from "../../api/todoList";
 import { GET_TODO_ITEMS } from "./types";
 
 export default function getTodoItemsAction (todoListID) {

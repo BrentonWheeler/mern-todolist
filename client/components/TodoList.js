@@ -3,7 +3,7 @@ import TodoItem from "./todoItem";
 //import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import getTodoItemsAction from "../actions/getTodoItemsAction";
+import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
 
 class TodoList extends Component {
     constructor (props) {

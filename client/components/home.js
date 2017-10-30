@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import createTodoListAction from "../actions/createTodoAction";
-//import todoList from "../api/todoList";
+import createTodoListAction from "../redux/actions/createTodoAction";
 
 class Home extends Component {
     constructor (props) {

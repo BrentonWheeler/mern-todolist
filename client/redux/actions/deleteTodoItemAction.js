@@ -1,4 +1,4 @@
-import todoList from "../api/todoList";
+import todoList from "../../api/todoList";
 import { DELETE_TODO_ITEM } from "./types";
 
 export default function deleteTodoItemAction (todoListID, todoItemID) {

@@ -3,7 +3,7 @@ import TodoList from "./todoList";
 //import Login from "./login";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import createTodoItemAction from "../actions/createTodoItemAction";
+import createTodoItemAction from "../redux/actions/createTodoItemAction";
 
 class App extends Component {
     constructor (props) {
