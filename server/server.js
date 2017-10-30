@@ -3,6 +3,7 @@ var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
+var config = require("./config");
 
 // Route imports
 var indexRoutes = require("./routes/index");
@@ -12,7 +13,9 @@ var todoListRoutes = require("./routes/todoListRoutes");
 // Mongoose connection with mongodb
 mongoose.Promise = require("bluebird");
 mongoose
-    .connect("mongodb://Brenton:password420@ds155634.mlab.com:55634/todolistdb")
+    .connect(
+        "mongodb://" + config.mongodb_username + ":" + config.mongodb_password + "@ds155634.mlab.com:55634/todolistdb"
+    )
     .then(() => {
         console.log("Start");
     })
