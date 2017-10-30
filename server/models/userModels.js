@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-// Define collection and schema for Items
+// Users collection and schema
 var user = new Schema(
     {
         username: { type: String, unique: true, required: true },

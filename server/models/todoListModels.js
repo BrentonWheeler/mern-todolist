@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-// Define collection and schema for Items
+// Todolist collection and schema
 var todoLists = new Schema(
     {
         id: { type: String, unique: true, required: true },

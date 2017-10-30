@@ -1,13 +1,8 @@
-// itemRoutes.js
-
 var express = require("express");
-//var app = express();
 var UserRouter = new express.Router();
-
-// Require Item model in our routes module
 var User = require("../models/userModels");
 
-// Defined register route
+// User registration route
 UserRouter.route("/register").post(function (req, res) {
     var user = new User(req.body.data);
     user
@@ -21,7 +16,7 @@ UserRouter.route("/register").post(function (req, res) {
     console.log(req.body);
 });
 
-// Defined login route
+// User login route
 UserRouter.route("/login").post(function (req, res) {
     User.findOne({ username: req.body.data.username }, function (err, docs) {
         if (docs === null) {
@@ -32,7 +27,6 @@ UserRouter.route("/login").post(function (req, res) {
             res.status(400).send("wrong password");
         }
     });
-    //console.log(req.body)
 });
 
 module.exports = UserRouter;

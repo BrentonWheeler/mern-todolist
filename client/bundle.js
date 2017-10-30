@@ -28113,21 +28113,24 @@ var TodoList = function (_Component) {
         }
     }, {
         key: "handleDelete",
-        value: function handleDelete(test) {
+        value: function handleDelete() {
             this.props.deleteTodoItemAction(this.props.listID, this.props.shortID);
         }
     }, {
         key: "handleComplete",
-        value: function handleComplete(test) {
+        value: function handleComplete() {
             var _this2 = this;
 
             this.props.toggleCompleteAction(this.props.listID, this.props.shortID, this.state.completed).then(function () {
+                // TODO: make this use redux state?
                 _this2.setState(function () {
                     return { completed: !_this2.state.completed };
                 });
             });
-            //console.log(this.state.completed);
         }
+
+        // TODO: make this look better, perhaps do more work on the item components
+
     }, {
         key: "render",
         value: function render() {

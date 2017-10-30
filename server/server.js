@@ -1,51 +1,45 @@
-// PACKAGES //
-var path = require("path");
 var fs = require("fs");
 var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 
+// Route imports
+var indexRoutes = require("./routes/index");
+var userRoutes = require("./routes/userRoutes");
+var todoListRoutes = require("./routes/todoListRoutes");
+
 // Mongoose connection with mongodb
 mongoose.Promise = require("bluebird");
 mongoose
     .connect("mongodb://Brenton:password420@ds155634.mlab.com:55634/todolistdb")
     .then(() => {
-        // if all is ok we will be here
         console.log("Start");
     })
     .catch(err => {
-        // if error we will be here
         console.error("App starting error:", err.stack);
         process.exit(1);
     });
 
-// IMPORTS //
-var indexRoutes = require("./routes/index");
-var userRoutes = require("./routes/userRoutes");
-var todoListRoutes = require("./routes/todoListRoutes");
-
-// CREATE APP //
 var app = express();
 
-// VIEW ENGINE //
+// View engine
 app.set("view engine", "html");
 app.engine("html", function (path, options, callback) {
     fs.readFile(path, "utf-8", callback);
 });
 
-// MIDDLEWARE //
+// Middleware
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-//app.use(express.static(path.join(__dirname, "/client")));
 
-// ROUTES //
+// Routing
 app.use("/", indexRoutes);
 app.use("/users", userRoutes);
 app.use("/todoList", todoListRoutes);
 
-// ERROR HANDLER //
+// Error handler
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
 });
