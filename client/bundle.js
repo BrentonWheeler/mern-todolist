@@ -28112,8 +28112,6 @@ var TodoList = function (_Component) {
     }, {
         key: "handleComplete",
         value: function handleComplete(item) {
-            console.log("1: item = VVV");
-            console.log(item);
             this.props.toggleCompleteAction(this.props.todoList.id, item.shortID, item.completed);
         }
     }, {
@@ -28212,7 +28210,8 @@ var TodoItem = function (_Component) {
             return _react2.default.createElement(
                 "li",
                 { className: "TodoItem" },
-                _react2.default.createElement("input", { type: "checkbox", onChange: this.handleCompleteClick, defaultChecked: this.props.item.completed }),
+                console.log(this.props.item.text + ": " + this.props.item.completed),
+                _react2.default.createElement("input", { type: "checkbox", onChange: this.handleCompleteClick, checked: this.props.item.completed }),
                 this.props.item.text,
                 _react2.default.createElement(
                     "button",
@@ -28325,7 +28324,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function toggleCompleteAction(todoListID, todoItemID, currentState) {
     return function (dispatch) {
         return _todoList2.default.toggleItem(todoListID, todoItemID, currentState).then(function (res) {
-            console.log(res);
             dispatch(toggleCompleteActionAsync(todoItemID, currentState));
             return;
         });
