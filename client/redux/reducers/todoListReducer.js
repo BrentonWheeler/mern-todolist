@@ -60,7 +60,7 @@ function addTodoItemToArray (array, action) {
 
 function removeTodoItemFromArray (array, action) {
     return array.filter(function (arrayItem) {
-        return array.shortID !== action.todoItemID;
+        return arrayItem.shortID !== action.shortID;
     });
 }
 
