@@ -3,7 +3,10 @@ var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
-var config = require("./config");
+
+if (process.env.PRODUCTION === false) {
+    var config = require("./config");
+}
 
 // Route imports
 var indexRoutes = require("./routes/index");
