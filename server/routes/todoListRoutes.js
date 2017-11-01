@@ -36,7 +36,10 @@ TodoListRouter.route("/addItem").post(function (req, res) {
         { $push: { listItems: { text: req.body.text, completed: false, shortID: shortID } } },
         { safe: true, upsert: true },
         function (err, model) {
-            console.log(err);
+            console.log(model);
+            if (err) {
+                console.log(err);
+            }
         }
     );
     res.json({ success: true, shortID: shortID });
@@ -68,15 +71,18 @@ TodoListRouter.route("/deleteItem").post(function (req, res) {
 
 // Route to toggle completion of individual item in a todoList
 TodoListRouter.route("/toggleItem").post(function (req, res) {
+    console.log(req.body);
     TodoList.update(
         { "listItems.shortID": req.body.tiID },
         {
             $set: {
-                "listItems.0.completed": !req.body.currentState
+                "listItems.$.completed": !req.body.currentState
             }
         },
-        function (err) {
-            res.json({ success: true });
+        function (err, model) {
+            if (!err) {
+                res.json({ success: true });
+            }
         }
     );
 });
