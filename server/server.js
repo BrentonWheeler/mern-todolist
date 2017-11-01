@@ -1,15 +1,11 @@
+require("dotenv").config();
 var fs = require("fs");
 var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
-var config;
 
-console.log("test below");
 console.log(process.env);
-if (process.env.heroku === false) {
-    config = require("./config");
-}
 
 // Route imports
 var indexRoutes = require("./routes/index");
@@ -18,40 +14,21 @@ var todoListRoutes = require("./routes/todoListRoutes");
 
 // Mongoose connection with mongodb
 mongoose.Promise = require("bluebird");
-
-if (process.env.heroku === true) {
-    mongoose
-        .connect(
-            "mongodb://" +
-                process.env.mongodb_username +
-                ":" +
-                process.env.mongodb_password +
-                "@ds155634.mlab.com:55634/todolistdb"
-        )
-        .then(() => {
-            console.log("Start");
-        })
-        .catch(err => {
-            console.error("App starting error:", err.stack);
-            process.exit(1);
-        });
-} else {
-    mongoose
-        .connect(
-            "mongodb://" +
-                config.mongodb_username +
-                ":" +
-                config.mongodb_password +
-                "@ds155634.mlab.com:55634/todolistdb"
-        )
-        .then(() => {
-            console.log("Start");
-        })
-        .catch(err => {
-            console.error("App starting error:", err.stack);
-            process.exit(1);
-        });
-}
+mongoose
+    .connect(
+        "mongodb://" +
+            process.env.mongodb_username +
+            ":" +
+            process.env.mongodb_password +
+            "@ds155634.mlab.com:55634/todolistdb"
+    )
+    .then(() => {
+        console.log("Start");
+    })
+    .catch(err => {
+        console.error("App starting error:", err.stack);
+        process.exit(1);
+    });
 
 var app = express();
 
