@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 var request = require("request");
-request("/apps/merntodo/config-vars", (err, res) => {
+request("https://api.heroku.com/apps/merntodo/config-vars", (err, res) => {
     console.log(res);
 });
 
