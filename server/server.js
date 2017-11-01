@@ -12,17 +12,40 @@ var todoListRoutes = require("./routes/todoListRoutes");
 
 // Mongoose connection with mongodb
 mongoose.Promise = require("bluebird");
-mongoose
-    .connect(
-        "mongodb://" + config.mongodb_username + ":" + config.mongodb_password + "@ds155634.mlab.com:55634/todolistdb"
-    )
-    .then(() => {
-        console.log("Start");
-    })
-    .catch(err => {
-        console.error("App starting error:", err.stack);
-        process.exit(1);
-    });
+
+if (process.env.PRODUCTION === true) {
+    mongoose
+        .connect(
+            "mongodb://" +
+                process.env.mongodb_username +
+                ":" +
+                process.env.mongodb_password +
+                "@ds155634.mlab.com:55634/todolistdb"
+        )
+        .then(() => {
+            console.log("Start");
+        })
+        .catch(err => {
+            console.error("App starting error:", err.stack);
+            process.exit(1);
+        });
+} else {
+    mongoose
+        .connect(
+            "mongodb://" +
+                config.mongodb_username +
+                ":" +
+                config.mongodb_password +
+                "@ds155634.mlab.com:55634/todolistdb"
+        )
+        .then(() => {
+            console.log("Start");
+        })
+        .catch(err => {
+            console.error("App starting error:", err.stack);
+            process.exit(1);
+        });
+}
 
 var app = express();
 
