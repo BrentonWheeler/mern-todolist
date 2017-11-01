@@ -36,7 +36,10 @@ TodoListRouter.route("/addItem").post(function (req, res) {
         { $push: { listItems: { text: req.body.text, completed: false, shortID: shortID } } },
         { safe: true, upsert: true },
         function (err, model) {
-            console.log(err);
+            console.log(model);
+            if (err) {
+                console.log(err);
+            }
         }
     );
     res.json({ success: true, shortID: shortID });

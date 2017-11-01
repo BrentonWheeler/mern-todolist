@@ -13,7 +13,7 @@ class App extends Component {
             items: [],
             addItemText: ""
         };
-        this.addItem = this.addItem;
+        this.addItem = this.addItem.bind(this);
         this.onInputChange = this.onInputChange;
     }
 
@@ -36,7 +36,7 @@ class App extends Component {
                 My Todo List
                 <br />
                 <input onChange={this.onInputChange.bind(this)} value={this.state.addItemText} type="text" />
-                <button type="button" onClick={this.addItem.bind(this)}>
+                <button type="button" onClick={this.addItem}>
                     Add Item
                 </button>
                 <br />

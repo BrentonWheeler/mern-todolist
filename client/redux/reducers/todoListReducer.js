@@ -59,14 +59,9 @@ function addTodoItemToArray (array, action) {
 }
 
 function removeTodoItemFromArray (array, action) {
-    let newArray = array.slice();
-    for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].shortID === action.todoItemID) {
-            newArray.splice(i, 1);
-            break;
-        }
-    }
-    return newArray;
+    return array.filter(function (arrayItem) {
+        return array.shortID !== action.todoItemID;
+    });
 }
 
 function toggleCompleteInArray (array, action) {

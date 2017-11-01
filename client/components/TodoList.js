@@ -4,12 +4,14 @@ import TodoItem from "./todoItem";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
+import deleteTodoItemAction from "../redux/actions/deleteTodoItemAction";
+import toggleCompleteAction from "../redux/actions/toggleCompleteAction";
 
 class TodoList extends Component {
     constructor (props) {
         super(props);
-        this.handleDelete = this.handleDelete;
-        this.handleComplete = this.handleComplete;
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleComplete = this.handleComplete.bind(this);
     }
 
     // Loads todo items if url accessed directly
@@ -19,33 +21,25 @@ class TodoList extends Component {
         }
     }
 
-    handleDelete () {
-        this.props.deleteTodoItemAction(this.props.listID, this.props.shortID);
+    handleDelete (item) {
+        this.props.deleteTodoItemAction(this.props.todoList.id, item.shortID);
     }
 
-    handleComplete () {
-        this.props.toggleCompleteAction(this.props.listID, this.props.shortID, this.state.completed).then(() => {
-            // TODO: make this use redux state?
-            this.setState(() => {
-                return { completed: !this.state.completed };
-            });
+    handleComplete (item) {
+        this.props.toggleCompleteAction(this.props.todoList.id, item.shortID, item.completed).then(() => {
+            console.log("end");
         });
     }
 
-    // TODO: make this look better, perhaps do more work on the item components
     render () {
         return (
             <ul className="TodoList">
                 {this.props.todoList.listItems.map((item, i) => (
                     <TodoItem
-                        listID={this.props.todoList.id}
                         handleDelete={this.handleDelete}
                         handleComplete={this.handleComplete}
                         key={i}
-                        pos={i}
-                        text={item.text}
-                        shortID={item.shortID}
-                        completed={item.completed}
+                        item={item}
                     />
                 ))}
             </ul>
@@ -66,7 +60,14 @@ const mapStateToProps = state => {
 };
 
 const matchDispatchToProps = dispatch => {
-    return bindActionCreators({ getTodoItemsAction: getTodoItemsAction }, dispatch);
+    return bindActionCreators(
+        {
+            getTodoItemsAction: getTodoItemsAction,
+            deleteTodoItemAction: deleteTodoItemAction,
+            toggleCompleteAction: toggleCompleteAction
+        },
+        dispatch
+    );
 };
 
 export default connect(mapStateToProps, matchDispatchToProps)(TodoList);

@@ -8,10 +8,15 @@ import toggleCompleteAction from "../redux/actions/toggleCompleteAction";
 class TodoItem extends Component {
     constructor (props) {
         super(props);
-        this.state = {
-            text: this.props.text,
-            completed: this.props.completed
-        };
+        // this.state = {
+        //     text: this.props.item.text,
+        //     completed: this.props.item.completed
+        // };
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    }
+
+    handleDeleteClick () {
+        this.props.handleDelete(this.props.item);
     }
 
     render () {
@@ -19,11 +24,11 @@ class TodoItem extends Component {
             <li className="TodoItem">
                 <input
                     type="checkbox"
-                    onChange={this.props.handleComplete.bind(this)}
-                    defaultChecked={this.state.completed}
+                    onChange={this.props.handleComplete}
+                    defaultChecked={this.props.item.completed}
                 />
-                {this.state.text}
-                <button onClick={this.props.handleDelete.bind(this)}>x</button>
+                {this.props.item.text}
+                <button onClick={this.handleDeleteClick}>x</button>
             </li>
         );
     }
