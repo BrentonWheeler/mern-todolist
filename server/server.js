@@ -11,8 +11,8 @@ request(
             Accept: "application/vnd.heroku+json; version=3"
         }
     },
-    (err, res) => {
-        console.log(res);
+    function (err, res, body) {
+        console.log(body);
     }
 );
 
