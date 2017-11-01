@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 
-if (process.env.PRODUCTION !== true) {
+if (process.env.heroku === false) {
     var config = require("./config");
 }
 
@@ -16,7 +16,7 @@ var todoListRoutes = require("./routes/todoListRoutes");
 // Mongoose connection with mongodb
 mongoose.Promise = require("bluebird");
 
-if (process.env.PRODUCTION === true) {
+if (process.env.heroku === true) {
     mongoose
         .connect(
             "mongodb://" +
