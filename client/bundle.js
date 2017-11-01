@@ -27690,20 +27690,19 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var endpoint = "http://localhost:4200";
 
-if (process.env.PRODUCTION === true) {
+if (true) {
     // Having it empty on production allows url to be relative to where its being called from
     endpoint = "";
 }
 
 exports.default = endpoint;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 278 */
