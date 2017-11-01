@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 
-if (process.env.PRODUCTION === false) {
+if (process.env.PRODUCTION !== true) {
     var config = require("./config");
 }
 
