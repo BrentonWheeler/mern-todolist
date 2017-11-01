@@ -4,8 +4,8 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 var request = require("request");
-request("/apps/merntodo/config-vars", (err, res, body) => {
-    console.log(body);
+request("/apps/merntodo/config-vars", (err, res) => {
+    console.log(res);
 });
 
 //GET /apps/{app_id_or_name}/config-vars
