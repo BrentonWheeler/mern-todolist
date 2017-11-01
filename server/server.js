@@ -5,8 +5,6 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 
-console.log(process.env);
-
 // Route imports
 var indexRoutes = require("./routes/index");
 var userRoutes = require("./routes/userRoutes");
