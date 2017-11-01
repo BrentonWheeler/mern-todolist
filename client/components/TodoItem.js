@@ -18,7 +18,6 @@ class TodoItem extends Component {
     render () {
         return (
             <li className="TodoItem">
-                {console.log(this.props.item.text + ": " + this.props.item.completed)}
                 <input type="checkbox" onChange={this.handleCompleteClick} checked={this.props.item.completed} />
                 {this.props.item.text}
                 <button onClick={this.handleDeleteClick}>x</button>
