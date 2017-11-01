@@ -1,9 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import deleteTodoItemAction from "../redux/actions/deleteTodoItemAction";
-import toggleCompleteAction from "../redux/actions/toggleCompleteAction";
 
 class TodoItem extends Component {
     constructor (props) {
@@ -31,11 +26,4 @@ class TodoItem extends Component {
     }
 }
 
-const matchDispatchToProps = dispatch => {
-    return bindActionCreators(
-        { deleteTodoItemAction: deleteTodoItemAction, toggleCompleteAction: toggleCompleteAction },
-        dispatch
-    );
-};
-
-export default connect(null, matchDispatchToProps)(TodoItem);
+export default TodoItem;

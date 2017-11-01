@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import TodoItem from "./todoItem";
-//import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
@@ -26,6 +25,8 @@ class TodoList extends Component {
     }
 
     handleComplete (item) {
+        console.log("1: item = VVV");
+        console.log(item);
         this.props.toggleCompleteAction(this.props.todoList.id, item.shortID, item.completed);
     }
 
@@ -44,11 +45,6 @@ class TodoList extends Component {
         );
     }
 }
-
-// TODO: add todoList.listItems
-// TodoList.PropTypes = {
-//     items: PropTypes.array.isRequired
-// };
 
 // Redux Connections
 const mapStateToProps = state => {

@@ -3,7 +3,7 @@ import { TOGGLE_TODO_ITEM } from "./types";
 
 export default function toggleCompleteAction (todoListID, todoItemID, currentState) {
     return dispatch => {
-        return todoList.toggleItem(todoListID, todoItemID, currentState).then(() => {
+        return todoList.toggleItem(todoListID, todoItemID, currentState).then(res => {
             dispatch(toggleCompleteActionAsync(todoItemID, currentState));
             return;
         });
