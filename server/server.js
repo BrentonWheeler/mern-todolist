@@ -4,6 +4,7 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 var request = require("request");
+
 request(
     {
         url: "https://api.heroku.com/apps/merntodo/config-vars",
@@ -12,6 +13,7 @@ request(
         }
     },
     function (err, res, body) {
+        console.log("test");
         console.log(body);
     }
 );
