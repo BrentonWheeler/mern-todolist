@@ -4,7 +4,7 @@ var webpack = require("webpack");
 module.exports = {
     plugins: [
         new webpack.DefinePlugin({
-            "process.env.PRODUCTION": JSON.stringify(true)
+            PRODUCTION: JSON.stringify(true)
         })
     ],
     entry: "./client/index.js",
