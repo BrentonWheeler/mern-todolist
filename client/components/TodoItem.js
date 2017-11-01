@@ -8,11 +8,12 @@ import toggleCompleteAction from "../redux/actions/toggleCompleteAction";
 class TodoItem extends Component {
     constructor (props) {
         super(props);
-        // this.state = {
-        //     text: this.props.item.text,
-        //     completed: this.props.item.completed
-        // };
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
+        this.handleCompleteClick = this.handleCompleteClick.bind(this);
+    }
+
+    handleCompleteClick () {
+        this.props.handleComplete(this.props.item);
     }
 
     handleDeleteClick () {
@@ -22,21 +23,13 @@ class TodoItem extends Component {
     render () {
         return (
             <li className="TodoItem">
-                <input
-                    type="checkbox"
-                    onChange={this.props.handleComplete}
-                    defaultChecked={this.props.item.completed}
-                />
+                <input type="checkbox" onChange={this.handleCompleteClick} defaultChecked={this.props.item.completed} />
                 {this.props.item.text}
                 <button onClick={this.handleDeleteClick}>x</button>
             </li>
         );
     }
 }
-
-TodoItem.PropTypes = {
-    text: PropTypes.string.isRequired
-};
 
 const matchDispatchToProps = dispatch => {
     return bindActionCreators(

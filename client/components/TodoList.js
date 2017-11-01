@@ -26,9 +26,7 @@ class TodoList extends Component {
     }
 
     handleComplete (item) {
-        this.props.toggleCompleteAction(this.props.todoList.id, item.shortID, item.completed).then(() => {
-            console.log("end");
-        });
+        this.props.toggleCompleteAction(this.props.todoList.id, item.shortID, item.completed);
     }
 
     render () {
