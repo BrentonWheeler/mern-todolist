@@ -1,9 +1,9 @@
-import todoList from "../../api/todoList";
+import todoListAPI from "../../api/todoList";
 import { DELETE_TODO_ITEM } from "./types";
 
 export default function deleteTodoItemAction (todoListID, todoItemID) {
     return dispatch => {
-        return todoList.deleteItem(todoListID, todoItemID).then(() => {
+        return todoListAPI.deleteItem(todoListID, todoItemID).then(() => {
             dispatch(deleteTodoItemActionAsync(todoItemID));
             return;
         });

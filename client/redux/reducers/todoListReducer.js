@@ -3,7 +3,8 @@ import {
     CREATE_TODO_ITEM,
     GET_TODO_ITEMS,
     DELETE_TODO_ITEM,
-    TOGGLE_TODO_ITEM
+    TOGGLE_TODO_ITEM,
+    UPDATE_TODO_ITEM_TEXT
 } from "../actions/types";
 
 const initialState = {
@@ -45,6 +46,11 @@ export default function (state = initialState, action) {
                 listItems: toggleCompleteInArray(state.listItems, action)
             });
             break;
+        case UPDATE_TODO_ITEM_TEXT:
+            return Object.assign({}, state, {
+                listItems: updateItemTextInArray(state.listItems, action)
+            });
+            break;
         default:
             return state;
     }
@@ -69,6 +75,18 @@ function toggleCompleteInArray (array, action) {
     for (let i = 0; i < newArray.length; i++) {
         if (newArray[i].shortID === action.todoItemID) {
             newArray[i].completed = !action.currentState;
+            break;
+        }
+    }
+    return newArray;
+}
+
+function updateItemTextInArray (array, action) {
+    console.log("got HERE! 3");
+    let newArray = array.slice();
+    for (let i = 0; i < newArray.length; i++) {
+        if (newArray[i].shortID === action.todoItemID) {
+            newArray[i].text = action.newText;
             break;
         }
     }

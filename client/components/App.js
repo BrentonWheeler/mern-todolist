@@ -13,7 +13,7 @@ class App extends Component {
         };
         this.addItem = this.addItem.bind(this);
         this.onInputChange = this.onInputChange;
-        this.keyPress = this.keyPress.bind(this);
+        this.enterCheck = this.enterCheck.bind(this);
     }
 
     // Button click handler, adds a new hardcoded item to the this.state.items array
@@ -37,7 +37,7 @@ class App extends Component {
     }
 
     // On enter press
-    keyPress (e) {
+    enterCheck (e) {
         if (e.keyCode === 13) {
             this.addItem();
         }
@@ -51,7 +51,7 @@ class App extends Component {
                 <br />
                 <input
                     onChange={this.onInputChange.bind(this)}
-                    onKeyDown={this.keyPress}
+                    onKeyDown={this.enterCheck}
                     value={this.state.addItemText}
                     type="text"
                 />

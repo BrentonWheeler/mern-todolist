@@ -1,9 +1,9 @@
-import todoList from "../../api/todoList";
+import todoListAPI from "../../api/todoList";
 import { CREATE_TODO_LIST } from "./types";
 
 export default function createTodoAction () {
     return dispatch => {
-        return todoList.create().then(res => {
+        return todoListAPI.create().then(res => {
             let id = res.data.id;
             dispatch(createTodoActionAsync(id));
             return id;

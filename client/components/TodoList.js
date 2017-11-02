@@ -6,12 +6,14 @@ import { connect } from "react-redux";
 import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
 import deleteTodoItemAction from "../redux/actions/deleteTodoItemAction";
 import toggleCompleteAction from "../redux/actions/toggleCompleteAction";
+import updateTodoItemTextAction from "../redux/actions/updateTodoItemTextAction";
 
 class TodoList extends Component {
     constructor (props) {
         super(props);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleComplete = this.handleComplete.bind(this);
+        this.handleItemTextUpdate = this.handleItemTextUpdate.bind(this);
     }
 
     // Loads todo items if url accessed directly
@@ -29,6 +31,11 @@ class TodoList extends Component {
         this.props.toggleCompleteAction(this.props.todoList.id, item.shortID, item.completed);
     }
 
+    handleItemTextUpdate (item, newText) {
+        console.log("got here 4");
+        this.props.updateTodoItemTextAction(this.props.todoList.id, item.shortID, newText);
+    }
+
     render () {
         return (
             <ul className="TodoList">
@@ -36,6 +43,7 @@ class TodoList extends Component {
                     <TodoItem
                         handleDelete={this.handleDelete}
                         handleComplete={this.handleComplete}
+                        handleItemTextUpdate={this.handleItemTextUpdate}
                         key={i}
                         item={item}
                     />
@@ -61,7 +69,8 @@ const matchDispatchToProps = dispatch => {
         {
             getTodoItemsAction: getTodoItemsAction,
             deleteTodoItemAction: deleteTodoItemAction,
-            toggleCompleteAction: toggleCompleteAction
+            toggleCompleteAction: toggleCompleteAction,
+            updateTodoItemTextAction: updateTodoItemTextAction
         },
         dispatch
     );
