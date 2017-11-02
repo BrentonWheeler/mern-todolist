@@ -8,7 +8,7 @@ let todolist = {
     toggleItem: (tlID, tiID, currentState) =>
         axios.post(endpoint + "/todoList/toggleItem", { tlID: tlID, tiID: tiID, currentState: currentState }),
     updateItemText: (tlID, tiID, newText) =>
-        axios.post(endpoint + "/todoList/toggleItem", { tlID: tlID, tiID: tiID, newText: newText }),
+        axios.post(endpoint + "/todoList/updateItemText", { tlID: tlID, tiID: tiID, newText: newText }),
     getItems: id => axios.post(endpoint + "/todoList/getItems", { urlID: id })
 };
 

@@ -36,7 +36,6 @@ TodoListRouter.route("/addItem").post(function (req, res) {
         { $push: { listItems: { text: req.body.text, completed: false, shortID: shortID } } },
         { safe: true, upsert: true },
         function (err, model) {
-            console.log(model);
             if (err) {
                 console.log(err);
             }
@@ -71,12 +70,31 @@ TodoListRouter.route("/deleteItem").post(function (req, res) {
 
 // Route to toggle completion of individual item in a todoList
 TodoListRouter.route("/toggleItem").post(function (req, res) {
-    console.log(req.body);
+    // TODO: make this find object based on todoList ID and then todoItem ID
     TodoList.update(
         { "listItems.shortID": req.body.tiID },
         {
             $set: {
                 "listItems.$.completed": !req.body.currentState
+            }
+        },
+        function (err, model) {
+            if (!err) {
+                res.json({ success: true });
+            }
+        }
+    );
+});
+
+// Route to toggle completion of individual item in a todoList
+TodoListRouter.route("/updateItemText").post(function (req, res) {
+    // TODO: make this find object based on todoList ID and then todoItem ID
+    console.log(req.body);
+    TodoList.update(
+        { "listItems.shortID": req.body.tiID },
+        {
+            $set: {
+                "listItems.$.text": req.body.newText
             }
         },
         function (err, model) {
