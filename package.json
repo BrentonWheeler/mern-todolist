@@ -49,5 +49,6 @@
     "eslint-plugin-react": "^7.4.0",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"
-  }
+  },
+  "proxy": "http://localhost:4200"
 }

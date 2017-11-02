@@ -4,7 +4,7 @@ var webpack = require("webpack");
 module.exports = {
     plugins: [
         new webpack.DefinePlugin({
-            PRODUCTION: JSON.stringify(false)
+            ENV: JSON.stringify("'development'")
         }),
         new webpack.SourceMapDevToolPlugin({
             filename: "[file].map"

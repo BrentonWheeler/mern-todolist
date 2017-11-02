@@ -1392,7 +1392,7 @@ module.exports = invariant;
 
 
 var bind = __webpack_require__(114);
-var isBuffer = __webpack_require__(260);
+var isBuffer = __webpack_require__(261);
 
 /*global toString:true*/
 
@@ -3468,34 +3468,30 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _axios = __webpack_require__(113);
+var _api = __webpack_require__(113);
 
-var _axios2 = _interopRequireDefault(_axios);
-
-var _url = __webpack_require__(277);
-
-var _url2 = _interopRequireDefault(_url);
+var _api2 = _interopRequireDefault(_api);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var todolist = {
     create: function create() {
-        return _axios2.default.post(_url2.default + "/todoList/create");
+        return _api2.default.post("/todoList/create");
     },
     addItem: function addItem(item) {
-        return _axios2.default.post(_url2.default + "/todoList/addItem", item);
+        return _api2.default.post("/todoList/addItem", item);
     },
     deleteItem: function deleteItem(tlID, tiID) {
-        return _axios2.default.post(_url2.default + "/todoList/deleteItem", { tlID: tlID, tiID: tiID });
+        return _api2.default.post("/todoList/deleteItem", { tlID: tlID, tiID: tiID });
     },
     toggleItem: function toggleItem(tlID, tiID, currentState) {
-        return _axios2.default.post(_url2.default + "/todoList/toggleItem", { tlID: tlID, tiID: tiID, currentState: currentState });
+        return _api2.default.post("/todoList/toggleItem", { tlID: tlID, tiID: tiID, currentState: currentState });
     },
     updateItemText: function updateItemText(tlID, tiID, newText) {
-        return _axios2.default.post(_url2.default + "/todoList/updateItemText", { tlID: tlID, tiID: tiID, newText: newText });
+        return _api2.default.post("/todoList/updateItemText", { tlID: tlID, tiID: tiID, newText: newText });
     },
     getItems: function getItems(id) {
-        return _axios2.default.post(_url2.default + "/todoList/getItems", { urlID: id });
+        return _api2.default.post("/todoList/getItems", { urlID: id });
     }
 };
 
@@ -7409,7 +7405,7 @@ function warning(message) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(14);
-var normalizeHeaderName = __webpack_require__(262);
+var normalizeHeaderName = __webpack_require__(263);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -12484,7 +12480,36 @@ function verifyPlainObject(value, displayName, methodName) {
 /* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(259);
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _axios = __webpack_require__(259);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var api;
+
+function checkEnv() {
+    if (process.env.NODE_ENV === "development") {
+        api = _axios2.default.create({
+            baseURL: "localhost:4200"
+        });
+    } else {
+        api = _axios2.default.create({
+            baseURL: window.location.origin
+        });
+    }
+}
+
+checkEnv();
+exports.default = api;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 114 */
@@ -12512,12 +12537,12 @@ module.exports = function bind(fn, thisArg) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(14);
-var settle = __webpack_require__(263);
-var buildURL = __webpack_require__(265);
-var parseHeaders = __webpack_require__(266);
-var isURLSameOrigin = __webpack_require__(267);
+var settle = __webpack_require__(264);
+var buildURL = __webpack_require__(266);
+var parseHeaders = __webpack_require__(267);
+var isURLSameOrigin = __webpack_require__(268);
 var createError = __webpack_require__(116);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(268);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(269);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -12614,7 +12639,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(269);
+      var cookies = __webpack_require__(270);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -12699,7 +12724,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(264);
+var enhanceError = __webpack_require__(265);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -26841,12 +26866,18 @@ function createTodoActionAsync(id) {
 /* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(260);
+
+/***/ }),
+/* 260 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 var utils = __webpack_require__(14);
 var bind = __webpack_require__(114);
-var Axios = __webpack_require__(261);
+var Axios = __webpack_require__(262);
 var defaults = __webpack_require__(64);
 
 /**
@@ -26881,14 +26912,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(118);
-axios.CancelToken = __webpack_require__(275);
+axios.CancelToken = __webpack_require__(276);
 axios.isCancel = __webpack_require__(117);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(276);
+axios.spread = __webpack_require__(277);
 
 module.exports = axios;
 
@@ -26897,7 +26928,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 260 */
+/* 261 */
 /***/ (function(module, exports) {
 
 /*!
@@ -26924,7 +26955,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 261 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26932,10 +26963,10 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(64);
 var utils = __webpack_require__(14);
-var InterceptorManager = __webpack_require__(270);
-var dispatchRequest = __webpack_require__(271);
-var isAbsoluteURL = __webpack_require__(273);
-var combineURLs = __webpack_require__(274);
+var InterceptorManager = __webpack_require__(271);
+var dispatchRequest = __webpack_require__(272);
+var isAbsoluteURL = __webpack_require__(274);
+var combineURLs = __webpack_require__(275);
 
 /**
  * Create a new instance of Axios
@@ -27017,7 +27048,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 262 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27036,7 +27067,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 263 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27069,7 +27100,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 264 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27097,7 +27128,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 265 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27172,7 +27203,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 266 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27216,7 +27247,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 267 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27291,7 +27322,7 @@ module.exports = (
 
 
 /***/ }),
-/* 268 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27334,7 +27365,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27394,7 +27425,7 @@ module.exports = (
 
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27453,14 +27484,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(14);
-var transformData = __webpack_require__(272);
+var transformData = __webpack_require__(273);
 var isCancel = __webpack_require__(117);
 var defaults = __webpack_require__(64);
 
@@ -27539,7 +27570,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27566,7 +27597,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27587,7 +27618,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27608,7 +27639,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27672,7 +27703,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27704,25 +27735,6 @@ module.exports = function spread(callback) {
   };
 };
 
-
-/***/ }),
-/* 277 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var endpoint = "http://localhost:4200";
-
-if (true) {
-    // Having it empty on production allows url to be relative to where its being called from
-    endpoint = "";
-}
-
-exports.default = endpoint;
 
 /***/ }),
 /* 278 */
@@ -27911,14 +27923,14 @@ Object.defineProperty(exports, "__esModule", {
 exports.register = register;
 exports.login = login;
 
-var _axios = __webpack_require__(113);
+var _api = __webpack_require__(113);
 
-var _axios2 = _interopRequireDefault(_axios);
+var _api2 = _interopRequireDefault(_api);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function register(username, password) {
-    _axios2.default.post("http://localhost:4200/users/register/", {
+    _api2.default.post("http://localhost:4200/users/register/", {
         data: { username: username, password: password }
     }).then(function (response) {
         console.log(response);
@@ -27929,7 +27941,7 @@ function register(username, password) {
 
 function login(username, password) {
     console.log("logging in");
-    _axios2.default.post("http://localhost:4200/users/login/", {
+    _api2.default.post("http://localhost:4200/users/login/", {
         data: { username: username, password: password }
     }).then(function (response) {
         console.log(response);
