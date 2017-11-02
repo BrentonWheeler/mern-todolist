@@ -82,7 +82,6 @@ function toggleCompleteInArray (array, action) {
 }
 
 function updateItemTextInArray (array, action) {
-    console.log("got HERE! 3");
     let newArray = array.slice();
     for (let i = 0; i < newArray.length; i++) {
         if (newArray[i].shortID === action.todoItemID) {

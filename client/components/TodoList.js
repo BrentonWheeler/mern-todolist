@@ -32,7 +32,6 @@ class TodoList extends Component {
     }
 
     handleItemTextUpdate (item, newText) {
-        console.log("got here 4");
         this.props.updateTodoItemTextAction(this.props.todoList.id, item.shortID, newText);
     }
 

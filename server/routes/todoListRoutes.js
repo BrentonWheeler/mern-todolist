@@ -68,7 +68,7 @@ TodoListRouter.route("/deleteItem").post(function (req, res) {
     );
 });
 
-// Route to toggle completion of individual item in a todoList
+// Route to toggle completion an item
 TodoListRouter.route("/toggleItem").post(function (req, res) {
     // TODO: make this find object based on todoList ID and then todoItem ID
     TodoList.update(
@@ -86,10 +86,9 @@ TodoListRouter.route("/toggleItem").post(function (req, res) {
     );
 });
 
-// Route to toggle completion of individual item in a todoList
+// Route to update the text of an item
 TodoListRouter.route("/updateItemText").post(function (req, res) {
     // TODO: make this find object based on todoList ID and then todoItem ID
-    console.log(req.body);
     TodoList.update(
         { "listItems.shortID": req.body.tiID },
         {
