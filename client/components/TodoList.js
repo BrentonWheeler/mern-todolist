@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TodoItem from "./todoItem";
+import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
@@ -43,6 +44,10 @@ class TodoList extends Component {
         );
     }
 }
+
+TodoItem.propTypes = {
+    urlID: PropTypes.string
+};
 
 // Redux Connections
 const mapStateToProps = state => {
