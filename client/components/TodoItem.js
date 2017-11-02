@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class TodoItem extends Component {
     constructor (props) {
@@ -25,5 +26,16 @@ class TodoItem extends Component {
         );
     }
 }
+
+TodoItem.propTypes = {
+    item: PropTypes.shape({
+        shortID: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        completed: PropTypes.bool.isRequired
+    }).isRequired,
+    handleDelete: PropTypes.func.isRequired,
+    handleComplete: PropTypes.func.isRequired
+    // TODO: figure out if "key" should be included in propTypes
+};
 
 export default TodoItem;
