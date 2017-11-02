@@ -10,7 +10,6 @@ class App extends Component {
         super(props);
         // Temporarily hardcoded base state to check things are working
         this.state = {
-            items: [],
             addItemText: ""
         };
         this.addItem = this.addItem.bind(this);
@@ -20,6 +19,9 @@ class App extends Component {
     // Button click handler, adds a new hardcoded item to the this.state.items array
     addItem () {
         this.props.createTodoItemAction(this.state.addItemText, this.props.match.params.id);
+        this.setState({
+            addItemText: ""
+        });
     }
 
     // Input onChange handler

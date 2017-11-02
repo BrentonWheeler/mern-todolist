@@ -28210,7 +28210,6 @@ var TodoItem = function (_Component) {
             return _react2.default.createElement(
                 "li",
                 { className: "TodoItem" },
-                console.log(this.props.item.text + ": " + this.props.item.completed),
                 _react2.default.createElement("input", { type: "checkbox", onChange: this.handleCompleteClick, checked: this.props.item.completed }),
                 this.props.item.text,
                 _react2.default.createElement(
