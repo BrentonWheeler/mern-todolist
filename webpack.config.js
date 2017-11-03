@@ -4,7 +4,7 @@ var webpack = require("webpack");
 module.exports = {
     plugins: [
         new webpack.DefinePlugin({
-            ENV: JSON.stringify("'development'")
+            "process.env.BASE_URL": JSON.stringify("http://localhost:4200")
         }),
         new webpack.SourceMapDevToolPlugin({
             filename: "[file].map"

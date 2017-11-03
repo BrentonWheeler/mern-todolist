@@ -12481,10 +12481,10 @@ function verifyPlainObject(value, displayName, methodName) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
+
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _axios = __webpack_require__(259);
@@ -12493,23 +12493,9 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var api;
+var api = _axios2.default.create({ baseURL: "" });
 
-function checkEnv() {
-    if (process.env.NODE_ENV === "development") {
-        api = _axios2.default.create({
-            baseURL: "localhost:4200"
-        });
-    } else {
-        api = _axios2.default.create({
-            baseURL: window.location.origin
-        });
-    }
-}
-
-checkEnv();
 exports.default = api;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 114 */
@@ -31586,3 +31572,4 @@ var withRouter = function withRouter(Component) {
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=bundle.js.map
