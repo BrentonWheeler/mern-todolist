@@ -1,7 +1,7 @@
-import axios from "axios";
+import api from "./api";
 
 export function register (username, password) {
-    axios
+    api
         .post("http://localhost:4200/users/register/", {
             data: { username: username, password: password }
         })
@@ -15,7 +15,7 @@ export function register (username, password) {
 
 export function login (username, password) {
     console.log("logging in");
-    axios
+    api
         .post("http://localhost:4200/users/login/", {
             data: { username: username, password: password }
         })

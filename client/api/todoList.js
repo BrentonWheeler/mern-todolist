@@ -1,15 +1,14 @@
-import axios from "axios";
-import endpoint from "../api/url";
+import api from "./api";
 
 let todolist = {
-    create: () => axios.post(endpoint + "/todoList/create"),
-    addItem: item => axios.post(endpoint + "/todoList/addItem", item),
-    deleteItem: (tlID, tiID) => axios.post(endpoint + "/todoList/deleteItem", { tlID: tlID, tiID: tiID }),
+    create: () => api.post("/todoList/create"),
+    addItem: item => api.post("/todoList/addItem", item),
+    deleteItem: (tlID, tiID) => api.post("/todoList/deleteItem", { tlID: tlID, tiID: tiID }),
     toggleItem: (tlID, tiID, currentState) =>
-        axios.post(endpoint + "/todoList/toggleItem", { tlID: tlID, tiID: tiID, currentState: currentState }),
+        api.post("/todoList/toggleItem", { tlID: tlID, tiID: tiID, currentState: currentState }),
     updateItemText: (tlID, tiID, newText) =>
-        axios.post(endpoint + "/todoList/updateItemText", { tlID: tlID, tiID: tiID, newText: newText }),
-    getItems: id => axios.post(endpoint + "/todoList/getItems", { urlID: id })
+        api.post("/todoList/updateItemText", { tlID: tlID, tiID: tiID, newText: newText }),
+    getItems: id => api.post("/todoList/getItems", { urlID: id })
 };
 
 export default todolist;

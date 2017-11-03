@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --content-base client/",
-    "api": "webpack --config webpack.prod.config.js && nodemon bin/www",
+    "api": "webpack --config webpack-server.dev.config.js && nodemon bin/www",
     "start": "nodemon bin/www",
-    "build": "webpack --config webpack.prod.config.js",
-    "eject": "react-scripts eject"
+    "build": "webpack --config webpack-server.dev.config.js"
   },
   "author": "Brenton Wheeler",
   "license": "ISC",

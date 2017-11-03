@@ -13,13 +13,7 @@ var todoListRoutes = require("./routes/todoListRoutes");
 // Mongoose connection with mongodb
 mongoose.Promise = require("bluebird");
 mongoose
-    .connect(
-        "mongodb://" +
-            process.env.mongodb_username +
-            ":" +
-            process.env.mongodb_password +
-            "@ds155634.mlab.com:55634/todolistdb"
-    )
+    .connect(process.env.MONGODB_URL)
     .then(() => {
         console.log("Start");
     })
