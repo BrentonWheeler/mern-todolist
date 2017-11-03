@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./redux/reducers/rootReducer";
-import Home from "./components/home";
+import Home from "./components/Home";
 import Login from "./components/login";
 import App from "./components/app";
 import { BrowserRouter, Route, Switch } from "react-router-dom";

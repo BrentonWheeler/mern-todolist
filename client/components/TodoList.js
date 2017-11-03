@@ -7,13 +7,25 @@ import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
 import deleteTodoItemAction from "../redux/actions/deleteTodoItemAction";
 import toggleCompleteAction from "../redux/actions/toggleCompleteAction";
 import updateTodoItemTextAction from "../redux/actions/updateTodoItemTextAction";
+import updateTitleAction from "../redux/actions/updateTitleAction";
+import createTodoItemAction from "../redux/actions/createTodoItemAction";
 
 class TodoList extends Component {
     constructor (props) {
         super(props);
+        this.state = {
+            addItemText: "",
+            showTitleInput: false,
+            inputTitleText: this.props.todoList.title
+        };
         this.handleDelete = this.handleDelete.bind(this);
         this.handleComplete = this.handleComplete.bind(this);
+        this.handleDoubleClick = this.handleDoubleClick.bind(this);
         this.handleItemTextUpdate = this.handleItemTextUpdate.bind(this);
+        this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
+        this.enterCheck = this.enterCheck.bind(this);
+        this.addItemInputChange = this.addItemInputChange.bind(this);
+        this.handleTitleOnUpdate = this.handleTitleOnUpdate.bind(this);
     }
 
     // Loads todo items if url accessed directly
@@ -35,19 +47,96 @@ class TodoList extends Component {
         this.props.updateTodoItemTextAction(this.props.todoList.id, item.shortID, newText);
     }
 
+    handleTitleUpdate (newTitle) {
+        this.props.updateTitleAction(newTitle);
+    }
+
+    // Input onChange handler
+    addItemInputChange (e) {
+        this.setState({
+            addItemText: e.target.value
+        });
+    }
+
+    // Button click handler, adds a new hardcoded item to the this.state.items array
+    addItem () {
+        if (this.state.addItemText === "") {
+            // Put a nice UX toast here
+            //window.alert("Missing todo item text");
+        } else {
+            this.props.createTodoItemAction(this.state.addItemText, this.props.urlID);
+            this.setState({
+                addItemText: ""
+            });
+        }
+    }
+
+    // On double click the text label changes to a input to allow user editing of the value
+    handleDoubleClick (e) {
+        this.setState({
+            showTitleInput: true
+        });
+    }
+
+    // This just updates react state in the scope of the individual item
+    handleTitleOnChange (e) {
+        this.setState({
+            inputTitleText: e.target.value
+        });
+    }
+
+    handleTitleOnUpdate (newTitle) {
+        this.props.updateTitleAction(newTitle);
+    }
+
+    // On enter press
+    enterCheck (e) {
+        if (e.keyCode === 13) {
+            this.handleTitleOnUpdate();
+        }
+    }
+
     render () {
+        let titleElement;
+        if (this.state.showTitleInput) {
+            titleElement = (
+                <input
+                    type="text"
+                    value={this.state.inputTitleText}
+                    onBlur={this.handleTitleOnUpdate}
+                    onChange={this.handleTitleOnChange}
+                    onKeyDown={this.enterCheck}
+                />
+            );
+        } else {
+            titleElement = <label onDoubleClick={this.handleDoubleClick}>{this.props.todoList.title}</label>;
+        }
+
         return (
-            <ul className="TodoList">
-                {this.props.todoList.listItems.map((item, i) => (
-                    <TodoItem
-                        handleDelete={this.handleDelete}
-                        handleComplete={this.handleComplete}
-                        handleItemTextUpdate={this.handleItemTextUpdate}
-                        key={i}
-                        item={item}
-                    />
-                ))}
-            </ul>
+            <div>
+                <h1>{titleElement}</h1>
+                <input
+                    onChange={this.addItemInputChange}
+                    onKeyDown={this.enterCheck}
+                    value={this.state.addItemText}
+                    type="text"
+                />
+                <button type="button" onClick={this.addItem}>
+                    Add Item
+                </button>
+                <br />
+                <ul className="TodoList">
+                    {this.props.todoList.listItems.map((item, i) => (
+                        <TodoItem
+                            handleDelete={this.handleDelete}
+                            handleComplete={this.handleComplete}
+                            handleItemTextUpdate={this.handleItemTextUpdate}
+                            key={i}
+                            item={item}
+                        />
+                    ))}
+                </ul>
+            </div>
         );
     }
 }
@@ -69,7 +158,9 @@ const matchDispatchToProps = dispatch => {
             getTodoItemsAction: getTodoItemsAction,
             deleteTodoItemAction: deleteTodoItemAction,
             toggleCompleteAction: toggleCompleteAction,
-            updateTodoItemTextAction: updateTodoItemTextAction
+            updateTodoItemTextAction: updateTodoItemTextAction,
+            updateTitleAction: updateTitleAction,
+            createTodoItemAction: createTodoItemAction
         },
         dispatch
     );

@@ -9,6 +9,7 @@ import {
 
 const initialState = {
     id: "",
+    title: "My Todo List",
     listItems: []
 };
 
