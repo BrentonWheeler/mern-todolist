@@ -5,16 +5,18 @@ export default function getTodoItemsAction (todoListID) {
     return dispatch => {
         return todoListAPI.getItems(todoListID).then(itemsJSON => {
             let itemArray = itemsJSON.data.itemArray;
-            dispatch(getTodoItemsActionAsync(itemArray, todoListID));
+            let title = itemsJSON.data.title;
+            dispatch(getTodoItemsActionAsync(itemArray, todoListID, title));
             return itemArray;
         });
     };
 }
 
-function getTodoItemsActionAsync (itemArray, todoListID) {
+function getTodoItemsActionAsync (itemArray, todoListID, title) {
     return {
         type: GET_TODO_ITEMS,
         itemArray: itemArray,
-        todoListID: todoListID
+        todoListID: todoListID,
+        title: title
     };
 }

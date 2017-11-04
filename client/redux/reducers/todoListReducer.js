@@ -35,6 +35,9 @@ export default function (state = initialState, action) {
                 },
                 {
                     listItems: action.itemArray
+                },
+                {
+                    title: action.title
                 }
             );
             break;

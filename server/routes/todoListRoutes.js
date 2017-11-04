@@ -51,7 +51,7 @@ TodoListRouter.route("/getItems").post(function (req, res) {
             console.log("id not found");
             res.json({ err: "error" });
         } else {
-            res.json({ itemArray: docs.listItems });
+            res.json({ itemArray: docs.listItems, title: docs.title });
         }
     });
 });
