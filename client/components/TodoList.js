@@ -25,6 +25,7 @@ class TodoList extends Component {
         this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
         this.enterCheck = this.enterCheck.bind(this);
         this.addItemInputChange = this.addItemInputChange.bind(this);
+        this.addItem = this.addItem.bind(this);
         this.handleTitleOnUpdate = this.handleTitleOnUpdate.bind(this);
     }
 
@@ -45,10 +46,6 @@ class TodoList extends Component {
 
     handleItemTextUpdate (item, newText) {
         this.props.updateTodoItemTextAction(this.props.todoList.id, item.shortID, newText);
-    }
-
-    handleTitleUpdate (newTitle) {
-        this.props.updateTitleAction(newTitle);
     }
 
     // Input onChange handler
@@ -85,8 +82,11 @@ class TodoList extends Component {
         });
     }
 
-    handleTitleOnUpdate (newTitle) {
-        this.props.updateTitleAction(newTitle);
+    handleTitleOnUpdate () {
+        this.props.updateTitleAction(this.props.todoList.id, this.state.inputTitleText);
+        this.setState({
+            showTitleInput: false
+        });
     }
 
     // On enter press

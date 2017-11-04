@@ -8,7 +8,8 @@ let todolist = {
         api.post("/todoList/toggleItem", { tlID: tlID, tiID: tiID, currentState: currentState }),
     updateItemText: (tlID, tiID, newText) =>
         api.post("/todoList/updateItemText", { tlID: tlID, tiID: tiID, newText: newText }),
-    getItems: id => api.post("/todoList/getItems", { urlID: id })
+    getItems: id => api.post("/todoList/getItems", { urlID: id }),
+    updateTitle: (tlID, newTitle) => api.post("/todoList/updateTitle", { tlID: tlID, newTitle: newTitle })
 };
 
 export default todolist;

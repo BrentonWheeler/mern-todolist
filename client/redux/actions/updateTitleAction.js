@@ -1,18 +1,19 @@
-//import todoListAPI from "../../api/todoList";
+import todoListAPI from "../../api/todoList";
 import { UPDATE_TITLE } from "./types";
 
-export default function updateTitleAction (newTitle) {
+export default function updateTitleAction (todoListID, newTitle) {
     console.log("here");
     return dispatch => {
-        //return todoListAPI.updateItemText(todoListID, todoItemID, newText).then(res => {
-        dispatch(updateTitleActionAsync(newTitle));
-        //});
+        return todoListAPI.updateTitle(todoListID, newTitle).then(res => {
+            dispatch(updateTitleActionAsync(todoListID, newTitle));
+        });
     };
 }
 
-function updateTitleActionAsync (newTitle) {
+function updateTitleActionAsync (todoListID, newTitle) {
     return {
         type: UPDATE_TITLE,
+        todoListID: todoListID,
         newTitle: newTitle
     };
 }
