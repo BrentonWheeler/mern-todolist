@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import updateTitleAction from "../../redux/actions/updateTitleAction";
 
-class TodoList extends Component {
+class Title extends Component {
     constructor (props) {
         super(props);
         this.state = {
@@ -72,8 +72,9 @@ class TodoList extends Component {
     }
 }
 
-TodoItem.propTypes = {
-    urlID: PropTypes.string
+Title.propTypes = {
+    todoListID: PropTypes.string.isRequired,
+    todoListTitle: PropTypes.string.isRequired
 };
 
 // Redux Connections
@@ -86,4 +87,4 @@ const matchDispatchToProps = dispatch => {
     );
 };
 
-export default connect(null, matchDispatchToProps)(TodoList);
+export default connect(null, matchDispatchToProps)(Title);

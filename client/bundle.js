@@ -28176,12 +28176,6 @@ var App = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "App" },
-                _react2.default.createElement(
-                    "h1",
-                    null,
-                    "Todolist Unique ID: ",
-                    this.props.match.params.id
-                ),
                 _react2.default.createElement(_todoList2.default, { urlID: this.props.match.params.id })
             );
         }
@@ -28286,6 +28280,24 @@ var TodoList = function (_Component) {
                     this.props.todoList.listItems.map(function (item, i) {
                         return _react2.default.createElement(_TodoItem2.default, { todoListID: _this2.props.todoList.id, key: i, item: item });
                     })
+                ),
+                _react2.default.createElement("br", null),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "* Double click on a ",
+                    _react2.default.createElement(
+                        "b",
+                        null,
+                        "TodoItem's text"
+                    ),
+                    " or the ",
+                    _react2.default.createElement(
+                        "b",
+                        null,
+                        "TodoList's title"
+                    ),
+                    " to edit them."
                 )
             );
         }
@@ -28443,6 +28455,10 @@ var _redux = __webpack_require__(17);
 
 var _reactRedux = __webpack_require__(21);
 
+var _propTypes = __webpack_require__(7);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _createTodoItemAction = __webpack_require__(288);
 
 var _createTodoItemAction2 = _interopRequireDefault(_createTodoItemAction);
@@ -28529,7 +28545,9 @@ var AddItemInput = function (_Component) {
     return AddItemInput;
 }(_react.Component);
 
-AddItemInput.propTypes = {};
+AddItemInput.propTypes = {
+    todoListID: _propTypes2.default.string.isRequired
+};
 
 var matchDispatchToProps = function matchDispatchToProps(dispatch) {
     return (0, _redux.bindActionCreators)({
@@ -28618,13 +28636,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var TodoList = function (_Component) {
-    _inherits(TodoList, _Component);
+var Title = function (_Component) {
+    _inherits(Title, _Component);
 
-    function TodoList(props) {
-        _classCallCheck(this, TodoList);
+    function Title(props) {
+        _classCallCheck(this, Title);
 
-        var _this = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Title.__proto__ || Object.getPrototypeOf(Title)).call(this, props));
 
         _this.state = {
             showTitleInput: false,
@@ -28640,7 +28658,7 @@ var TodoList = function (_Component) {
     // This just updates react state in the scope of the individual item
 
 
-    _createClass(TodoList, [{
+    _createClass(Title, [{
         key: "handleTitleOnChange",
         value: function handleTitleOnChange(e) {
             this.setState({
@@ -28711,11 +28729,12 @@ var TodoList = function (_Component) {
         }
     }]);
 
-    return TodoList;
+    return Title;
 }(_react.Component);
 
-_TodoItem2.default.propTypes = {
-    urlID: _propTypes2.default.string
+Title.propTypes = {
+    todoListID: _propTypes2.default.string.isRequired,
+    todoListTitle: _propTypes2.default.string.isRequired
 };
 
 // Redux Connections
@@ -28725,7 +28744,7 @@ var matchDispatchToProps = function matchDispatchToProps(dispatch) {
     }, dispatch);
 };
 
-exports.default = (0, _reactRedux.connect)(null, matchDispatchToProps)(TodoList);
+exports.default = (0, _reactRedux.connect)(null, matchDispatchToProps)(Title);
 
 /***/ }),
 /* 290 */

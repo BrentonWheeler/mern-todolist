@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import createTodoItemAction from "../../redux/actions/createTodoItemAction";
 
 class AddItemInput extends Component {
@@ -57,7 +58,9 @@ class AddItemInput extends Component {
     }
 }
 
-AddItemInput.propTypes = {};
+AddItemInput.propTypes = {
+    todoListID: PropTypes.string.isRequired
+};
 
 const matchDispatchToProps = dispatch => {
     return bindActionCreators(

@@ -30,6 +30,10 @@ class TodoList extends Component {
                         <TodoItem todoListID={this.props.todoList.id} key={i} item={item} />
                     ))}
                 </ul>
+                <br />
+                <p>
+                    * Double click on a <b>TodoItem's text</b> or the <b>TodoList's title</b> to edit them.
+                </p>
             </div>
         );
     }
