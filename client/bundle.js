@@ -727,7 +727,7 @@ module.exports = ReactDOMComponentTree;
 "use strict";
 
 
-module.exports = __webpack_require__(23);
+module.exports = __webpack_require__(24);
 
 
 /***/ }),
@@ -888,7 +888,7 @@ module.exports = warning;
 
 
 
-var _prodInvariant = __webpack_require__(24);
+var _prodInvariant = __webpack_require__(25);
 
 var ReactCurrentOwner = __webpack_require__(15);
 
@@ -1747,7 +1747,7 @@ var _prodInvariant = __webpack_require__(3),
 var CallbackQueue = __webpack_require__(82);
 var PooledClass = __webpack_require__(21);
 var ReactFeatureFlags = __webpack_require__(83);
-var ReactReconciler = __webpack_require__(25);
+var ReactReconciler = __webpack_require__(26);
 var Transaction = __webpack_require__(38);
 
 var invariant = __webpack_require__(1);
@@ -2994,6 +2994,49 @@ if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _api = __webpack_require__(113);
+
+var _api2 = _interopRequireDefault(_api);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var todolist = {
+    create: function create() {
+        return _api2.default.post("/todoList/create");
+    },
+    addItem: function addItem(item) {
+        return _api2.default.post("/todoList/addItem", item);
+    },
+    deleteItem: function deleteItem(tlID, tiID) {
+        return _api2.default.post("/todoList/deleteItem", { tlID: tlID, tiID: tiID });
+    },
+    toggleItem: function toggleItem(tlID, tiID, currentState) {
+        return _api2.default.post("/todoList/toggleItem", { tlID: tlID, tiID: tiID, currentState: currentState });
+    },
+    updateItemText: function updateItemText(tlID, tiID, newText) {
+        return _api2.default.post("/todoList/updateItemText", { tlID: tlID, tiID: tiID, newText: newText });
+    },
+    getItems: function getItems(id) {
+        return _api2.default.post("/todoList/getItems", { urlID: id });
+    },
+    updateTitle: function updateTitle(tlID, newTitle) {
+        return _api2.default.post("/todoList/updateTitle", { tlID: tlID, newTitle: newTitle });
+    }
+};
+
+exports.default = todolist;
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -3126,7 +3169,7 @@ module.exports = React;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3168,7 +3211,7 @@ function reactProdInvariant(code) {
 module.exports = reactProdInvariant;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3338,7 +3381,7 @@ module.exports = ReactReconciler;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3457,46 +3500,6 @@ DOMLazyTree.queueHTML = queueHTML;
 DOMLazyTree.queueText = queueText;
 
 module.exports = DOMLazyTree;
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _api = __webpack_require__(113);
-
-var _api2 = _interopRequireDefault(_api);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var todolist = {
-    create: function create() {
-        return _api2.default.post("/todoList/create");
-    },
-    addItem: function addItem(item) {
-        return _api2.default.post("/todoList/addItem", item);
-    },
-    deleteItem: function deleteItem(tlID, tiID) {
-        return _api2.default.post("/todoList/deleteItem", { tlID: tlID, tiID: tiID });
-    },
-    toggleItem: function toggleItem(tlID, tiID, currentState) {
-        return _api2.default.post("/todoList/toggleItem", { tlID: tlID, tiID: tiID, currentState: currentState });
-    },
-    updateItemText: function updateItemText(tlID, tiID, newText) {
-        return _api2.default.post("/todoList/updateItemText", { tlID: tlID, tiID: tiID, newText: newText });
-    },
-    getItems: function getItems(id) {
-        return _api2.default.post("/todoList/getItems", { urlID: id });
-    }
-};
-
-exports.default = todolist;
 
 /***/ }),
 /* 28 */
@@ -5991,7 +5994,7 @@ module.exports = getEventModifierState;
 
 
 
-var DOMLazyTree = __webpack_require__(26);
+var DOMLazyTree = __webpack_require__(27);
 var Danger = __webpack_require__(161);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactInstrumentation = __webpack_require__(12);
@@ -6284,7 +6287,7 @@ var _prodInvariant = __webpack_require__(3);
 var ReactPropTypesSecret = __webpack_require__(91);
 var propTypesFactory = __webpack_require__(76);
 
-var React = __webpack_require__(23);
+var React = __webpack_require__(24);
 var PropTypes = propTypesFactory(React.isValidElement);
 
 var invariant = __webpack_require__(1);
@@ -7980,7 +7983,7 @@ var createTransitionManager = function createTransitionManager() {
 
 
 
-var _prodInvariant = __webpack_require__(24),
+var _prodInvariant = __webpack_require__(25),
     _assign = __webpack_require__(4);
 
 var ReactNoopUpdateQueue = __webpack_require__(72);
@@ -10479,7 +10482,7 @@ module.exports = instantiateReactComponent;
 
 var _prodInvariant = __webpack_require__(3);
 
-var React = __webpack_require__(23);
+var React = __webpack_require__(24);
 
 var invariant = __webpack_require__(1);
 
@@ -11056,9 +11059,9 @@ module.exports = getActiveElement;
 
 var _prodInvariant = __webpack_require__(3);
 
-var DOMLazyTree = __webpack_require__(26);
+var DOMLazyTree = __webpack_require__(27);
 var DOMProperty = __webpack_require__(19);
-var React = __webpack_require__(23);
+var React = __webpack_require__(24);
 var ReactBrowserEventEmitter = __webpack_require__(42);
 var ReactCurrentOwner = __webpack_require__(15);
 var ReactDOMComponentTree = __webpack_require__(5);
@@ -11068,7 +11071,7 @@ var ReactFeatureFlags = __webpack_require__(83);
 var ReactInstanceMap = __webpack_require__(31);
 var ReactInstrumentation = __webpack_require__(12);
 var ReactMarkupChecksum = __webpack_require__(219);
-var ReactReconciler = __webpack_require__(25);
+var ReactReconciler = __webpack_require__(26);
 var ReactUpdateQueue = __webpack_require__(59);
 var ReactUpdates = __webpack_require__(16);
 
@@ -13563,7 +13566,7 @@ module.exports = ReactChildren;
 
 
 
-var _prodInvariant = __webpack_require__(24);
+var _prodInvariant = __webpack_require__(25);
 
 var invariant = __webpack_require__(1);
 
@@ -13678,7 +13681,7 @@ module.exports = PooledClass;
 
 
 
-var _prodInvariant = __webpack_require__(24);
+var _prodInvariant = __webpack_require__(25);
 
 var ReactCurrentOwner = __webpack_require__(15);
 var REACT_ELEMENT_TYPE = __webpack_require__(73);
@@ -14093,7 +14096,7 @@ module.exports = ReactDOMFactories;
 
 
 
-var _prodInvariant = __webpack_require__(24);
+var _prodInvariant = __webpack_require__(25);
 
 var ReactPropTypeLocationNames = __webpack_require__(133);
 var ReactPropTypesSecret = __webpack_require__(134);
@@ -15242,7 +15245,7 @@ module.exports = factory;
  */
 
 
-var _prodInvariant = __webpack_require__(24);
+var _prodInvariant = __webpack_require__(25);
 
 var ReactElement = __webpack_require__(20);
 
@@ -15300,7 +15303,7 @@ module.exports = __webpack_require__(142);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactDefaultInjection = __webpack_require__(143);
 var ReactMount = __webpack_require__(101);
-var ReactReconciler = __webpack_require__(25);
+var ReactReconciler = __webpack_require__(26);
 var ReactUpdates = __webpack_require__(16);
 var ReactVersion = __webpack_require__(221);
 
@@ -17553,7 +17556,7 @@ module.exports = ReactComponentBrowserEnvironment;
 
 var _prodInvariant = __webpack_require__(3);
 
-var DOMLazyTree = __webpack_require__(26);
+var DOMLazyTree = __webpack_require__(27);
 var ExecutionEnvironment = __webpack_require__(7);
 
 var createNodesFromMarkup = __webpack_require__(162);
@@ -17962,7 +17965,7 @@ var _prodInvariant = __webpack_require__(3),
 
 var AutoFocusUtils = __webpack_require__(167);
 var CSSPropertyOperations = __webpack_require__(168);
-var DOMLazyTree = __webpack_require__(26);
+var DOMLazyTree = __webpack_require__(27);
 var DOMNamespaces = __webpack_require__(52);
 var DOMProperty = __webpack_require__(19);
 var DOMPropertyOperations = __webpack_require__(90);
@@ -19952,7 +19955,7 @@ module.exports = ReactDOMInput;
 
 var _assign = __webpack_require__(4);
 
-var React = __webpack_require__(23);
+var React = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactDOMSelect = __webpack_require__(92);
 
@@ -20247,7 +20250,7 @@ var ReactInstanceMap = __webpack_require__(31);
 var ReactInstrumentation = __webpack_require__(12);
 
 var ReactCurrentOwner = __webpack_require__(15);
-var ReactReconciler = __webpack_require__(25);
+var ReactReconciler = __webpack_require__(26);
 var ReactChildReconciler = __webpack_require__(182);
 
 var emptyFunction = __webpack_require__(11);
@@ -20690,7 +20693,7 @@ module.exports = ReactMultiChild;
 
 
 
-var ReactReconciler = __webpack_require__(25);
+var ReactReconciler = __webpack_require__(26);
 
 var instantiateReactComponent = __webpack_require__(93);
 var KeyEscapeUtils = __webpack_require__(58);
@@ -20850,14 +20853,14 @@ module.exports = ReactChildReconciler;
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(4);
 
-var React = __webpack_require__(23);
+var React = __webpack_require__(24);
 var ReactComponentEnvironment = __webpack_require__(55);
 var ReactCurrentOwner = __webpack_require__(15);
 var ReactErrorUtils = __webpack_require__(47);
 var ReactInstanceMap = __webpack_require__(31);
 var ReactInstrumentation = __webpack_require__(12);
 var ReactNodeTypes = __webpack_require__(94);
-var ReactReconciler = __webpack_require__(25);
+var ReactReconciler = __webpack_require__(26);
 
 if (process.env.NODE_ENV !== 'production') {
   var checkReactTypeSpec = __webpack_require__(184);
@@ -22281,7 +22284,7 @@ module.exports = ReactServerUpdateQueue;
 
 var _assign = __webpack_require__(4);
 
-var DOMLazyTree = __webpack_require__(26);
+var DOMLazyTree = __webpack_require__(27);
 var ReactDOMComponentTree = __webpack_require__(5);
 
 var ReactDOMEmptyComponent = function (instantiate) {
@@ -22486,7 +22489,7 @@ var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(4);
 
 var DOMChildrenOperations = __webpack_require__(51);
-var DOMLazyTree = __webpack_require__(26);
+var DOMLazyTree = __webpack_require__(27);
 var ReactDOMComponentTree = __webpack_require__(5);
 
 var escapeTextContentForBrowser = __webpack_require__(41);
@@ -26658,6 +26661,11 @@ exports.default = function () {
                 listItems: updateItemTextInArray(state.listItems, action)
             });
             break;
+        case _types.UPDATE_TITLE:
+            return Object.assign({}, state, {
+                title: action.newTitle
+            });
+            break;
         default:
             return state;
     }
@@ -26825,7 +26833,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = createTodoAction;
 
-var _todoList = __webpack_require__(27);
+var _todoList = __webpack_require__(23);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
@@ -28092,6 +28100,7 @@ var TodoList = function (_Component) {
         _this.handleTitleOnChange = _this.handleTitleOnChange.bind(_this);
         _this.enterCheck = _this.enterCheck.bind(_this);
         _this.addItemInputChange = _this.addItemInputChange.bind(_this);
+        _this.addItem = _this.addItem.bind(_this);
         _this.handleTitleOnUpdate = _this.handleTitleOnUpdate.bind(_this);
         return _this;
     }
@@ -28120,11 +28129,6 @@ var TodoList = function (_Component) {
         key: "handleItemTextUpdate",
         value: function handleItemTextUpdate(item, newText) {
             this.props.updateTodoItemTextAction(this.props.todoList.id, item.shortID, newText);
-        }
-    }, {
-        key: "handleTitleUpdate",
-        value: function handleTitleUpdate(newTitle) {
-            this.props.updateTitleAction(newTitle);
         }
 
         // Input onChange handler
@@ -28174,8 +28178,16 @@ var TodoList = function (_Component) {
         }
     }, {
         key: "handleTitleOnUpdate",
-        value: function handleTitleOnUpdate(newTitle) {
-            this.props.updateTitleAction(newTitle);
+        value: function handleTitleOnUpdate() {
+            if (this.state.inputTitleText === "") {
+                // Put a nice UX toast here
+                //window.alert("Title cannot be empty");
+            } else {
+                this.props.updateTitleAction(this.props.todoList.id, this.state.inputTitleText);
+                this.setState({
+                    showTitleInput: false
+                });
+            }
         }
 
         // On enter press
@@ -28437,7 +28449,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = getTodoItemsAction;
 
-var _todoList = __webpack_require__(27);
+var _todoList = __webpack_require__(23);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
@@ -28475,7 +28487,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = deleteTodoItemAction;
 
-var _todoList = __webpack_require__(27);
+var _todoList = __webpack_require__(23);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
@@ -28511,7 +28523,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = toggleCompleteAction;
 
-var _todoList = __webpack_require__(27);
+var _todoList = __webpack_require__(23);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
@@ -28548,7 +28560,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = updateTodoItemTextAction;
 
-var _todoList = __webpack_require__(27);
+var _todoList = __webpack_require__(23);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
@@ -28584,21 +28596,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = updateTitleAction;
 
+var _todoList = __webpack_require__(23);
+
+var _todoList2 = _interopRequireDefault(_todoList);
+
 var _types = __webpack_require__(17);
 
-function updateTitleAction(newTitle) {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function updateTitleAction(todoListID, newTitle) {
     console.log("here");
     return function (dispatch) {
-        //return todoListAPI.updateItemText(todoListID, todoItemID, newText).then(res => {
-        dispatch(updateTitleActionAsync(newTitle));
-        //});
+        return _todoList2.default.updateTitle(todoListID, newTitle).then(function (res) {
+            dispatch(updateTitleActionAsync(todoListID, newTitle));
+        });
     };
-} //import todoListAPI from "../../api/todoList";
+}
 
-
-function updateTitleActionAsync(newTitle) {
+function updateTitleActionAsync(todoListID, newTitle) {
     return {
         type: _types.UPDATE_TITLE,
+        todoListID: todoListID,
         newTitle: newTitle
     };
 }
@@ -28615,7 +28633,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = createTodoItemAction;
 
-var _todoList = __webpack_require__(27);
+var _todoList = __webpack_require__(23);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 

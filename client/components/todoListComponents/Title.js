@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import TodoItem from "./todoListComponents/TodoItem";
-import AddItemInput from "./todoListComponents/AddItemInput";
+import TodoItem from "./todoItem";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -9,11 +8,13 @@ import deleteTodoItemAction from "../redux/actions/deleteTodoItemAction";
 import toggleCompleteAction from "../redux/actions/toggleCompleteAction";
 import updateTodoItemTextAction from "../redux/actions/updateTodoItemTextAction";
 import updateTitleAction from "../redux/actions/updateTitleAction";
+import createTodoItemAction from "../redux/actions/createTodoItemAction";
 
 class TodoList extends Component {
     constructor (props) {
         super(props);
         this.state = {
+            addItemText: "",
             showTitleInput: false,
             inputTitleText: this.props.todoList.title
         };
@@ -23,6 +24,8 @@ class TodoList extends Component {
         this.handleItemTextUpdate = this.handleItemTextUpdate.bind(this);
         this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
         this.enterCheck = this.enterCheck.bind(this);
+        this.addItemInputChange = this.addItemInputChange.bind(this);
+        this.addItem = this.addItem.bind(this);
         this.handleTitleOnUpdate = this.handleTitleOnUpdate.bind(this);
     }
 
@@ -43,6 +46,26 @@ class TodoList extends Component {
 
     handleItemTextUpdate (item, newText) {
         this.props.updateTodoItemTextAction(this.props.todoList.id, item.shortID, newText);
+    }
+
+    // Input onChange handler
+    addItemInputChange (e) {
+        this.setState({
+            addItemText: e.target.value
+        });
+    }
+
+    // Button click handler, adds a new hardcoded item to the this.state.items array
+    addItem () {
+        if (this.state.addItemText === "") {
+            // Put a nice UX toast here
+            //window.alert("Missing todo item text");
+        } else {
+            this.props.createTodoItemAction(this.state.addItemText, this.props.urlID);
+            this.setState({
+                addItemText: ""
+            });
+        }
     }
 
     // On double click the text label changes to a input to allow user editing of the value
@@ -97,8 +120,15 @@ class TodoList extends Component {
         return (
             <div>
                 <h1>{titleElement}</h1>
-                <AddItemInput />
-
+                <input
+                    onChange={this.addItemInputChange}
+                    onKeyDown={this.enterCheck}
+                    value={this.state.addItemText}
+                    type="text"
+                />
+                <button type="button" onClick={this.addItem}>
+                    Add Item
+                </button>
                 <br />
                 <ul className="TodoList">
                     {this.props.todoList.listItems.map((item, i) => (
@@ -134,7 +164,8 @@ const matchDispatchToProps = dispatch => {
             deleteTodoItemAction: deleteTodoItemAction,
             toggleCompleteAction: toggleCompleteAction,
             updateTodoItemTextAction: updateTodoItemTextAction,
-            updateTitleAction: updateTitleAction
+            updateTitleAction: updateTitleAction,
+            createTodoItemAction: createTodoItemAction
         },
         dispatch
     );
