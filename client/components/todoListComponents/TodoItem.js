@@ -13,30 +13,35 @@ class TodoItem extends Component {
             showInput: false,
             inputText: this.props.item.text
         };
-        this.handleDoubleClick = this.handleDoubleClick.bind(this);
-        this.handleTextOnChange = this.handleTextOnChange.bind(this);
-        this.enterCheck = this.enterCheck.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleComplete = this.handleComplete.bind(this);
+        this.handleItemTextDoubleClick = this.handleItemTextDoubleClick.bind(this);
+        this.handleItemTextOnChange = this.handleItemTextOnChange.bind(this);
+        this.checkIfEnterKey = this.checkIfEnterKey.bind(this);
+        this.handleItemDelete = this.handleItemDelete.bind(this);
+        this.handleItemToggleComplete = this.handleItemToggleComplete.bind(this);
         this.handleItemTextUpdate = this.handleItemTextUpdate.bind(this);
     }
 
-    handleComplete () {
-        this.props.toggleCompleteAction(this.props.todoListID, this.props.item.shortID, this.props.item.completed);
+    handleItemToggleComplete () {
+        this.props
+            .toggleCompleteAction(this.props.todoListID, this.props.item.shortID, this.props.item.completed)
+            .then(() => {
+                // TODO: figure out if this next line is bad practice
+                this.forceUpdate();
+            });
     }
 
-    handleDelete () {
+    handleItemDelete () {
         this.props.deleteTodoItemAction(this.props.todoListID, this.props.item.shortID);
     }
 
     // On double click the text label changes to a input to allow user editing of the value
-    handleDoubleClick (e) {
+    handleItemTextDoubleClick (e) {
         this.setState({
             showInput: true
         });
     }
 
-    handleTextOnChange (e) {
+    handleItemTextOnChange (e) {
         this.setState({
             inputText: e.target.value
         });
@@ -44,14 +49,17 @@ class TodoItem extends Component {
 
     // This updates the redux store
     handleItemTextUpdate () {
-        this.props.updateTodoItemTextAction(this.props.todoListID, this.props.item.shortID, this.state.inputText);
-        this.setState({
-            showInput: false
-        });
+        this.props
+            .updateTodoItemTextAction(this.props.todoListID, this.props.item.shortID, this.state.inputText)
+            .then(() => {
+                this.setState({
+                    showInput: false
+                });
+            });
     }
 
     // On enter press
-    enterCheck (e) {
+    checkIfEnterKey (e) {
         if (e.keyCode === 13) {
             this.handleItemTextUpdate();
         }
@@ -65,19 +73,19 @@ class TodoItem extends Component {
                     type="text"
                     value={this.state.inputText}
                     onBlur={this.handleItemTextUpdate}
-                    onChange={this.handleTextOnChange}
-                    onKeyDown={this.enterCheck}
+                    onChange={this.handleItemTextOnChange}
+                    onKeyDown={this.checkIfEnterKey}
                 />
             );
         } else {
-            itemTextElement = <label onDoubleClick={this.handleDoubleClick}>{this.props.item.text}</label>;
+            itemTextElement = <label onDoubleClick={this.handleItemTextDoubleClick}>{this.props.item.text}</label>;
         }
 
         return (
             <li className="TodoItem">
-                <input type="checkbox" onChange={this.handleComplete} checked={this.props.item.completed} />
+                <input type="checkbox" onChange={this.handleItemToggleComplete} checked={this.props.item.completed} />
                 {itemTextElement}
-                <button onClick={this.handleDelete}>x</button>
+                <button onClick={this.handleItemDelete}>x</button>
             </li>
         );
     }

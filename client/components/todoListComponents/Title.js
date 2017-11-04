@@ -30,9 +30,10 @@ class TodoList extends Component {
             // Put a nice UX toast here
             //window.alert("Title cannot be empty");
         } else {
-            this.props.updateTitleAction(this.props.todoListID, this.state.inputTitleText);
-            this.setState({
-                showTitleInput: false
+            this.props.updateTitleAction(this.props.todoListID, this.state.inputTitleText).then(() => {
+                this.setState({
+                    showTitleInput: false
+                });
             });
         }
     }
