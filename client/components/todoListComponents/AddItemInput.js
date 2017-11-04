@@ -28,13 +28,12 @@ class AddItemInput extends Component {
         }
     }
 
-    // Button click handler, adds a new hardcoded item to the this.state.items array
     addItem () {
         if (this.state.addItemText === "") {
             // Put a nice UX toast here
             //window.alert("Missing todo item text");
         } else {
-            this.props.createTodoItemAction(this.state.addItemText, this.props.urlID);
+            this.props.createTodoItemAction(this.state.addItemText, this.props.todoListID);
             this.setState({
                 addItemText: ""
             });
