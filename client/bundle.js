@@ -1745,7 +1745,7 @@ var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(4);
 
 var CallbackQueue = __webpack_require__(82);
-var PooledClass = __webpack_require__(22);
+var PooledClass = __webpack_require__(23);
 var ReactFeatureFlags = __webpack_require__(83);
 var ReactReconciler = __webpack_require__(27);
 var Transaction = __webpack_require__(38);
@@ -1983,6 +1983,43 @@ module.exports = ReactUpdates;
 
 /***/ }),
 /* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__combineReducers__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__compose__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_warning__ = __webpack_require__(106);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return __WEBPACK_IMPORTED_MODULE_0__createStore__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return __WEBPACK_IMPORTED_MODULE_1__combineReducers__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "applyMiddleware", function() { return __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return __WEBPACK_IMPORTED_MODULE_4__compose__["a"]; });
+
+
+
+
+
+
+
+/*
+* This is a dummy function to check if the function name has been altered by minification.
+* If the function has been minified and NODE_ENV !== 'production', warn the user.
+*/
+function isCrushed() {}
+
+if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+  Object(__WEBPACK_IMPORTED_MODULE_5__utils_warning__["a" /* default */])('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
+}
+
+
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2004,7 +2041,7 @@ var UPDATE_TODO_ITEM_TEXT = exports.UPDATE_TODO_ITEM_TEXT = "update_todo_item_te
 var UPDATE_TITLE = exports.UPDATE_TITLE = "update_title";
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2020,7 +2057,7 @@ var UPDATE_TITLE = exports.UPDATE_TITLE = "update_title";
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(22);
+var PooledClass = __webpack_require__(23);
 
 var emptyFunction = __webpack_require__(11);
 var warning = __webpack_require__(2);
@@ -2279,43 +2316,6 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__combineReducers__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__ = __webpack_require__(241);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__ = __webpack_require__(242);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__compose__ = __webpack_require__(107);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_warning__ = __webpack_require__(106);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return __WEBPACK_IMPORTED_MODULE_0__createStore__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return __WEBPACK_IMPORTED_MODULE_1__combineReducers__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "applyMiddleware", function() { return __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return __WEBPACK_IMPORTED_MODULE_4__compose__["a"]; });
-
-
-
-
-
-
-
-/*
-* This is a dummy function to check if the function name has been altered by minification.
-* If the function has been minified and NODE_ENV !== 'production', warn the user.
-*/
-function isCrushed() {}
-
-if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
-  Object(__WEBPACK_IMPORTED_MODULE_5__utils_warning__["a" /* default */])('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
-}
-
-
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
-
-/***/ }),
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2530,6 +2530,25 @@ module.exports = DOMProperty;
 
 /***/ }),
 /* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(246);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2874,7 +2893,7 @@ module.exports = ReactElement;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2990,25 +3009,6 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 23 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(243);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(109);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(246);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
-
-/***/ }),
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3071,7 +3071,7 @@ var _assign = __webpack_require__(4);
 var ReactBaseClasses = __webpack_require__(71);
 var ReactChildren = __webpack_require__(128);
 var ReactDOMFactories = __webpack_require__(132);
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 var ReactPropTypes = __webpack_require__(136);
 var ReactVersion = __webpack_require__(138);
 
@@ -3951,7 +3951,7 @@ module.exports = EventPluginHub;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 var getEventTarget = __webpack_require__(48);
 
@@ -8305,7 +8305,7 @@ module.exports = getIteratorFn;
 
 var ReactCurrentOwner = __webpack_require__(15);
 var ReactComponentTreeHook = __webpack_require__(10);
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 
 var checkReactTypeSpec = __webpack_require__(133);
 
@@ -9289,7 +9289,7 @@ var _prodInvariant = __webpack_require__(3);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PooledClass = __webpack_require__(22);
+var PooledClass = __webpack_require__(23);
 
 var invariant = __webpack_require__(1);
 
@@ -12791,6 +12791,22 @@ var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _redux = __webpack_require__(17);
+
+var _reactRedux = __webpack_require__(21);
+
+var _deleteTodoItemAction = __webpack_require__(284);
+
+var _deleteTodoItemAction2 = _interopRequireDefault(_deleteTodoItemAction);
+
+var _toggleCompleteAction = __webpack_require__(285);
+
+var _toggleCompleteAction2 = _interopRequireDefault(_toggleCompleteAction);
+
+var _updateTodoItemTextAction = __webpack_require__(286);
+
+var _updateTodoItemTextAction2 = _interopRequireDefault(_updateTodoItemTextAction);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12811,64 +12827,69 @@ var TodoItem = function (_Component) {
             showInput: false,
             inputText: _this.props.item.text
         };
-        _this.handleDeleteClick = _this.handleDeleteClick.bind(_this);
-        _this.handleCompleteClick = _this.handleCompleteClick.bind(_this);
-        _this.handleDoubleClick = _this.handleDoubleClick.bind(_this);
-        _this.handleTextOnChange = _this.handleTextOnChange.bind(_this);
-        _this.handleTextOnUpdate = _this.handleTextOnUpdate.bind(_this);
-        _this.enterCheck = _this.enterCheck.bind(_this);
+        _this.handleItemTextDoubleClick = _this.handleItemTextDoubleClick.bind(_this);
+        _this.handleItemTextOnChange = _this.handleItemTextOnChange.bind(_this);
+        _this.checkIfEnterKey = _this.checkIfEnterKey.bind(_this);
+        _this.handleItemDelete = _this.handleItemDelete.bind(_this);
+        _this.handleItemToggleComplete = _this.handleItemToggleComplete.bind(_this);
+        _this.handleItemTextUpdate = _this.handleItemTextUpdate.bind(_this);
         return _this;
     }
 
     _createClass(TodoItem, [{
-        key: "handleCompleteClick",
-        value: function handleCompleteClick() {
-            this.props.handleComplete(this.props.item);
+        key: "handleItemToggleComplete",
+        value: function handleItemToggleComplete() {
+            var _this2 = this;
+
+            this.props.toggleCompleteAction(this.props.todoListID, this.props.item.id, this.props.item.completed).then(function () {
+                // TODO: figure out if this next line is bad practice
+                _this2.forceUpdate();
+            });
         }
     }, {
-        key: "handleDeleteClick",
-        value: function handleDeleteClick() {
-            this.props.handleDelete(this.props.item);
+        key: "handleItemDelete",
+        value: function handleItemDelete() {
+            this.props.deleteTodoItemAction(this.props.todoListID, this.props.item.id);
         }
 
         // On double click the text label changes to a input to allow user editing of the value
 
     }, {
-        key: "handleDoubleClick",
-        value: function handleDoubleClick(e) {
+        key: "handleItemTextDoubleClick",
+        value: function handleItemTextDoubleClick(e) {
             this.setState({
                 showInput: true
             });
         }
-
-        // This just updates react state in the scope of the individual item
-
     }, {
-        key: "handleTextOnChange",
-        value: function handleTextOnChange(e) {
+        key: "handleItemTextOnChange",
+        value: function handleItemTextOnChange(e) {
             this.setState({
                 inputText: e.target.value
             });
         }
 
-        // This updates the redux store for the text of this item
+        // This updates the redux store
 
     }, {
-        key: "handleTextOnUpdate",
-        value: function handleTextOnUpdate() {
-            this.props.handleItemTextUpdate(this.props.item, this.state.inputText);
-            this.setState({
-                showInput: false
+        key: "handleItemTextUpdate",
+        value: function handleItemTextUpdate() {
+            var _this3 = this;
+
+            this.props.updateTodoItemTextAction(this.props.todoListID, this.props.item.id, this.state.inputText).then(function () {
+                _this3.setState({
+                    showInput: false
+                });
             });
         }
 
         // On enter press
 
     }, {
-        key: "enterCheck",
-        value: function enterCheck(e) {
+        key: "checkIfEnterKey",
+        value: function checkIfEnterKey(e) {
             if (e.keyCode === 13) {
-                this.handleTextOnUpdate();
+                this.handleItemTextUpdate();
             }
         }
     }, {
@@ -12879,14 +12900,14 @@ var TodoItem = function (_Component) {
                 itemTextElement = _react2.default.createElement("input", {
                     type: "text",
                     value: this.state.inputText,
-                    onBlur: this.handleTextOnUpdate,
-                    onChange: this.handleTextOnChange,
-                    onKeyDown: this.enterCheck
+                    onBlur: this.handleItemTextUpdate,
+                    onChange: this.handleItemTextOnChange,
+                    onKeyDown: this.checkIfEnterKey
                 });
             } else {
                 itemTextElement = _react2.default.createElement(
                     "label",
-                    { onDoubleClick: this.handleDoubleClick },
+                    { onDoubleClick: this.handleItemTextDoubleClick },
                     this.props.item.text
                 );
             }
@@ -12894,11 +12915,11 @@ var TodoItem = function (_Component) {
             return _react2.default.createElement(
                 "li",
                 { className: "TodoItem" },
-                _react2.default.createElement("input", { type: "checkbox", onChange: this.handleCompleteClick, checked: this.props.item.completed }),
+                _react2.default.createElement("input", { type: "checkbox", onChange: this.handleItemToggleComplete, checked: this.props.item.completed }),
                 itemTextElement,
                 _react2.default.createElement(
                     "button",
-                    { onClick: this.handleDeleteClick },
+                    { onClick: this.handleItemDelete },
                     "x"
                 )
             );
@@ -12910,17 +12931,24 @@ var TodoItem = function (_Component) {
 
 TodoItem.propTypes = {
     item: _propTypes2.default.shape({
-        shortID: _propTypes2.default.string.isRequired,
+        id: _propTypes2.default.string.isRequired,
         text: _propTypes2.default.string.isRequired,
         completed: _propTypes2.default.bool.isRequired
     }).isRequired,
-    handleDelete: _propTypes2.default.func.isRequired,
-    handleComplete: _propTypes2.default.func.isRequired,
-    handleItemTextUpdate: _propTypes2.default.func.isRequired
+    todoListID: _propTypes2.default.string.isRequired
     // TODO: figure out if "key" should be included in propTypes
 };
 
-exports.default = TodoItem;
+// Redux Connections
+var matchDispatchToProps = function matchDispatchToProps(dispatch) {
+    return (0, _redux.bindActionCreators)({
+        deleteTodoItemAction: _deleteTodoItemAction2.default,
+        toggleCompleteAction: _toggleCompleteAction2.default,
+        updateTodoItemTextAction: _updateTodoItemTextAction2.default
+    }, dispatch);
+};
+
+exports.default = (0, _reactRedux.connect)(null, matchDispatchToProps)(TodoItem);
 
 /***/ }),
 /* 120 */
@@ -13456,9 +13484,9 @@ var _reactDom = __webpack_require__(142);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _redux = __webpack_require__(19);
+var _redux = __webpack_require__(17);
 
-var _reactRedux = __webpack_require__(23);
+var _reactRedux = __webpack_require__(21);
 
 var _reduxThunk = __webpack_require__(253);
 
@@ -13524,7 +13552,7 @@ _reactDom2.default.render(_react2.default.createElement(
 
 
 var PooledClass = __webpack_require__(129);
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 
 var emptyFunction = __webpack_require__(11);
 var traverseAllChildren = __webpack_require__(130);
@@ -14075,7 +14103,7 @@ module.exports = KeyEscapeUtils;
 
 
 
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 
 /**
  * Create a factory that creates HTML tag elements.
@@ -14388,7 +14416,7 @@ module.exports = ReactPropTypesSecret;
 
 
 
-var _require = __webpack_require__(21),
+var _require = __webpack_require__(22),
     isValidElement = _require.isValidElement;
 
 var factory = __webpack_require__(76);
@@ -14497,7 +14525,7 @@ module.exports = '15.6.2';
 var _require = __webpack_require__(71),
     Component = _require.Component;
 
-var _require2 = __webpack_require__(21),
+var _require2 = __webpack_require__(22),
     isValidElement = _require2.isValidElement;
 
 var ReactNoopUpdateQueue = __webpack_require__(72);
@@ -15399,7 +15427,7 @@ module.exports = factory;
 
 var _prodInvariant = __webpack_require__(26);
 
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 
 var invariant = __webpack_require__(1);
 
@@ -16120,7 +16148,7 @@ module.exports = BeforeInputEventPlugin;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(22);
+var PooledClass = __webpack_require__(23);
 
 var getTextContentAccessor = __webpack_require__(81);
 
@@ -16216,7 +16244,7 @@ module.exports = FallbackCompositionState;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -16255,7 +16283,7 @@ module.exports = SyntheticCompositionEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -16300,7 +16328,7 @@ var EventPropagators = __webpack_require__(29);
 var ExecutionEnvironment = __webpack_require__(8);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(16);
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 var inputValueTracking = __webpack_require__(84);
 var getEventTarget = __webpack_require__(48);
@@ -22199,7 +22227,7 @@ module.exports = flattenChildren;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(22);
+var PooledClass = __webpack_require__(23);
 var Transaction = __webpack_require__(38);
 var ReactInstrumentation = __webpack_require__(12);
 var ReactServerUpdateQueue = __webpack_require__(192);
@@ -22878,7 +22906,7 @@ var _assign = __webpack_require__(4);
 
 var EventListener = __webpack_require__(98);
 var ExecutionEnvironment = __webpack_require__(8);
-var PooledClass = __webpack_require__(22);
+var PooledClass = __webpack_require__(23);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(16);
 
@@ -23114,7 +23142,7 @@ module.exports = ReactInjection;
 var _assign = __webpack_require__(4);
 
 var CallbackQueue = __webpack_require__(82);
-var PooledClass = __webpack_require__(22);
+var PooledClass = __webpack_require__(23);
 var ReactBrowserEventEmitter = __webpack_require__(42);
 var ReactInputSelection = __webpack_require__(99);
 var ReactInstrumentation = __webpack_require__(12);
@@ -23993,7 +24021,7 @@ var EventPropagators = __webpack_require__(29);
 var ExecutionEnvironment = __webpack_require__(8);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInputSelection = __webpack_require__(99);
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 var getActiveElement = __webpack_require__(100);
 var isTextInputElement = __webpack_require__(85);
@@ -24188,7 +24216,7 @@ var EventPropagators = __webpack_require__(29);
 var ReactDOMComponentTree = __webpack_require__(6);
 var SyntheticAnimationEvent = __webpack_require__(209);
 var SyntheticClipboardEvent = __webpack_require__(210);
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 var SyntheticFocusEvent = __webpack_require__(211);
 var SyntheticKeyboardEvent = __webpack_require__(212);
 var SyntheticMouseEvent = __webpack_require__(39);
@@ -24410,7 +24438,7 @@ module.exports = SimpleEventPlugin;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -24452,7 +24480,7 @@ module.exports = SyntheticAnimationEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -24821,7 +24849,7 @@ module.exports = SyntheticTouchEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -26405,7 +26433,7 @@ function shallowEqual(objA, objB) {
 /* unused harmony export whenMapDispatchToPropsIsFunction */
 /* unused harmony export whenMapDispatchToPropsIsMissing */
 /* unused harmony export whenMapDispatchToPropsIsObject */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_redux__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_redux__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__ = __webpack_require__(111);
 
 
@@ -26681,7 +26709,7 @@ exports['default'] = thunk;
 "use strict";
 
 
-var compose = __webpack_require__(19).compose;
+var compose = __webpack_require__(17).compose;
 
 exports.__esModule = true;
 exports.composeWithDevTools = (
@@ -26712,7 +26740,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _redux = __webpack_require__(19);
+var _redux = __webpack_require__(17);
 
 var _loginStateReducer = __webpack_require__(256);
 
@@ -26756,7 +26784,7 @@ exports.default = function () {
     }
 };
 
-var _types = __webpack_require__(17);
+var _types = __webpack_require__(18);
 
 // TODO: Add cookie later
 var initialState = {
@@ -26825,7 +26853,7 @@ exports.default = function () {
     }
 };
 
-var _types = __webpack_require__(17);
+var _types = __webpack_require__(18);
 
 var initialState = {
     id: "",
@@ -26837,20 +26865,20 @@ var initialState = {
 
 function addTodoItemToArray(array, action) {
     var newArray = array.slice();
-    newArray.push({ text: action.text, completed: false, shortID: action.shortID });
+    newArray.push({ text: action.text, completed: false, id: action.id });
     return newArray;
 }
 
 function removeTodoItemFromArray(array, action) {
     return array.filter(function (arrayItem) {
-        return arrayItem.shortID !== action.shortID;
+        return arrayItem.id !== action.id;
     });
 }
 
 function toggleCompleteInArray(array, action) {
     var newArray = array.slice();
     for (var i = 0; i < newArray.length; i++) {
-        if (newArray[i].shortID === action.todoItemID) {
+        if (newArray[i].id === action.todoItemID) {
             newArray[i].completed = !action.currentState;
             break;
         }
@@ -26861,7 +26889,7 @@ function toggleCompleteInArray(array, action) {
 function updateItemTextInArray(array, action) {
     var newArray = array.slice();
     for (var i = 0; i < newArray.length; i++) {
-        if (newArray[i].shortID === action.todoItemID) {
+        if (newArray[i].id === action.todoItemID) {
             newArray[i].text = action.newText;
             break;
         }
@@ -26890,9 +26918,9 @@ var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _redux = __webpack_require__(19);
+var _redux = __webpack_require__(17);
 
-var _reactRedux = __webpack_require__(23);
+var _reactRedux = __webpack_require__(21);
 
 var _createTodoAction = __webpack_require__(259);
 
@@ -26991,7 +27019,7 @@ var _todoList = __webpack_require__(24);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
-var _types = __webpack_require__(17);
+var _types = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27903,9 +27931,9 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _redux = __webpack_require__(19);
+var _redux = __webpack_require__(17);
 
-var _reactRedux = __webpack_require__(23);
+var _reactRedux = __webpack_require__(21);
 
 var _loginAction = __webpack_require__(280);
 
@@ -28050,7 +28078,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loginAction = undefined;
 
-var _types = __webpack_require__(17);
+var _types = __webpack_require__(18);
 
 var loginAction = exports.loginAction = function loginAction(username) {
     console.log("user logged in: ", username);
@@ -28121,7 +28149,7 @@ var _todoList = __webpack_require__(283);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
-var _reactRedux = __webpack_require__(23);
+var _reactRedux = __webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28194,11 +28222,11 @@ var _TodoItem = __webpack_require__(119);
 
 var _TodoItem2 = _interopRequireDefault(_TodoItem);
 
-var _AddItemInput = __webpack_require__(284);
+var _AddItemInput = __webpack_require__(287);
 
 var _AddItemInput2 = _interopRequireDefault(_AddItemInput);
 
-var _Title = __webpack_require__(286);
+var _Title = __webpack_require__(289);
 
 var _Title2 = _interopRequireDefault(_Title);
 
@@ -28206,25 +28234,13 @@ var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _redux = __webpack_require__(19);
+var _redux = __webpack_require__(17);
 
-var _reactRedux = __webpack_require__(23);
+var _reactRedux = __webpack_require__(21);
 
-var _getTodoItemsAction = __webpack_require__(288);
+var _getTodoItemsAction = __webpack_require__(291);
 
 var _getTodoItemsAction2 = _interopRequireDefault(_getTodoItemsAction);
-
-var _deleteTodoItemAction = __webpack_require__(289);
-
-var _deleteTodoItemAction2 = _interopRequireDefault(_deleteTodoItemAction);
-
-var _toggleCompleteAction = __webpack_require__(290);
-
-var _toggleCompleteAction2 = _interopRequireDefault(_toggleCompleteAction);
-
-var _updateTodoItemTextAction = __webpack_require__(291);
-
-var _updateTodoItemTextAction2 = _interopRequireDefault(_updateTodoItemTextAction);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28240,12 +28256,7 @@ var TodoList = function (_Component) {
     function TodoList(props) {
         _classCallCheck(this, TodoList);
 
-        var _this = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
-
-        _this.handleDelete = _this.handleDelete.bind(_this);
-        _this.handleComplete = _this.handleComplete.bind(_this);
-        _this.handleItemTextUpdate = _this.handleItemTextUpdate.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
     }
 
     // Loads todo items if url accessed directly
@@ -28257,21 +28268,6 @@ var TodoList = function (_Component) {
             if (this.props.todoList.id === "") {
                 this.props.getTodoItemsAction(this.props.urlID);
             }
-        }
-    }, {
-        key: "handleDelete",
-        value: function handleDelete(item) {
-            this.props.deleteTodoItemAction(this.props.todoList.id, item.shortID);
-        }
-    }, {
-        key: "handleComplete",
-        value: function handleComplete(item) {
-            this.props.toggleCompleteAction(this.props.todoList.id, item.shortID, item.completed);
-        }
-    }, {
-        key: "handleItemTextUpdate",
-        value: function handleItemTextUpdate(item, newText) {
-            this.props.updateTodoItemTextAction(this.props.todoList.id, item.shortID, newText);
         }
     }, {
         key: "render",
@@ -28288,13 +28284,7 @@ var TodoList = function (_Component) {
                     "ul",
                     { className: "TodoList" },
                     this.props.todoList.listItems.map(function (item, i) {
-                        return _react2.default.createElement(_TodoItem2.default, {
-                            handleDelete: _this2.handleDelete,
-                            handleComplete: _this2.handleComplete,
-                            handleItemTextUpdate: _this2.handleItemTextUpdate,
-                            key: i,
-                            item: item
-                        });
+                        return _react2.default.createElement(_TodoItem2.default, { todoListID: _this2.props.todoList.id, key: i, item: item });
                     })
                 )
             );
@@ -28317,10 +28307,7 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var matchDispatchToProps = function matchDispatchToProps(dispatch) {
     return (0, _redux.bindActionCreators)({
-        getTodoItemsAction: _getTodoItemsAction2.default,
-        deleteTodoItemAction: _deleteTodoItemAction2.default,
-        toggleCompleteAction: _toggleCompleteAction2.default,
-        updateTodoItemTextAction: _updateTodoItemTextAction2.default
+        getTodoItemsAction: _getTodoItemsAction2.default
     }, dispatch);
 };
 
@@ -28336,6 +28323,115 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, matchDispatchToProps
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.default = deleteTodoItemAction;
+
+var _todoList = __webpack_require__(24);
+
+var _todoList2 = _interopRequireDefault(_todoList);
+
+var _types = __webpack_require__(18);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function deleteTodoItemAction(todoListID, todoItemID) {
+    return function (dispatch) {
+        return _todoList2.default.deleteItem(todoListID, todoItemID).then(function () {
+            dispatch(deleteTodoItemActionAsync(todoItemID));
+            return;
+        });
+    };
+}
+
+function deleteTodoItemActionAsync(todoItemID) {
+    return {
+        type: _types.DELETE_TODO_ITEM,
+        id: todoItemID
+    };
+}
+
+/***/ }),
+/* 285 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = toggleCompleteAction;
+
+var _todoList = __webpack_require__(24);
+
+var _todoList2 = _interopRequireDefault(_todoList);
+
+var _types = __webpack_require__(18);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function toggleCompleteAction(todoListID, todoItemID, currentState) {
+    return function (dispatch) {
+        return _todoList2.default.toggleItem(todoListID, todoItemID, currentState).then(function (res) {
+            dispatch(toggleCompleteActionAsync(todoItemID, currentState));
+            return;
+        });
+    };
+}
+
+function toggleCompleteActionAsync(todoItemID, currentState) {
+    return {
+        type: _types.TOGGLE_TODO_ITEM,
+        todoItemID: todoItemID,
+        currentState: currentState
+    };
+}
+
+/***/ }),
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = updateTodoItemTextAction;
+
+var _todoList = __webpack_require__(24);
+
+var _todoList2 = _interopRequireDefault(_todoList);
+
+var _types = __webpack_require__(18);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function updateTodoItemTextAction(todoListID, todoItemID, newText) {
+    return function (dispatch) {
+        return _todoList2.default.updateItemText(todoListID, todoItemID, newText).then(function (res) {
+            dispatch(updateTodoItemTextActionAsync(todoItemID, newText));
+        });
+    };
+}
+
+function updateTodoItemTextActionAsync(todoItemID, newText) {
+    return {
+        type: _types.UPDATE_TODO_ITEM_TEXT,
+        todoItemID: todoItemID,
+        newText: newText
+    };
+}
+
+/***/ }),
+/* 287 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -28343,11 +28439,11 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _redux = __webpack_require__(19);
+var _redux = __webpack_require__(17);
 
-var _reactRedux = __webpack_require__(23);
+var _reactRedux = __webpack_require__(21);
 
-var _createTodoItemAction = __webpack_require__(285);
+var _createTodoItemAction = __webpack_require__(288);
 
 var _createTodoItemAction2 = _interopRequireDefault(_createTodoItemAction);
 
@@ -28444,7 +28540,7 @@ var matchDispatchToProps = function matchDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(null, matchDispatchToProps)(AddItemInput);
 
 /***/ }),
-/* 285 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28459,7 +28555,7 @@ var _todoList = __webpack_require__(24);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
-var _types = __webpack_require__(17);
+var _types = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28477,12 +28573,12 @@ function createTodoItemActionAsync(text, todoListID, shortID) {
         type: _types.CREATE_TODO_ITEM,
         text: text,
         todoListID: todoListID,
-        shortID: shortID
+        id: shortID
     };
 }
 
 /***/ }),
-/* 286 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28506,11 +28602,11 @@ var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _redux = __webpack_require__(19);
+var _redux = __webpack_require__(17);
 
-var _reactRedux = __webpack_require__(23);
+var _reactRedux = __webpack_require__(21);
 
-var _updateTitleAction = __webpack_require__(287);
+var _updateTitleAction = __webpack_require__(290);
 
 var _updateTitleAction2 = _interopRequireDefault(_updateTitleAction);
 
@@ -28536,7 +28632,7 @@ var TodoList = function (_Component) {
         };
         _this.handleTitleOnChange = _this.handleTitleOnChange.bind(_this);
         _this.handleTitleOnUpdate = _this.handleTitleOnUpdate.bind(_this);
-        _this.enterCheck = _this.enterCheck.bind(_this);
+        _this.checkIfEnterKey = _this.checkIfEnterKey.bind(_this);
         _this.handleDoubleClick = _this.handleDoubleClick.bind(_this);
         return _this;
     }
@@ -28554,13 +28650,16 @@ var TodoList = function (_Component) {
     }, {
         key: "handleTitleOnUpdate",
         value: function handleTitleOnUpdate() {
+            var _this2 = this;
+
             if (this.state.inputTitleText === "") {
                 // Put a nice UX toast here
                 //window.alert("Title cannot be empty");
             } else {
-                this.props.updateTitleAction(this.props.todoListID, this.state.inputTitleText);
-                this.setState({
-                    showTitleInput: false
+                this.props.updateTitleAction(this.props.todoListID, this.state.inputTitleText).then(function () {
+                    _this2.setState({
+                        showTitleInput: false
+                    });
                 });
             }
         }
@@ -28568,8 +28667,8 @@ var TodoList = function (_Component) {
         // On enter press
 
     }, {
-        key: "enterCheck",
-        value: function enterCheck(e) {
+        key: "checkIfEnterKey",
+        value: function checkIfEnterKey(e) {
             if (e.keyCode === 13) {
                 this.handleTitleOnUpdate();
             }
@@ -28594,7 +28693,7 @@ var TodoList = function (_Component) {
                     value: this.state.inputTitleText,
                     onBlur: this.handleTitleOnUpdate,
                     onChange: this.handleTitleOnChange,
-                    onKeyDown: this.enterCheck
+                    onKeyDown: this.checkIfEnterKey
                 });
             } else {
                 titleElement = _react2.default.createElement(
@@ -28629,7 +28728,7 @@ var matchDispatchToProps = function matchDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(null, matchDispatchToProps)(TodoList);
 
 /***/ }),
-/* 287 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28644,12 +28743,11 @@ var _todoList = __webpack_require__(24);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
-var _types = __webpack_require__(17);
+var _types = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function updateTitleAction(todoListID, newTitle) {
-    console.log("here");
     return function (dispatch) {
         return _todoList2.default.updateTitle(todoListID, newTitle).then(function (res) {
             dispatch(updateTitleActionAsync(todoListID, newTitle));
@@ -28666,7 +28764,7 @@ function updateTitleActionAsync(todoListID, newTitle) {
 }
 
 /***/ }),
-/* 288 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28681,7 +28779,7 @@ var _todoList = __webpack_require__(24);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
-var _types = __webpack_require__(17);
+var _types = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28702,115 +28800,6 @@ function getTodoItemsActionAsync(itemArray, todoListID, title) {
         itemArray: itemArray,
         todoListID: todoListID,
         title: title
-    };
-}
-
-/***/ }),
-/* 289 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = deleteTodoItemAction;
-
-var _todoList = __webpack_require__(24);
-
-var _todoList2 = _interopRequireDefault(_todoList);
-
-var _types = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function deleteTodoItemAction(todoListID, todoItemID) {
-    return function (dispatch) {
-        return _todoList2.default.deleteItem(todoListID, todoItemID).then(function () {
-            dispatch(deleteTodoItemActionAsync(todoItemID));
-            return;
-        });
-    };
-}
-
-function deleteTodoItemActionAsync(todoItemID) {
-    return {
-        type: _types.DELETE_TODO_ITEM,
-        shortID: todoItemID
-    };
-}
-
-/***/ }),
-/* 290 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = toggleCompleteAction;
-
-var _todoList = __webpack_require__(24);
-
-var _todoList2 = _interopRequireDefault(_todoList);
-
-var _types = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function toggleCompleteAction(todoListID, todoItemID, currentState) {
-    return function (dispatch) {
-        return _todoList2.default.toggleItem(todoListID, todoItemID, currentState).then(function (res) {
-            dispatch(toggleCompleteActionAsync(todoItemID, currentState));
-            return;
-        });
-    };
-}
-
-function toggleCompleteActionAsync(todoItemID, currentState) {
-    return {
-        type: _types.TOGGLE_TODO_ITEM,
-        todoItemID: todoItemID,
-        currentState: currentState
-    };
-}
-
-/***/ }),
-/* 291 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = updateTodoItemTextAction;
-
-var _todoList = __webpack_require__(24);
-
-var _todoList2 = _interopRequireDefault(_todoList);
-
-var _types = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function updateTodoItemTextAction(todoListID, todoItemID, newText) {
-    return function (dispatch) {
-        return _todoList2.default.updateItemText(todoListID, todoItemID, newText).then(function (res) {
-            dispatch(updateTodoItemTextActionAsync(todoItemID, newText));
-        });
-    };
-}
-
-function updateTodoItemTextActionAsync(todoItemID, newText) {
-    return {
-        type: _types.UPDATE_TODO_ITEM_TEXT,
-        todoItemID: todoItemID,
-        newText: newText
     };
 }
 

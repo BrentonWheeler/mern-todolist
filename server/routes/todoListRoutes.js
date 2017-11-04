@@ -33,7 +33,7 @@ TodoListRouter.route("/addItem").post(function (req, res) {
     let shortID = shortid.generate();
     TodoList.findOneAndUpdate(
         { id: req.body.todoListID },
-        { $push: { listItems: { text: req.body.text, completed: false, shortID: shortID } } },
+        { $push: { listItems: { text: req.body.text, completed: false, id: shortID } } },
         { safe: true, upsert: true },
         function (err, model) {
             if (err) {
@@ -60,7 +60,7 @@ TodoListRouter.route("/getItems").post(function (req, res) {
 TodoListRouter.route("/deleteItem").post(function (req, res) {
     TodoList.update(
         { id: req.body.tlID },
-        { $pull: { listItems: { shortID: req.body.tiID } } },
+        { $pull: { listItems: { id: req.body.tiID } } },
         { safe: true, multi: true },
         function (err, obj) {
             res.json({ err: err });
@@ -72,7 +72,7 @@ TodoListRouter.route("/deleteItem").post(function (req, res) {
 TodoListRouter.route("/toggleItem").post(function (req, res) {
     // TODO: make this find object based on todoList ID and then todoItem ID
     TodoList.update(
-        { "listItems.shortID": req.body.tiID },
+        { "listItems.id": req.body.tiID },
         {
             $set: {
                 "listItems.$.completed": !req.body.currentState
@@ -90,7 +90,7 @@ TodoListRouter.route("/toggleItem").post(function (req, res) {
 TodoListRouter.route("/updateItemText").post(function (req, res) {
     // TODO: make this find object based on todoList ID and then todoItem ID
     TodoList.update(
-        { "listItems.shortID": req.body.tiID },
+        { "listItems.id": req.body.tiID },
         {
             $set: {
                 "listItems.$.text": req.body.newText

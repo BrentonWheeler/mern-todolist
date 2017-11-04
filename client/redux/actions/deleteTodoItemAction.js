@@ -13,6 +13,6 @@ export default function deleteTodoItemAction (todoListID, todoItemID) {
 function deleteTodoItemActionAsync (todoItemID) {
     return {
         type: DELETE_TODO_ITEM,
-        shortID: todoItemID
+        id: todoItemID
     };
 }

@@ -15,6 +15,6 @@ function createTodoItemActionAsync (text, todoListID, shortID) {
         type: CREATE_TODO_ITEM,
         text: text,
         todoListID: todoListID,
-        shortID: shortID
+        id: shortID
     };
 }

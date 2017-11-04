@@ -23,7 +23,6 @@ export default function (state = initialState, action) {
             });
             break;
         case CREATE_TODO_ITEM:
-            console.log("4");
             return Object.assign({}, state, {
                 listItems: addTodoItemToArray(state.listItems, action)
             });
@@ -71,20 +70,20 @@ export default function (state = initialState, action) {
 
 function addTodoItemToArray (array, action) {
     let newArray = array.slice();
-    newArray.push({ text: action.text, completed: false, shortID: action.shortID });
+    newArray.push({ text: action.text, completed: false, id: action.id });
     return newArray;
 }
 
 function removeTodoItemFromArray (array, action) {
     return array.filter(function (arrayItem) {
-        return arrayItem.shortID !== action.shortID;
+        return arrayItem.id !== action.id;
     });
 }
 
 function toggleCompleteInArray (array, action) {
     let newArray = array.slice();
     for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].shortID === action.todoItemID) {
+        if (newArray[i].id === action.todoItemID) {
             newArray[i].completed = !action.currentState;
             break;
         }
@@ -95,7 +94,7 @@ function toggleCompleteInArray (array, action) {
 function updateItemTextInArray (array, action) {
     let newArray = array.slice();
     for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].shortID === action.todoItemID) {
+        if (newArray[i].id === action.todoItemID) {
             newArray[i].text = action.newText;
             break;
         }

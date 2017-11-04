@@ -23,7 +23,7 @@ class TodoItem extends Component {
 
     handleItemToggleComplete () {
         this.props
-            .toggleCompleteAction(this.props.todoListID, this.props.item.shortID, this.props.item.completed)
+            .toggleCompleteAction(this.props.todoListID, this.props.item.id, this.props.item.completed)
             .then(() => {
                 // TODO: figure out if this next line is bad practice
                 this.forceUpdate();
@@ -31,7 +31,7 @@ class TodoItem extends Component {
     }
 
     handleItemDelete () {
-        this.props.deleteTodoItemAction(this.props.todoListID, this.props.item.shortID);
+        this.props.deleteTodoItemAction(this.props.todoListID, this.props.item.id);
     }
 
     // On double click the text label changes to a input to allow user editing of the value
@@ -50,7 +50,7 @@ class TodoItem extends Component {
     // This updates the redux store
     handleItemTextUpdate () {
         this.props
-            .updateTodoItemTextAction(this.props.todoListID, this.props.item.shortID, this.state.inputText)
+            .updateTodoItemTextAction(this.props.todoListID, this.props.item.id, this.state.inputText)
             .then(() => {
                 this.setState({
                     showInput: false
@@ -93,7 +93,7 @@ class TodoItem extends Component {
 
 TodoItem.propTypes = {
     item: PropTypes.shape({
-        shortID: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         text: PropTypes.string.isRequired,
         completed: PropTypes.bool.isRequired
     }).isRequired,
