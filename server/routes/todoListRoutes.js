@@ -17,7 +17,7 @@ TodoListRouter.route("/create").post(function (req, res) {
     });
 
     findUniqueID.then(response => {
-        newID = { id: response };
+        newID = { id: response, title: "My Todo List" };
         createTodoListInDB(newID)
             .then(entry => {
                 res.status(200).json(newID);
@@ -51,7 +51,7 @@ TodoListRouter.route("/getItems").post(function (req, res) {
             console.log("id not found");
             res.json({ err: "error" });
         } else {
-            res.json({ itemArray: docs.listItems });
+            res.json({ itemArray: docs.listItems, title: docs.title });
         }
     });
 });
@@ -97,6 +97,23 @@ TodoListRouter.route("/updateItemText").post(function (req, res) {
             }
         },
         function (err, model) {
+            if (!err) {
+                res.json({ success: true });
+            }
+        }
+    );
+});
+
+// Route to update title of a todoList
+TodoListRouter.route("/updateTitle").post(function (req, res) {
+    TodoList.update(
+        { id: req.body.tlID },
+        {
+            $set: {
+                title: req.body.newTitle
+            }
+        },
+        function (err) {
             if (!err) {
                 res.json({ success: true });
             }

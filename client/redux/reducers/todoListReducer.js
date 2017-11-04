@@ -4,11 +4,13 @@ import {
     GET_TODO_ITEMS,
     DELETE_TODO_ITEM,
     TOGGLE_TODO_ITEM,
-    UPDATE_TODO_ITEM_TEXT
+    UPDATE_TODO_ITEM_TEXT,
+    UPDATE_TITLE
 } from "../actions/types";
 
 const initialState = {
     id: "",
+    title: "My Todo List",
     listItems: []
 };
 
@@ -21,6 +23,7 @@ export default function (state = initialState, action) {
             });
             break;
         case CREATE_TODO_ITEM:
+            console.log("4");
             return Object.assign({}, state, {
                 listItems: addTodoItemToArray(state.listItems, action)
             });
@@ -33,6 +36,9 @@ export default function (state = initialState, action) {
                 },
                 {
                     listItems: action.itemArray
+                },
+                {
+                    title: action.title
                 }
             );
             break;
@@ -49,6 +55,11 @@ export default function (state = initialState, action) {
         case UPDATE_TODO_ITEM_TEXT:
             return Object.assign({}, state, {
                 listItems: updateItemTextInArray(state.listItems, action)
+            });
+            break;
+        case UPDATE_TITLE:
+            return Object.assign({}, state, {
+                title: action.newTitle
             });
             break;
         default:

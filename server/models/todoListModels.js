@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var todoLists = new Schema(
     {
         id: { type: String, unique: true, required: true },
+        title: { type: String, required: true },
         listItems: { type: Array }
     },
     {
