@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import deleteTodoItemAction from "../../redux/actions/deleteTodoItemAction";
+import toggleCompleteAction from "../../redux/actions/toggleCompleteAction";
+import updateTodoItemTextAction from "../../redux/actions/updateTodoItemTextAction";
 
 class TodoItem extends Component {
     constructor (props) {
@@ -8,20 +13,20 @@ class TodoItem extends Component {
             showInput: false,
             inputText: this.props.item.text
         };
-        this.handleDeleteClick = this.handleDeleteClick.bind(this);
-        this.handleCompleteClick = this.handleCompleteClick.bind(this);
         this.handleDoubleClick = this.handleDoubleClick.bind(this);
         this.handleTextOnChange = this.handleTextOnChange.bind(this);
-        this.handleTextOnUpdate = this.handleTextOnUpdate.bind(this);
         this.enterCheck = this.enterCheck.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleComplete = this.handleComplete.bind(this);
+        this.handleItemTextUpdate = this.handleItemTextUpdate.bind(this);
     }
 
-    handleCompleteClick () {
-        this.props.handleComplete(this.props.item);
+    handleComplete () {
+        this.props.toggleCompleteAction(this.props.todoListID, this.props.item.shortID, this.props.item.completed);
     }
 
-    handleDeleteClick () {
-        this.props.handleDelete(this.props.item);
+    handleDelete () {
+        this.props.deleteTodoItemAction(this.props.todoListID, this.props.item.shortID);
     }
 
     // On double click the text label changes to a input to allow user editing of the value
@@ -31,16 +36,15 @@ class TodoItem extends Component {
         });
     }
 
-    // This just updates react state in the scope of the individual item
     handleTextOnChange (e) {
         this.setState({
             inputText: e.target.value
         });
     }
 
-    // This updates the redux store for the text of this item
-    handleTextOnUpdate () {
-        this.props.handleItemTextUpdate(this.props.item, this.state.inputText);
+    // This updates the redux store
+    handleItemTextUpdate () {
+        this.props.updateTodoItemTextAction(this.props.todoListID, this.props.item.shortID, this.state.inputText);
         this.setState({
             showInput: false
         });
@@ -49,7 +53,7 @@ class TodoItem extends Component {
     // On enter press
     enterCheck (e) {
         if (e.keyCode === 13) {
-            this.handleTextOnUpdate();
+            this.handleItemTextUpdate();
         }
     }
 
@@ -60,7 +64,7 @@ class TodoItem extends Component {
                 <input
                     type="text"
                     value={this.state.inputText}
-                    onBlur={this.handleTextOnUpdate}
+                    onBlur={this.handleItemTextUpdate}
                     onChange={this.handleTextOnChange}
                     onKeyDown={this.enterCheck}
                 />
@@ -71,9 +75,9 @@ class TodoItem extends Component {
 
         return (
             <li className="TodoItem">
-                <input type="checkbox" onChange={this.handleCompleteClick} checked={this.props.item.completed} />
+                <input type="checkbox" onChange={this.handleComplete} checked={this.props.item.completed} />
                 {itemTextElement}
-                <button onClick={this.handleDeleteClick}>x</button>
+                <button onClick={this.handleDelete}>x</button>
             </li>
         );
     }
@@ -85,10 +89,20 @@ TodoItem.propTypes = {
         text: PropTypes.string.isRequired,
         completed: PropTypes.bool.isRequired
     }).isRequired,
-    handleDelete: PropTypes.func.isRequired,
-    handleComplete: PropTypes.func.isRequired,
-    handleItemTextUpdate: PropTypes.func.isRequired
+    todoListID: PropTypes.string.isRequired
     // TODO: figure out if "key" should be included in propTypes
 };
 
-export default TodoItem;
+// Redux Connections
+const matchDispatchToProps = dispatch => {
+    return bindActionCreators(
+        {
+            deleteTodoItemAction: deleteTodoItemAction,
+            toggleCompleteAction: toggleCompleteAction,
+            updateTodoItemTextAction: updateTodoItemTextAction
+        },
+        dispatch
+    );
+};
+
+export default connect(null, matchDispatchToProps)(TodoItem);

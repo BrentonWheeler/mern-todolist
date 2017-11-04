@@ -14,7 +14,7 @@ class TodoList extends Component {
         };
         this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
         this.handleTitleOnUpdate = this.handleTitleOnUpdate.bind(this);
-        this.enterCheck = this.enterCheck.bind(this);
+        this.checkIfEnterKey = this.checkIfEnterKey.bind(this);
         this.handleDoubleClick = this.handleDoubleClick.bind(this);
     }
 
@@ -38,7 +38,7 @@ class TodoList extends Component {
     }
 
     // On enter press
-    enterCheck (e) {
+    checkIfEnterKey (e) {
         if (e.keyCode === 13) {
             this.handleTitleOnUpdate();
         }
@@ -60,7 +60,7 @@ class TodoList extends Component {
                     value={this.state.inputTitleText}
                     onBlur={this.handleTitleOnUpdate}
                     onChange={this.handleTitleOnChange}
-                    onKeyDown={this.enterCheck}
+                    onKeyDown={this.checkIfEnterKey}
                 />
             );
         } else {

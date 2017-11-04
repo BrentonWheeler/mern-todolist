@@ -23,6 +23,7 @@ export default function (state = initialState, action) {
             });
             break;
         case CREATE_TODO_ITEM:
+            console.log("4");
             return Object.assign({}, state, {
                 listItems: addTodoItemToArray(state.listItems, action)
             });
