@@ -12907,19 +12907,24 @@ var TodoItem = function (_Component) {
             } else {
                 itemTextElement = _react2.default.createElement(
                     "label",
-                    { onDoubleClick: this.handleItemTextDoubleClick },
+                    { htmlFor: this.props.i, onDoubleClick: this.handleItemTextDoubleClick },
                     this.props.item.text
                 );
             }
 
             return _react2.default.createElement(
                 "li",
-                { className: "TodoItem" },
-                _react2.default.createElement("input", { type: "checkbox", onChange: this.handleItemToggleComplete, checked: this.props.item.completed }),
+                { className: "TodoItem collection-item" },
+                _react2.default.createElement("input", {
+                    type: "checkbox",
+                    id: this.props.i,
+                    onChange: this.handleItemToggleComplete,
+                    checked: this.props.item.completed
+                }),
                 itemTextElement,
                 _react2.default.createElement(
                     "button",
-                    { onClick: this.handleItemDelete },
+                    { className: "btn-floating btn-small waves-effect waves-light red", onClick: this.handleItemDelete },
                     "x"
                 )
             );
@@ -26969,10 +26974,10 @@ var Home = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "valign-wrapper" },
                 _react2.default.createElement(
                     "button",
-                    { onClick: this.newTodoList },
+                    { className: "waves-effect waves-light row btn  pulse", onClick: this.newTodoList },
                     "Create new TodoList"
                 )
             );
@@ -28175,8 +28180,25 @@ var App = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "App" },
-                _react2.default.createElement(_todoList2.default, { urlID: this.props.match.params.id })
+                { className: "App row" },
+                _react2.default.createElement(_todoList2.default, { urlID: this.props.match.params.id }),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "* Double click on a ",
+                    _react2.default.createElement(
+                        "b",
+                        null,
+                        "TodoItem's text"
+                    ),
+                    " or the ",
+                    _react2.default.createElement(
+                        "b",
+                        null,
+                        "TodoList's title"
+                    ),
+                    " to edit them."
+                )
             );
         }
     }]);
@@ -28270,35 +28292,18 @@ var TodoList = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "col s6 offset-s3" },
                 _react2.default.createElement(_Title2.default, { todoListID: this.props.todoList.id, todoListTitle: this.props.todoList.title }),
                 _react2.default.createElement(_AddItemInput2.default, { todoListID: this.props.todoList.id }),
                 _react2.default.createElement("br", null),
                 _react2.default.createElement(
                     "ul",
-                    { className: "TodoList" },
+                    { className: "TodoList collection col s6 offset-s3" },
                     this.props.todoList.listItems.map(function (item, i) {
-                        return _react2.default.createElement(_TodoItem2.default, { todoListID: _this2.props.todoList.id, key: i, item: item });
+                        return _react2.default.createElement(_TodoItem2.default, { todoListID: _this2.props.todoList.id, key: i, i: i, item: item });
                     })
                 ),
-                _react2.default.createElement("br", null),
-                _react2.default.createElement(
-                    "p",
-                    null,
-                    "* Double click on a ",
-                    _react2.default.createElement(
-                        "b",
-                        null,
-                        "TodoItem's text"
-                    ),
-                    " or the ",
-                    _react2.default.createElement(
-                        "b",
-                        null,
-                        "TodoList's title"
-                    ),
-                    " to edit them."
-                )
+                _react2.default.createElement("br", null)
             );
         }
     }]);
@@ -28526,16 +28531,18 @@ var AddItemInput = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "row" },
                 _react2.default.createElement("input", {
+                    className: "col s3 offset-s3",
                     onChange: this.addItemInputChange,
                     onKeyDown: this.checkIfEnterKey,
                     value: this.state.addItemText,
-                    type: "text"
+                    type: "text",
+                    placeholder: "Add a todo"
                 }),
                 _react2.default.createElement(
                     "button",
-                    { type: "button", onClick: this.addItem },
+                    { className: "waves-effect waves-light row btn col s3", onClick: this.addItem },
                     "Add Item"
                 )
             );
@@ -28707,6 +28714,8 @@ var Title = function (_Component) {
             var titleElement = void 0;
             if (this.state.showTitleInput) {
                 titleElement = _react2.default.createElement("input", {
+                    className: "center-align row",
+                    style: { fontStyle: "Light Italic", width: "100%", height: "30px", fontsize: "30px" },
                     type: "text",
                     value: this.state.inputTitleText,
                     onBlur: this.handleTitleOnUpdate,
@@ -28715,7 +28724,7 @@ var Title = function (_Component) {
                 });
             } else {
                 titleElement = _react2.default.createElement(
-                    "label",
+                    "h1",
                     { onDoubleClick: this.handleDoubleClick },
                     this.props.todoListTitle
                 );
@@ -28723,7 +28732,7 @@ var Title = function (_Component) {
 
             return _react2.default.createElement(
                 "h1",
-                null,
+                { className: "center-align", style: { fontStyle: "Light Italic" } },
                 titleElement
             );
         }
