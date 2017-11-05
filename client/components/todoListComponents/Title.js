@@ -57,6 +57,8 @@ class Title extends Component {
         if (this.state.showTitleInput) {
             titleElement = (
                 <input
+                    className="center-align row"
+                    style={{ fontStyle: "Light Italic", width: "100%", height: "30px", fontsize: "30px" }}
                     type="text"
                     value={this.state.inputTitleText}
                     onBlur={this.handleTitleOnUpdate}
@@ -65,10 +67,14 @@ class Title extends Component {
                 />
             );
         } else {
-            titleElement = <label onDoubleClick={this.handleDoubleClick}>{this.props.todoListTitle}</label>;
+            titleElement = <h1 onDoubleClick={this.handleDoubleClick}>{this.props.todoListTitle}</h1>;
         }
 
-        return <h1>{titleElement}</h1>;
+        return (
+            <h1 className="center-align" style={{ fontStyle: "Light Italic" }}>
+                {titleElement}
+            </h1>
+        );
     }
 }
 

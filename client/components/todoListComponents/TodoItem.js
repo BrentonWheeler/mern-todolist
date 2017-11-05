@@ -78,14 +78,25 @@ class TodoItem extends Component {
                 />
             );
         } else {
-            itemTextElement = <label onDoubleClick={this.handleItemTextDoubleClick}>{this.props.item.text}</label>;
+            itemTextElement = (
+                <label htmlFor={this.props.i} onDoubleClick={this.handleItemTextDoubleClick}>
+                    {this.props.item.text}
+                </label>
+            );
         }
 
         return (
-            <li className="TodoItem">
-                <input type="checkbox" onChange={this.handleItemToggleComplete} checked={this.props.item.completed} />
+            <li className="TodoItem collection-item">
+                <input
+                    type="checkbox"
+                    id={this.props.i}
+                    onChange={this.handleItemToggleComplete}
+                    checked={this.props.item.completed}
+                />
                 {itemTextElement}
-                <button onClick={this.handleItemDelete}>x</button>
+                <button className="btn-floating btn-small waves-effect waves-light red" onClick={this.handleItemDelete}>
+                    x
+                </button>
             </li>
         );
     }

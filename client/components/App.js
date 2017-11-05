@@ -10,10 +10,13 @@ class App extends Component {
 
     render () {
         return (
-            <div className="App">
+            <div className="App row">
                 {/*<h1>Todolist Unique ID: {this.props.match.params.id}</h1>*/}
                 <TodoList urlID={this.props.match.params.id} />
                 {/* {<Login />} */}
+                <p>
+                    * Double click on a <b>TodoItem's text</b> or the <b>TodoList's title</b> to edit them.
+                </p>
             </div>
         );
     }
