@@ -21,19 +21,16 @@ class TodoList extends Component {
 
     render () {
         return (
-            <div>
+            <div className="col s6 offset-s3">
                 <Title todoListID={this.props.todoList.id} todoListTitle={this.props.todoList.title} />
                 <AddItemInput todoListID={this.props.todoList.id} />
                 <br />
-                <ul className="TodoList">
+                <ul className="TodoList collection col s6 offset-s3">
                     {this.props.todoList.listItems.map((item, i) => (
-                        <TodoItem todoListID={this.props.todoList.id} key={i} item={item} />
+                        <TodoItem todoListID={this.props.todoList.id} key={i} i={i} item={item} />
                     ))}
                 </ul>
                 <br />
-                <p>
-                    * Double click on a <b>TodoItem's text</b> or the <b>TodoList's title</b> to edit them.
-                </p>
             </div>
         );
     }

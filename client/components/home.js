@@ -24,9 +24,11 @@ class Home extends Component {
 
     render () {
         return (
-            <div>
+            <div className="valign-wrapper">
                 {/* {<button onClick={this.loginClicked}>Login/Register</button>} */}
-                <button onClick={this.newTodoList}>Create new TodoList</button>
+                <button className="waves-effect waves-light row btn  pulse" onClick={this.newTodoList}>
+                    Create new TodoList
+                </button>
             </div>
         );
     }

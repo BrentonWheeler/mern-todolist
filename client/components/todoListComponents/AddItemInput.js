@@ -43,14 +43,16 @@ class AddItemInput extends Component {
 
     render () {
         return (
-            <div>
+            <div className="row">
                 <input
+                    className="col s3 offset-s3"
                     onChange={this.addItemInputChange}
                     onKeyDown={this.checkIfEnterKey}
                     value={this.state.addItemText}
                     type="text"
+                    placeholder="Add a todo"
                 />
-                <button type="button" onClick={this.addItem}>
+                <button className="waves-effect waves-light row btn col s3" onClick={this.addItem}>
                     Add Item
                 </button>
             </div>
