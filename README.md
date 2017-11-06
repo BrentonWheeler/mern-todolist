@@ -3,6 +3,7 @@ To further my understanding of MongoDB, Express, React, Node, Redux and SASS (an
 
 # Scripts to run project (and develop):
 npm run dev = frontend development
+
 npm run api = build bundle.js then run server
 
 # Scripts for pre-building for Heroku so that it's automatic 'npm start' can run without inconsistencies
