@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import createTodoListAction from "../redux/actions/createTodoAction";
+require("../styles/sass/materialize.scss");
 
 class Home extends Component {
     constructor (props) {
