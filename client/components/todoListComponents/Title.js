@@ -53,6 +53,7 @@ class Title extends Component {
     }
 
     render () {
+        // Asigning the title text to either a h1 or input to allow editing
         let titleElement;
         if (this.state.showTitleInput) {
             titleElement = (
