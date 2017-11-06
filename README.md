@@ -1,5 +1,5 @@
 # Functionality
-Allows a user to create a new todolist with no commitment and share it with another user by messaging the url.
+Allows a user to create a new todolist with no commitment and share it with another user by messaging them the url.
 
 # Purpose
 To further my understanding of MongoDB, Express, React, Node, Redux, Sass and Materilize (and what ever else I chuck in).

@@ -26985,7 +26985,12 @@ var Home = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "valign-wrapper" },
+                {
+                    className: "valign-wrapper",
+                    style: {
+                        marginTop: "5%"
+                    }
+                },
                 _react2.default.createElement(
                     "button",
                     { className: "waves-effect waves-light row btn  pulse", onClick: this.newTodoList },
@@ -28968,7 +28973,12 @@ var TodoList = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { className: "col s6 offset-s3" },
+                {
+                    style: {
+                        marginTop: "2.5%"
+                    },
+                    className: "col s6 offset-s3"
+                },
                 _react2.default.createElement(_Title2.default, { todoListID: this.props.todoList.id, todoListTitle: this.props.todoList.title }),
                 _react2.default.createElement(_AddItemInput2.default, { todoListID: this.props.todoList.id }),
                 _react2.default.createElement("br", null),
