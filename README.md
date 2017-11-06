@@ -1,5 +1,8 @@
+# Functionality
+Allows a user to create a new todolist with no commitment and share it with another user by messaging the url.
+
 # Purpose
-To further my understanding of MongoDB, Express, React, Node, Redux and SASS (and what ever else I can chuck in).
+To further my understanding of MongoDB, Express, React, Node, Redux, Sass and Materilize (and what ever else I chuck in).
 
 # Scripts to run project (and develop):
 npm run dev = frontend development
