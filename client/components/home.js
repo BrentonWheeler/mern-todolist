@@ -25,7 +25,12 @@ class Home extends Component {
 
     render () {
         return (
-            <div className="valign-wrapper">
+            <div
+                className="valign-wrapper"
+                style={{
+                    marginTop: "5%"
+                }}
+            >
                 {/* {<button onClick={this.loginClicked}>Login/Register</button>} */}
                 <button className="waves-effect waves-light row btn  pulse" onClick={this.newTodoList}>
                     Create new TodoList
