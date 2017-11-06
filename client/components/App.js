@@ -29,7 +29,7 @@ class App extends Component {
                 <span className="" style={{ position: "absolute", top: "0px", left: "0px" }}>
                     * Double click on a <b>TodoItem's text</b> or the <b>TodoList's title</b> to edit them. <br />
                     * Click{" "}
-                    <CopyToClipboard text={process.env.BASE_URL + "/todolist/" + this.props.todoList.id}>
+                    <CopyToClipboard text={window.location.href}>
                         <a onClick={this.copyToClipboardClicked}>here</a>
                     </CopyToClipboard>{" "}
                     to copy url to clipboard
