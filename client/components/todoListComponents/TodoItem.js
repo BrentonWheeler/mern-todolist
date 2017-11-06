@@ -21,7 +21,7 @@ class TodoItem extends Component {
         this.handleItemTextUpdate = this.handleItemTextUpdate.bind(this);
     }
 
-    handleItemToggleComplete () {
+    handleItemToggleComplete (e) {
         this.props
             .toggleCompleteAction(this.props.todoListID, this.props.item.id, this.props.item.completed)
             .then(() => {
@@ -69,32 +69,35 @@ class TodoItem extends Component {
         let itemTextElement;
         if (this.state.showInput) {
             itemTextElement = (
-                <input
-                    type="text"
-                    value={this.state.inputText}
-                    onBlur={this.handleItemTextUpdate}
-                    onChange={this.handleItemTextOnChange}
-                    onKeyDown={this.checkIfEnterKey}
-                />
+                <div className="input-field inline">
+                    <input
+                        type="text"
+                        value={this.state.inputText}
+                        onBlur={this.handleItemTextUpdate}
+                        onChange={this.handleItemTextOnChange}
+                        onKeyDown={this.checkIfEnterKey}
+                    />
+                </div>
             );
         } else {
-            itemTextElement = (
-                <label htmlFor={this.props.i} onDoubleClick={this.handleItemTextDoubleClick}>
-                    {this.props.item.text}
-                </label>
-            );
+            itemTextElement = <span onDoubleClick={this.handleItemTextDoubleClick}>{this.props.item.text}</span>;
         }
 
         return (
-            <li className="TodoItem collection-item">
+            <li className="TodoItem collection-item valign-wrapper">
                 <input
-                    type="checkbox"
                     id={this.props.i}
+                    type="checkbox"
                     onChange={this.handleItemToggleComplete}
                     checked={this.props.item.completed}
                 />
+                <label htmlFor={this.props.i} />
                 {itemTextElement}
-                <button className="btn-floating btn-small waves-effect waves-light red" onClick={this.handleItemDelete}>
+                <button
+                    className="btn-floating btn-small waves-effect waves-light red"
+                    style={{ marginLeft: "15px" }}
+                    onClick={this.handleItemDelete}
+                >
                     x
                 </button>
             </li>

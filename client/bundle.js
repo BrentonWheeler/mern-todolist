@@ -12838,7 +12838,7 @@ var TodoItem = function (_Component) {
 
     _createClass(TodoItem, [{
         key: "handleItemToggleComplete",
-        value: function handleItemToggleComplete() {
+        value: function handleItemToggleComplete(e) {
             var _this2 = this;
 
             this.props.toggleCompleteAction(this.props.todoListID, this.props.item.id, this.props.item.completed).then(function () {
@@ -12897,34 +12897,43 @@ var TodoItem = function (_Component) {
         value: function render() {
             var itemTextElement = void 0;
             if (this.state.showInput) {
-                itemTextElement = _react2.default.createElement("input", {
-                    type: "text",
-                    value: this.state.inputText,
-                    onBlur: this.handleItemTextUpdate,
-                    onChange: this.handleItemTextOnChange,
-                    onKeyDown: this.checkIfEnterKey
-                });
+                itemTextElement = _react2.default.createElement(
+                    "div",
+                    { className: "input-field inline" },
+                    _react2.default.createElement("input", {
+                        type: "text",
+                        value: this.state.inputText,
+                        onBlur: this.handleItemTextUpdate,
+                        onChange: this.handleItemTextOnChange,
+                        onKeyDown: this.checkIfEnterKey
+                    })
+                );
             } else {
                 itemTextElement = _react2.default.createElement(
-                    "label",
-                    { htmlFor: this.props.i, onDoubleClick: this.handleItemTextDoubleClick },
+                    "span",
+                    { onDoubleClick: this.handleItemTextDoubleClick },
                     this.props.item.text
                 );
             }
 
             return _react2.default.createElement(
                 "li",
-                { className: "TodoItem collection-item" },
+                { className: "TodoItem collection-item valign-wrapper" },
                 _react2.default.createElement("input", {
-                    type: "checkbox",
                     id: this.props.i,
+                    type: "checkbox",
                     onChange: this.handleItemToggleComplete,
                     checked: this.props.item.completed
                 }),
+                _react2.default.createElement("label", { htmlFor: this.props.i }),
                 itemTextElement,
                 _react2.default.createElement(
                     "button",
-                    { className: "btn-floating btn-small waves-effect waves-light red", onClick: this.handleItemDelete },
+                    {
+                        className: "btn-floating btn-small waves-effect waves-light red",
+                        style: { marginLeft: "15px" },
+                        onClick: this.handleItemDelete
+                    },
                     "x"
                 )
             );
@@ -28837,10 +28846,21 @@ var App = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "App row" },
+                _react2.default.createElement(
+                    "span",
+                    { className: "col s6 offset-s3 center-align" },
+                    "GitHub: ",
+                    _react2.default.createElement(
+                        "a",
+                        { href: "https://github.com/BrentonWheeler/mern-todolist" },
+                        "BrentonWheeler/mern-todolist"
+                    ),
+                    " "
+                ),
                 _react2.default.createElement(_todoList2.default, { urlID: this.props.match.params.id }),
                 _react2.default.createElement(
-                    "p",
-                    null,
+                    "span",
+                    { className: "col s6 offset-s3 center-align", style: { bottom: "0px" } },
                     "* Double click on a ",
                     _react2.default.createElement(
                         "b",
@@ -29369,26 +29389,34 @@ var Title = function (_Component) {
         value: function render() {
             var titleElement = void 0;
             if (this.state.showTitleInput) {
-                titleElement = _react2.default.createElement("input", {
-                    className: "center-align row",
-                    style: { fontStyle: "Light Italic", width: "100%", height: "30px", fontsize: "30px" },
-                    type: "text",
-                    value: this.state.inputTitleText,
-                    onBlur: this.handleTitleOnUpdate,
-                    onChange: this.handleTitleOnChange,
-                    onKeyDown: this.checkIfEnterKey
-                });
+                titleElement = _react2.default.createElement(
+                    "div",
+                    { className: "input-field inline col s6 offset-s3" },
+                    _react2.default.createElement("input", {
+                        className: "center-align",
+                        style: { fontStyle: "Light Italic", width: "100%", height: "30px", fontsize: "30px" },
+                        type: "text",
+                        value: this.state.inputTitleText,
+                        onBlur: this.handleTitleOnUpdate,
+                        onChange: this.handleTitleOnChange,
+                        onKeyDown: this.checkIfEnterKey
+                    })
+                );
             } else {
                 titleElement = _react2.default.createElement(
                     "h1",
-                    { onDoubleClick: this.handleDoubleClick },
+                    {
+                        className: "center-align",
+                        style: { fontStyle: "Light Italic" },
+                        onDoubleClick: this.handleDoubleClick
+                    },
                     this.props.todoListTitle
                 );
             }
 
             return _react2.default.createElement(
-                "h1",
-                { className: "center-align", style: { fontStyle: "Light Italic" } },
+                "div",
+                null,
                 titleElement
             );
         }

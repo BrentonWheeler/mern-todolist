@@ -11,12 +11,17 @@ class App extends Component {
     render () {
         return (
             <div className="App row">
+                <span className="col s6 offset-s3 center-align">
+                    GitHub: <a href="https://github.com/BrentonWheeler/mern-todolist">
+                        BrentonWheeler/mern-todolist
+                    </a>{" "}
+                </span>
                 {/*<h1>Todolist Unique ID: {this.props.match.params.id}</h1>*/}
                 <TodoList urlID={this.props.match.params.id} />
                 {/* {<Login />} */}
-                <p>
+                <span className="col s6 offset-s3 center-align" style={{ bottom: "0px" }}>
                     * Double click on a <b>TodoItem's text</b> or the <b>TodoList's title</b> to edit them.
-                </p>
+                </span>
             </div>
         );
     }
