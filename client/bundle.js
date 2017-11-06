@@ -39158,7 +39158,7 @@ var App = function (_Component) {
                     " ",
                     _react2.default.createElement(
                         _reactCopyToClipboard.CopyToClipboard,
-                        { text: "" + "/todolist/" + this.props.todoList.id },
+                        { text: window.location.href },
                         _react2.default.createElement(
                             "a",
                             { onClick: this.copyToClipboardClicked },
