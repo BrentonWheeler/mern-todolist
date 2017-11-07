@@ -13,7 +13,7 @@ class TodoItem extends Component {
             showInput: false,
             inputText: this.props.item.text
         };
-        this.handleItemTextDoubleClick = this.handleItemTextDoubleClick.bind(this);
+        this.handleItemTextClick = this.handleItemTextClick.bind(this);
         this.handleItemTextOnChange = this.handleItemTextOnChange.bind(this);
         this.checkIfEnterKey = this.checkIfEnterKey.bind(this);
         this.handleItemDelete = this.handleItemDelete.bind(this);
@@ -35,7 +35,7 @@ class TodoItem extends Component {
     }
 
     // On double click the text label changes to a input to allow user editing of the value
-    handleItemTextDoubleClick (e) {
+    handleItemTextClick (e) {
         this.setState({
             showInput: true
         });
@@ -80,7 +80,7 @@ class TodoItem extends Component {
                 </div>
             );
         } else {
-            itemTextElement = <span onDoubleClick={this.handleItemTextDoubleClick}>{this.props.item.text}</span>;
+            itemTextElement = <span onClick={this.handleItemTextClick}>{this.props.item.text}</span>;
         }
 
         return (

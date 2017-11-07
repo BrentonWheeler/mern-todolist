@@ -8,10 +8,6 @@ module.exports = {
         }),
         new webpack.SourceMapDevToolPlugin({
             filename: "[file].map"
-        }),
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
         })
     ],
     entry: "./client/index.js",
