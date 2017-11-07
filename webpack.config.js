@@ -8,10 +8,6 @@ module.exports = {
         }),
         new webpack.SourceMapDevToolPlugin({
             filename: "[file].map"
-        }),
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
         })
     ],
     entry: "./client/index.js",
@@ -32,6 +28,10 @@ module.exports = {
             {
                 test: /\.scss$/,
                 loader: "style-loader!css-loader!sass-loader"
+            },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader"
             },
             {
                 test: /\.(png|woff|woff2|eot|ttf|svg)$/,

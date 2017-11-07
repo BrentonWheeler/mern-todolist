@@ -15,7 +15,7 @@ class Title extends Component {
         this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
         this.handleTitleOnUpdate = this.handleTitleOnUpdate.bind(this);
         this.checkIfEnterKey = this.checkIfEnterKey.bind(this);
-        this.handleDoubleClick = this.handleDoubleClick.bind(this);
+        this.handleTitleClick = this.handleTitleClick.bind(this);
     }
 
     // This just updates react state in the scope of the individual item
@@ -46,7 +46,7 @@ class Title extends Component {
     }
 
     // On double click the text label changes to a input to allow user editing of the value
-    handleDoubleClick (e) {
+    handleTitleClick (e) {
         this.setState({
             showTitleInput: true
         });
@@ -71,11 +71,7 @@ class Title extends Component {
             );
         } else {
             titleElement = (
-                <h1
-                    className="center-align"
-                    style={{ fontStyle: "Light Italic" }}
-                    onDoubleClick={this.handleDoubleClick}
-                >
+                <h1 className="center-align" style={{ fontStyle: "Light Italic" }} onClick={this.handleTitleClick}>
                     {this.props.todoListTitle}
                 </h1>
             );
