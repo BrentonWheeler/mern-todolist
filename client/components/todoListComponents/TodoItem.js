@@ -5,6 +5,9 @@ import { connect } from "react-redux";
 import deleteTodoItemAction from "../../redux/actions/deleteTodoItemAction";
 import toggleCompleteAction from "../../redux/actions/toggleCompleteAction";
 import updateTodoItemTextAction from "../../redux/actions/updateTodoItemTextAction";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+import ReactDOM from "react-dom";
 
 class TodoItem extends Component {
     constructor (props) {
@@ -19,6 +22,11 @@ class TodoItem extends Component {
         this.handleItemDelete = this.handleItemDelete.bind(this);
         this.handleItemToggleComplete = this.handleItemToggleComplete.bind(this);
         this.handleItemTextUpdate = this.handleItemTextUpdate.bind(this);
+        this.notify = this.notify.bind(this);
+    }
+
+    notify () {
+        toast.error("Item text input cannot be empty");
     }
 
     handleItemToggleComplete (e) {
@@ -35,10 +43,15 @@ class TodoItem extends Component {
     }
 
     // On double click the text label changes to a input to allow user editing of the value
-    handleItemTextClick (e) {
-        this.setState({
-            showInput: true
-        });
+    async handleItemTextClick (e) {
+        this.setState(
+            {
+                showInput: true
+            },
+            () => {
+                document.getElementById("editItemInput").focus();
+            }
+        );
     }
 
     handleItemTextOnChange (e) {
@@ -49,13 +62,17 @@ class TodoItem extends Component {
 
     // This updates the redux store
     handleItemTextUpdate () {
-        this.props
-            .updateTodoItemTextAction(this.props.todoListID, this.props.item.id, this.state.inputText)
-            .then(() => {
-                this.setState({
-                    showInput: false
+        if (this.state.inputText === "") {
+            this.notify();
+        } else {
+            this.props
+                .updateTodoItemTextAction(this.props.todoListID, this.props.item.id, this.state.inputText)
+                .then(() => {
+                    this.setState({
+                        showInput: false
+                    });
                 });
-            });
+        }
     }
 
     // On enter press
@@ -66,11 +83,13 @@ class TodoItem extends Component {
     }
 
     render () {
+        // Asigning the item text to either a label or input to allow editing
         let itemTextElement;
         if (this.state.showInput) {
             itemTextElement = (
                 <div className="input-field inline">
                     <input
+                        id="editItemInput"
                         type="text"
                         value={this.state.inputText}
                         onBlur={this.handleItemTextUpdate}
@@ -100,6 +119,15 @@ class TodoItem extends Component {
                 >
                     x
                 </button>
+                <ToastContainer
+                    position="top-left"
+                    type="error"
+                    autoClose={3000}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    pauseOnHover
+                />
             </li>
         );
     }
