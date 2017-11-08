@@ -9,6 +9,7 @@ var cors = require("cors");
 var indexRoutes = require("./routes/index");
 var userRoutes = require("./routes/userRoutes");
 var todoListRoutes = require("./routes/todoListRoutes");
+var trelloRoutes = require("./routes/trelloRoutes");
 
 // Mongoose connection with mongodb
 mongoose.Promise = require("bluebird");
@@ -39,6 +40,7 @@ app.use(bodyParser.json());
 app.use("/", indexRoutes);
 app.use("/users", userRoutes);
 app.use("/todoList", todoListRoutes);
+app.use("/trello", trelloRoutes);
 
 // Error handler
 app.use(function (err, req, res, next) {

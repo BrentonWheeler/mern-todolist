@@ -4,8 +4,23 @@ var shortid = require("shortid");
 var Promise = require("promise");
 var path = require("path");
 var TodoList = require("../models/todoListModels");
+var Trello = require("trello");
+var trello = new Trello(
+    "6700238c98b4f952412a711c04dc12ec",
+    "6b39ea427ec188d997bd320ac991ec03145631f7ed23d0b715716215f8769278"
+);
 
 TodoListRouter.use(express.static(path.join(__dirname, "../../client")));
+let test = trello.getBoards();
+console.log(test);
+
+// Route to retrieve a todoList
+TodoListRouter.route("/importFromTrello").get(function (req, res) {
+    let test = trello.getBoards();
+    test.then(res => {
+        console.log(res);
+    });
+});
 
 // Route to create a new TodoList
 TodoListRouter.route("/create").post(function (req, res) {
