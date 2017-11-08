@@ -38,7 +38,6 @@ class AddItemInput extends Component {
 
     addItem () {
         if (this.state.addItemText === "") {
-            // Put a nice UX toast here
             this.notify();
         } else {
             this.props.createTodoItemAction(this.state.addItemText, this.props.todoListID);

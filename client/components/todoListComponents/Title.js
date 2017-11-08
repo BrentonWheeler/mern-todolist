@@ -57,7 +57,18 @@ class Title extends Component {
                 showTitleInput: true
             },
             () => {
+                // The following callback sets the input as focus and puts the users cursor at the end of the string
                 document.getElementById("titleInput").focus();
+                this.setState(
+                    {
+                        inputTitleText: ""
+                    },
+                    () => {
+                        this.setState({
+                            inputTitleText: this.props.todoListTitle
+                        });
+                    }
+                );
             }
         );
     }

@@ -7,14 +7,13 @@ import toggleCompleteAction from "../../redux/actions/toggleCompleteAction";
 import updateTodoItemTextAction from "../../redux/actions/updateTodoItemTextAction";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import ReactDOM from "react-dom";
 
 class TodoItem extends Component {
     constructor (props) {
         super(props);
         this.state = {
             showInput: false,
-            inputText: this.props.item.text
+            inputItemText: this.props.item.text
         };
         this.handleItemTextClick = this.handleItemTextClick.bind(this);
         this.handleItemTextOnChange = this.handleItemTextOnChange.bind(this);
@@ -49,24 +48,35 @@ class TodoItem extends Component {
                 showInput: true
             },
             () => {
+                // The following callback sets the input as focus and puts the users cursor at the end of the string
                 document.getElementById("editItemInput").focus();
+                this.setState(
+                    {
+                        inputItemText: ""
+                    },
+                    () => {
+                        this.setState({
+                            inputItemText: this.props.item.text
+                        });
+                    }
+                );
             }
         );
     }
 
     handleItemTextOnChange (e) {
         this.setState({
-            inputText: e.target.value
+            inputItemText: e.target.value
         });
     }
 
     // This updates the redux store
     handleItemTextUpdate () {
-        if (this.state.inputText === "") {
+        if (this.state.inputItemText === "") {
             this.notify();
         } else {
             this.props
-                .updateTodoItemTextAction(this.props.todoListID, this.props.item.id, this.state.inputText)
+                .updateTodoItemTextAction(this.props.todoListID, this.props.item.id, this.state.inputItemText)
                 .then(() => {
                     this.setState({
                         showInput: false
@@ -91,7 +101,7 @@ class TodoItem extends Component {
                     <input
                         id="editItemInput"
                         type="text"
-                        value={this.state.inputText}
+                        value={this.state.inputItemText}
                         onBlur={this.handleItemTextUpdate}
                         onChange={this.handleItemTextOnChange}
                         onKeyDown={this.checkIfEnterKey}
