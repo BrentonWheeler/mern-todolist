@@ -59,13 +59,6 @@ class ImportList extends Component {
                             {" "}
                             import from Trello{" "}
                         </button>
-                        <input
-                            placeholder="Verification code"
-                            onChange={this.importInputChange}
-                            value={this.state.importText}
-                            style={{ width: "auto", marginLeft: "10px" }}
-                            type="text"
-                        />
                     </div>
                 </div>
                 {selectListElement}

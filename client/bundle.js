@@ -14041,7 +14041,8 @@ _reactDom2.default.render(_react2.default.createElement(
                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _Home2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/login", component: _login2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { path: "/todolist/:id", component: _app2.default })
-            )
+            ),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "*", component: _Home2.default })
         )
     )
 ), document.getElementById("root"));
@@ -28541,14 +28542,7 @@ var ImportList = function (_Component) {
                             " ",
                             "import from Trello",
                             " "
-                        ),
-                        _react2.default.createElement("input", {
-                            placeholder: "Verification code",
-                            onChange: this.importInputChange,
-                            value: this.state.importText,
-                            style: { width: "auto", marginLeft: "10px" },
-                            type: "text"
-                        })
+                        )
                     )
                 ),
                 selectListElement

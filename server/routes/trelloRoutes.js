@@ -16,7 +16,7 @@ const key = process.env.TRELLO_KEY;
 const secret = process.env.TRELLO_OAUTH_SECRET;
 
 // Trello redirects the user here after authentication
-const loginCallback = process.env.BASE_URL + "trello/OAuth_callback";
+const loginCallback = process.env.BASE_URL + "trello/OAuthCallback";
 
 // You should have {"token": "tokenSecret"} pairs in a real application
 // Storage should be more permanent (redis would be a good choice)
@@ -42,21 +42,33 @@ var callback = function (request, response) {
         console.log(
             `in getOAuthAccessToken - accessToken: ${accessToken}, accessTokenSecret: ${accessTokenSecret}, error: ${error}`
         );
-        oauth.getProtectedResource(
-            "https://trello.com/1/members/my/boards",
-            "GET",
-            accessToken,
-            accessTokenSecret,
-            function (error, data, response) {
-                // Now we can respond with data to show that we have access to your Trello account via OAuth
-                console.log(
-                    `in getProtectedResource - accessToken: ${accessToken}, accessTokenSecret: ${accessTokenSecret}`
-                );
-                console.log(data);
-                response.send("data");
-            }
-        );
+        let data = { accessToken: accessToken, accessTokenSecret: accessTokenSecret };
+        let urlParameters = Object.keys(data)
+            .map(i => `${i}=${data[i]}`)
+            .join("&");
+        response.redirect(process.env.BASE_URL + urlParameters);
+        //response.json();
     });
+};
+
+var getUserBoards = function (request, response) {
+    // oauth.getProtectedResource(
+    //     "https://trello.com/1/members/my/boards",
+    //     "GET",
+    //     accessToken,
+    //     accessTokenSecret,
+    //     function (error, data, res) {
+    // Now we can respond with data to show that we have access to your Trello account via OAuth
+    console.log(request.body);
+    //console.log(data)
+    //     let dataJSON = JSON.parse(data);
+    //     let boardsJSON = [];
+    //     dataJSON.map(board => {
+    //         boardsJSON.push({ name: board.name, id: board.id });
+    //     });
+    //     response.send(boardsJSON);
+    // }
+    //);
 };
 
 /*
@@ -72,9 +84,14 @@ trelloRouter.get("/login", function (request, response) {
     login(request, response);
 });
 
-trelloRouter.get("/OAuth_callback", function (request, response) {
-    console.log(`GET '/OAuth_callback' 🤠 ${Date()}`);
+trelloRouter.get("/OAuthCallback", function (request, response) {
+    console.log(`GET '/callback' 🤠 ${Date()}`);
     callback(request, response);
+});
+
+trelloRouter.post("/getBoards", function (request, response) {
+    console.log(`post '/getBoards' 🤠 ${Date()}`);
+    getUserBoards(request, response);
 });
 
 module.exports = trelloRouter;
