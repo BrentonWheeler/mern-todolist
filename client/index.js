@@ -20,7 +20,11 @@ ReactDOM.render(
                     <Route exact path="/" component={Home} />
                     <Route exact path="/login" component={Login} />
                     <Route path="/todolist/:id" component={App} />
-                    <Route exact path="*" component={Home} />
+                    <Route
+                        exact
+                        path="/accessToken=:accessToken&accessTokenSecret=:accessTokenSecret"
+                        component={Home}
+                    />
                 </Switch>
             </div>
         </Provider>

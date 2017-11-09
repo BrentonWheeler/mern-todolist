@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 //import PropTypes from "prop-types";
 
-import axios from "axios";
-
 class ImportList extends Component {
     constructor (props) {
         super(props);
@@ -15,20 +13,7 @@ class ImportList extends Component {
     }
 
     importClicked () {
-        // window.open(
-        //     "https://trello.com/1/authorize?expiration=1day&name=Mern%20Todolist&key=6700238c98b4f952412a711c04dc12ec"
-        // );
-        // axios.get(process.env.BASE_URL + "/trello/login").then(res => {
-        //     console.log(res);
-        // });.
         location.href = process.env.BASE_URL + "/trello/login";
-        // let trelloBoard = JSON.parse(this.state.importText);
-        // let listList = trelloBoard.lists.map(list => {
-        //     console.log(list.name);
-        // });
-        // this.setState((listList = listList), () => {
-        //     console.log(this.state.listsList);
-        // });
     }
 
     importInputChange (e) {

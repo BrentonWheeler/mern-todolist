@@ -9,8 +9,22 @@ require("../styles/sass/materialize.scss");
 class Home extends Component {
     constructor (props) {
         super(props);
+        this.state = {
+            showTrelloLists: false
+        };
         this.loginClicked = this.loginClicked.bind(this);
         this.newTodoList = this.newTodoList.bind(this);
+    }
+
+    // Check if trello auth has been passed in url
+    componentWillMount () {
+        if (this.props.match.params.accessToken !== undefined) {
+            this.setState({ showTrelloLists: true });
+            //put redux flow here
+            //put lists in state
+            //check if list has items
+            // if does, load them into a menu based on boards which when hovered open all the lists for that board
+        }
     }
 
     loginClicked () {
