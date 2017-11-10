@@ -77,7 +77,7 @@ var getUserLists = function (boardsArray, token, secret) {
     });
 };
 
-var getUserBoards = async function (request, response) {
+var getUserBoards = function (request, response) {
     oauth.getProtectedResource(
         "https://trello.com/1/members/my/boards",
         "GET",
