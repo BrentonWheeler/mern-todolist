@@ -9,18 +9,18 @@ class ImportList extends Component {
             listsList: null
         };
         this.importClicked = this.importClicked.bind(this);
-        this.importInputChange = this.importInputChange.bind(this);
+        //this.importInputChange = this.importInputChange.bind(this);
     }
 
     importClicked () {
         location.href = process.env.BASE_URL + "/trello/login";
     }
 
-    importInputChange (e) {
-        this.setState({
-            importText: e.target.value
-        });
-    }
+    // importInputChange (e) {
+    //     this.setState({
+    //         importText: e.target.value
+    //     });
+    // }
 
     render () {
         let selectListElement = <div />;

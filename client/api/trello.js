@@ -1,7 +1,7 @@
 import api from "./api";
 
 let trello = {
-    getBoards: () => api.post("/trello/getBoardsAndLists")
+    getBoards: (token, secret) => api.post("/trello/getBoards", { token: token, secret: secret })
 };
 
 export default trello;

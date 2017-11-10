@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import createTodoListAction from "../redux/actions/createTodoAction";
+import getTrelloListsAction from "../redux/actions/getTrelloListsAction";
 import ImportList from "./ImportList";
 require("../styles/sass/materialize.scss");
 
@@ -19,11 +20,12 @@ class Home extends Component {
     // Check if trello auth has been passed in url
     componentWillMount () {
         if (this.props.match.params.accessToken !== undefined) {
-            this.setState({ showTrelloLists: true });
-            //put redux flow here
-            //put lists in state
-            //check if list has items
-            // if does, load them into a menu based on boards which when hovered open all the lists for that board
+            //this.setState({ showTrelloLists: true });
+            this.props
+                .getTrelloListsAction(this.props.match.params.accessToken, this.props.match.params.accessTokenSecret)
+                .then(() => {
+                    //put ui update with trello lists here
+                });
         }
     }
 
@@ -60,7 +62,10 @@ class Home extends Component {
 
 // Redux Connections
 const matchDispatchToProps = dispatch => {
-    return bindActionCreators({ createTodoListAction: createTodoListAction }, dispatch);
+    return bindActionCreators(
+        { createTodoListAction: createTodoListAction, getTrelloListsAction: getTrelloListsAction },
+        dispatch
+    );
 };
 
 const mapStateToProps = state => {
