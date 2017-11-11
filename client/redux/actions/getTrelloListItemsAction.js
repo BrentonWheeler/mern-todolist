@@ -3,11 +3,12 @@ import { GET_TRELLO_LIST_ITEMS } from "./types";
 
 export default function getTodoItemsAction (trelloObject, todoListID) {
     return dispatch => {
+        let title = trelloObject.importBoardName + ": " + trelloObject.importListName;
         return trelloAPI
-            .getListItems(trelloObject.token, trelloObject.secret, todoListID, trelloObject.importListID)
+            .getListItems(trelloObject.token, trelloObject.secret, todoListID, trelloObject.importListID, title)
             .then(res => {
                 let itemArray = res.data;
-                let title = trelloObject.importBoardName + ": " + trelloObject.importListName;
+
                 // let itemArray = [
                 //     { text: "item one", completed: false, id: "1111111" },
                 //     { text: "item two", completed: false, id: "222222" }

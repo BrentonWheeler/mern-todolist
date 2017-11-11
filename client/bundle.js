@@ -12930,12 +12930,13 @@ var trello = {
     getBoards: function getBoards(token, secret) {
         return _api2.default.post("/trello/getBoards", { token: token, secret: secret });
     },
-    getListItems: function getListItems(token, secret, todoListID, trelloListID) {
+    getListItems: function getListItems(token, secret, todoListID, trelloListID, title) {
         return _api2.default.post("/todoList/getListItems", {
             token: token,
             secret: secret,
             todoListID: todoListID,
-            trelloListID: trelloListID
+            trelloListID: trelloListID,
+            title: title
         });
     }
 };
@@ -32107,9 +32108,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function getTodoItemsAction(trelloObject, todoListID) {
     return function (dispatch) {
-        return _trello2.default.getListItems(trelloObject.token, trelloObject.secret, todoListID, trelloObject.importListID).then(function (res) {
+        var title = trelloObject.importBoardName + ": " + trelloObject.importListName;
+        return _trello2.default.getListItems(trelloObject.token, trelloObject.secret, todoListID, trelloObject.importListID, title).then(function (res) {
             var itemArray = res.data;
-            var title = trelloObject.importBoardName + ": " + trelloObject.importListName;
+
             // let itemArray = [
             //     { text: "item one", completed: false, id: "1111111" },
             //     { text: "item two", completed: false, id: "222222" }

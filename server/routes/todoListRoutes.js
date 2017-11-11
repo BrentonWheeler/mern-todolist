@@ -42,16 +42,7 @@ TodoListRouter.route("/create").post(function (req, res) {
 // Route to add individual todoList item
 TodoListRouter.route("/addItem").post(function (req, res) {
     let shortID = shortid.generate();
-    TodoList.findOneAndUpdate(
-        { id: req.body.todoListID },
-        { $push: { listItems: { text: req.body.text, completed: false, id: shortID } } },
-        { safe: true, upsert: true },
-        function (err, model) {
-            if (err) {
-                console.log(err);
-            }
-        }
-    );
+    addItem(req.body.todoListID, req.body.text, shortID);
     res.json({ success: true, shortID: shortID });
 });
 
@@ -117,19 +108,9 @@ TodoListRouter.route("/updateItemText").post(function (req, res) {
 
 // Route to update title of a todoList
 TodoListRouter.route("/updateTitle").post(function (req, res) {
-    TodoList.update(
-        { id: req.body.tlID },
-        {
-            $set: {
-                title: req.body.newTitle
-            }
-        },
-        function (err) {
-            if (!err) {
-                res.json({ success: true });
-            }
-        }
-    );
+    //make this a promise
+    updateTitle(req.body.tlID, req.body.newTitle);
+    res.json({ success: true });
 });
 
 // Route to retrieve a todoList
@@ -144,24 +125,41 @@ TodoListRouter.route("/:id").get(function (req, res) {
     });
 });
 
-// Route to add individual todoList item
+// Import a trello list into a todoList
 TodoListRouter.route("/getListItems").post(function (req, res) {
-    //let shortID = shortid.generate();
-    // TodoList.findOneAndUpdate(
-    //     { id: req.body.todoListID },
-    //     { $push: { listItems: { text: req.body.text, completed: false, id: shortID } } },
-    //     { safe: true, upsert: true },
-    //     function (err, model) {
-    //         if (err) {
-    //             console.log(err);
-    //         }
-    //     }
-    // );
+    updateTitle(req.body.todoListID, req.body.title);
     getTrelloListItems(req, res);
-    //res.json({ success: true, shortID: shortID });
 });
 
 /* TodoList helper functions */
+function addItem (todoListID, text, itemID) {
+    TodoList.findOneAndUpdate(
+        { id: todoListID },
+        { $push: { listItems: { text: text, completed: false, id: itemID } } },
+        { safe: true, upsert: true },
+        function (err) {
+            if (err) {
+                console.log(err);
+            }
+        }
+    );
+}
+
+function updateTitle (todoListID, newTitle) {
+    TodoList.update(
+        { id: todoListID },
+        {
+            $set: {
+                title: newTitle
+            }
+        },
+        function (err) {
+            if (err) {
+                console.log(err);
+            }
+        }
+    );
+}
 
 // Recursively check for an unused ID
 function doesntExistInDB (shortID, callback) {
@@ -190,8 +188,8 @@ function getTrelloListItems (request, response) {
             let itemArray = [];
             dataJSON.map(item => {
                 itemArray.push({ text: item.name, id: item.id });
+                addItem(request.body.todoListID, item.name, item.id);
             });
-            console.log(itemArray);
             response.json(itemArray);
         }
     );
