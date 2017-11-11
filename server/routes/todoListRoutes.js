@@ -187,8 +187,9 @@ function getTrelloListItems (request, response) {
             let dataJSON = JSON.parse(data);
             let itemArray = [];
             dataJSON.map(item => {
-                itemArray.push({ text: item.name, id: item.id });
-                addItem(request.body.todoListID, item.name, item.id);
+                let shortID = shortid.generate();
+                itemArray.push({ text: item.name, completed: false, id: shortID });
+                addItem(request.body.todoListID, item.name, shortID);
             });
             response.json(itemArray);
         }
