@@ -24,7 +24,7 @@ class App extends Component {
                         BrentonWheeler/mern-todolist
                     </a>{" "}
                 </span>
-                <TodoList urlID={this.props.match.params.id} />
+                <TodoList urlID={this.props.match.params.id} urlListID={this.props.match.params.listID} />
                 <span className="" style={{ position: "absolute", top: "0px", left: "0px" }}>
                     * Click{" "}
                     <CopyToClipboard text={window.location.href}>

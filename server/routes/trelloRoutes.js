@@ -59,7 +59,7 @@ var getUserLists = function (boardsArray, token, secret) {
                         secret,
                         function (error, data, res) {
                             let dataArray = JSON.parse(data);
-                            let dataItem = { boardName: board.name, boardID: board.id, listArray: [] };
+                            let dataItem = { name: board.name, boardID: board.id, listArray: [] };
                             dataArray.map(list => {
                                 dataItem.listArray.push({ name: list.name, id: list.id });
                             });

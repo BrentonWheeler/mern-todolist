@@ -54,7 +54,7 @@ class Home extends Component {
                         Create new TodoList
                     </button>
                 </div>
-                <ImportList />
+                <ImportList history={this.props.history} />
             </div>
         );
     }

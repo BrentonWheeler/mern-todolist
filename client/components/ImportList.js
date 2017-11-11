@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-//import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import createTodoListAction from "../redux/actions/createTodoAction";
+import PropTypes from "prop-types";
 
 class ImportList extends Component {
     constructor (props) {
         super(props);
-        this.state = {
-            importText: "",
-            listsList: null
-        };
         this.importClicked = this.importClicked.bind(this);
+        this.trelloListClicked = this.trelloListClicked.bind(this);
         //this.importInputChange = this.importInputChange.bind(this);
     }
 
@@ -16,43 +16,76 @@ class ImportList extends Component {
         location.href = process.env.BASE_URL + "/trello/login";
     }
 
-    // importInputChange (e) {
-    //     this.setState({
-    //         importText: e.target.value
-    //     });
-    // }
+    trelloListClicked (listid) {
+        //console.log(listid);
+        this.props.createTodoListAction().then(id => {
+            this.props.history.push("todolist/" + id + "&trelloListID=" + listid);
+        });
+    }
 
     render () {
-        let selectListElement = <div />;
-        if (this.state.listsList !== null) {
-            selectListElement = (
-                <select className="col s6 offset-s3 center-align browser-default">
-                    <option value="" disabled selected>
-                        Select a list from that board
-                    </option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
-                </select>
-            );
-        }
-        return (
-            <div className="row">
-                <div className="col s6 offset-s3 center-align">
-                    <div className="input-field inline">
-                        <button onClick={this.importClicked} className="waves-effect waves-light btn ">
-                            {" "}
-                            import from Trello{" "}
-                        </button>
-                    </div>
+        let selectListElement = (
+            <div className="col s6 offset-s3 center-align">
+                <div className="input-field inline">
+                    <button onClick={this.importClicked} className="waves-effect waves-light btn ">
+                        {" "}
+                        import from Trello{" "}
+                    </button>
                 </div>
-                {selectListElement}
             </div>
         );
+        if (this.props.trelloBoards !== null) {
+            selectListElement = (
+                <ul className="main-navigation col s2 offset-s5 center-align browser-default">
+                    <li className="center-align">
+                        <a href="#">Trello Boards</a>
+                        <ul>
+                            {this.props.trelloBoards.map(board => {
+                                return (
+                                    <li>
+                                        <a href="#">{board.name}</a>
+                                        <ul>
+                                            {board.listArray.map(list => {
+                                                return (
+                                                    <li>
+                                                        <a
+                                                            onClick={this.trelloListClicked.bind(this, list.id)}
+                                                            href="#"
+                                                        >
+                                                            {list.name}
+                                                        </a>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </li>
+                </ul>
+            );
+        }
+
+        return <div className="row">{selectListElement}</div>;
     }
 }
 
-// ImportList.propTypes = {
-// };
+// Redux Connections
+const matchDispatchToProps = dispatch => {
+    return bindActionCreators({ createTodoListAction: createTodoListAction }, dispatch);
+};
 
-export default ImportList;
+const mapStateToProps = state => {
+    return {
+        trelloBoards: state.trelloBoards
+    };
+};
+
+ImportList.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired
+};
+
+export default connect(mapStateToProps, matchDispatchToProps)(ImportList);

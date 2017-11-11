@@ -19,6 +19,7 @@ ReactDOM.render(
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/login" component={Login} />
+                    <Route path="/todolist/:id&trelloListID=:listID" component={App} />
                     <Route path="/todolist/:id" component={App} />
                     <Route
                         exact

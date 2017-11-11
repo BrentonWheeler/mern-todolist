@@ -16,6 +16,8 @@ class TodoList extends Component {
     componentWillMount () {
         if (this.props.todoList.id === "") {
             this.props.getTodoItemsAction(this.props.urlID);
+        } else if (this.props.urlListID === undefined) {
+            //redux import list flow
         }
     }
 
