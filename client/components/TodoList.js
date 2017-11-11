@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
+import getTrelloListItemsAction from "../redux/actions/getTrelloListItemsAction";
 
 class TodoList extends Component {
     constructor (props) {
@@ -16,8 +17,8 @@ class TodoList extends Component {
     componentWillMount () {
         if (this.props.todoList.id === "") {
             this.props.getTodoItemsAction(this.props.urlID);
-        } else if (this.props.urlListID === undefined) {
-            //redux import list flow
+        } else if (this.props.todoList.isImporting) {
+            this.props.getTrelloListItemsAction(this.props.trello, this.props.todoList.id);
         }
     }
 
@@ -50,14 +51,16 @@ TodoItem.propTypes = {
 // Redux Connections
 const mapStateToProps = state => {
     return {
-        todoList: state.todoLists
+        todoList: state.todoLists,
+        trello: state.trello
     };
 };
 
 const matchDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getTodoItemsAction: getTodoItemsAction
+            getTodoItemsAction: getTodoItemsAction,
+            getTrelloListItemsAction: getTrelloListItemsAction
         },
         dispatch
     );

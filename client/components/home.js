@@ -21,11 +21,10 @@ class Home extends Component {
     componentWillMount () {
         if (this.props.match.params.accessToken !== undefined) {
             //this.setState({ showTrelloLists: true });
-            this.props
-                .getTrelloListsAction(this.props.match.params.accessToken, this.props.match.params.accessTokenSecret)
-                .then(() => {
-                    //put ui update with trello lists here
-                });
+            this.props.getTrelloListsAction(
+                this.props.match.params.accessToken,
+                this.props.match.params.accessTokenSecret
+            );
         }
     }
 
@@ -35,7 +34,7 @@ class Home extends Component {
 
     // Button onClick to create a unique TodoList page
     newTodoList () {
-        this.props.createTodoListAction().then(id => {
+        this.props.createTodoListAction(false).then(id => {
             this.props.history.push("todolist/" + id);
         });
     }

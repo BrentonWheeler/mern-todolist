@@ -5,15 +5,17 @@ export default function getTrelloListsAction (token, secret) {
     return dispatch => {
         return trelloAPI.getBoards(token, secret).then(res => {
             let boards = res.data;
-            dispatch(getTrelloListsActionAsync(boards));
+            dispatch(getTrelloListsActionAsync(token, secret, boards));
             return boards;
         });
     };
 }
 
-function getTrelloListsActionAsync (boards) {
+function getTrelloListsActionAsync (token, secret, boards) {
     return {
         type: GET_TRELLO_LISTS,
+        token: token,
+        secret: secret,
         boards: boards
     };
 }

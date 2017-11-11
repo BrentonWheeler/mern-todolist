@@ -6,5 +6,5 @@ import TrelloReducer from "./trelloReducer";
 export default combineReducers({
     loginState: LoginStateReducer,
     todoLists: TodoListReducer,
-    trelloBoards: TrelloReducer
+    trello: TrelloReducer
 });

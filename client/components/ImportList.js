@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import createTodoListAction from "../redux/actions/createTodoAction";
+import saveTrelloListInfoAction from "../redux/actions/saveTrelloListInfoAction";
 import PropTypes from "prop-types";
 
 class ImportList extends Component {
@@ -9,17 +10,17 @@ class ImportList extends Component {
         super(props);
         this.importClicked = this.importClicked.bind(this);
         this.trelloListClicked = this.trelloListClicked.bind(this);
-        //this.importInputChange = this.importInputChange.bind(this);
     }
 
     importClicked () {
         location.href = process.env.BASE_URL + "/trello/login";
     }
 
-    trelloListClicked (listid) {
+    trelloListClicked (listID, listName, boardID, boardName) {
         //console.log(listid);
-        this.props.createTodoListAction().then(id => {
-            this.props.history.push("todolist/" + id + "&trelloListID=" + listid);
+        this.props.createTodoListAction(true).then(id => {
+            this.props.saveTrelloListInfoAction(listID, listName, boardID, boardName);
+            this.props.history.push("todolist/" + id);
         });
     }
 
@@ -34,13 +35,13 @@ class ImportList extends Component {
                 </div>
             </div>
         );
-        if (this.props.trelloBoards !== null) {
+        if (this.props.trello !== null) {
             selectListElement = (
                 <ul className="main-navigation col s2 offset-s5 center-align browser-default">
                     <li className="center-align">
                         <a href="#">Trello Boards</a>
                         <ul>
-                            {this.props.trelloBoards.map(board => {
+                            {this.props.trello.boards.map(board => {
                                 return (
                                     <li>
                                         <a href="#">{board.name}</a>
@@ -49,7 +50,13 @@ class ImportList extends Component {
                                                 return (
                                                     <li>
                                                         <a
-                                                            onClick={this.trelloListClicked.bind(this, list.id)}
+                                                            onClick={this.trelloListClicked.bind(
+                                                                this,
+                                                                list.id,
+                                                                list.name,
+                                                                board.id,
+                                                                board.name
+                                                            )}
                                                             href="#"
                                                         >
                                                             {list.name}
@@ -73,12 +80,15 @@ class ImportList extends Component {
 
 // Redux Connections
 const matchDispatchToProps = dispatch => {
-    return bindActionCreators({ createTodoListAction: createTodoListAction }, dispatch);
+    return bindActionCreators(
+        { createTodoListAction: createTodoListAction, saveTrelloListInfoAction: saveTrelloListInfoAction },
+        dispatch
+    );
 };
 
 const mapStateToProps = state => {
     return {
-        trelloBoards: state.trelloBoards
+        trello: state.trello
     };
 };
 

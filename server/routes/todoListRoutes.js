@@ -4,6 +4,17 @@ var shortid = require("shortid");
 var Promise = require("promise");
 var path = require("path");
 var TodoList = require("../models/todoListModels");
+var OAuth = require("oauth").OAuth;
+
+/*
+/     OAuth Setup and Functions
+*/
+const requestURL = "https://trello.com/1/OAuthGetRequestToken";
+const accessURL = "https://trello.com/1/OAuthGetAccessToken";
+const key = process.env.TRELLO_KEY;
+const secret = process.env.TRELLO_OAUTH_SECRET;
+const loginCallback = process.env.BASE_URL + "trello/OAuthCallback";
+const oauth = new OAuth(requestURL, accessURL, key, secret, "1.0A", loginCallback, "HMAC-SHA1");
 
 TodoListRouter.use(express.static(path.join(__dirname, "../../client")));
 
@@ -133,6 +144,23 @@ TodoListRouter.route("/:id").get(function (req, res) {
     });
 });
 
+// Route to add individual todoList item
+TodoListRouter.route("/getListItems").post(function (req, res) {
+    //let shortID = shortid.generate();
+    // TodoList.findOneAndUpdate(
+    //     { id: req.body.todoListID },
+    //     { $push: { listItems: { text: req.body.text, completed: false, id: shortID } } },
+    //     { safe: true, upsert: true },
+    //     function (err, model) {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+    //     }
+    // );
+    getTrelloListItems(req, res);
+    //res.json({ success: true, shortID: shortID });
+});
+
 /* TodoList helper functions */
 
 // Recursively check for an unused ID
@@ -149,6 +177,24 @@ function doesntExistInDB (shortID, callback) {
 function createTodoListInDB (newID) {
     var todoList = new TodoList(newID);
     return todoList.save();
+}
+
+function getTrelloListItems (request, response) {
+    oauth.getProtectedResource(
+        "https://api.trello.com/1/lists/" + request.body.trelloListID + "/cards",
+        "GET",
+        request.body.token,
+        request.body.secret,
+        function (error, data, res) {
+            let dataJSON = JSON.parse(data);
+            let itemArray = [];
+            dataJSON.map(item => {
+                itemArray.push({ text: item.name, id: item.id });
+            });
+            console.log(itemArray);
+            response.json(itemArray);
+        }
+    );
 }
 
 module.exports = TodoListRouter;
