@@ -7,7 +7,9 @@
     "dev": "webpack-dev-server --content-base client/",
     "api": "webpack --config webpack-server.dev.config.js && nodemon bin/www",
     "start": "nodemon bin/www",
-    "build": "webpack --config webpack-server.dev.config.js"
+    "build": "webpack --config webpack-server.dev.config.js",
+    "test": "jest",
+    "test:watch": "npm run test -- --watch"
   },
   "author": "Brenton Wheeler",
   "license": "ISC",
@@ -37,7 +39,8 @@
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
-    "shortid": "^2.2.8"
+    "shortid": "^2.2.8",
+    "styled-components": "^2.2.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -50,6 +53,7 @@
     "css-loader": "^0.28.7",
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-react": "^7.4.0",
+    "jest": "^21.2.1",
     "node-sass": "^4.6.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",

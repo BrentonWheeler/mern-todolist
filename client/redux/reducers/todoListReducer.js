@@ -12,7 +12,7 @@ import {
 const initialState = {
     // TODO: redo this initial state
     id: "",
-    title: "My Todo List",
+    title: "",
     listItems: []
 };
 

@@ -27446,7 +27446,7 @@ var _types = __webpack_require__(10);
 var initialState = {
     // TODO: redo this initial state
     id: "",
-    title: "My Todo List",
+    title: "",
     listItems: []
 };
 
