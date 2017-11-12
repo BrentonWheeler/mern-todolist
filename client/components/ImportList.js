@@ -4,7 +4,85 @@ import { connect } from "react-redux";
 import createTodoListAction from "../redux/actions/createTodoAction";
 import saveTrelloListInfoAction from "../redux/actions/saveTrelloListInfoAction";
 import PropTypes from "prop-types";
-import style from "../styles/tempDropDownMenu.css";
+import styled from "styled-components";
+
+const DropDownMenuStyledDiv = styled.div`
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background: #2bbbae;
+    }
+
+    ul li {
+        display: block;
+        position: relative;
+        float: left;
+        background: #2bbbae;
+    }
+
+    /* This hides the dropdowns */
+
+    li ul {
+        display: none;
+    }
+
+    ul li a {
+        display: block;
+        padding: 1em;
+        text-decoration: none;
+        white-space: nowrap;
+        color: #fff;
+    }
+
+    ul li a:hover {
+        background: #2c3e50;
+    }
+
+    /* Display the dropdown */
+
+    li:hover > ul {
+        display: block;
+        position: absolute;
+    }
+
+    li:hover li {
+        float: none;
+    }
+
+    li:hover a {
+        background: #2bbbae;
+    }
+
+    li:hover li a:hover {
+        background: #2c3e50;
+    }
+
+    .main-navigation li ul li {
+        border-top: 0;
+    }
+
+    /* Displays second level dropdowns to the right of the first level dropdown */
+
+    ul ul ul {
+        left: 100%;
+        top: 0;
+    }
+
+    /* Simple clearfix */
+
+    ul:before,
+    ul:after {
+        content: " ";
+        /* 1 */
+        display: table;
+        /* 2 */
+    }
+
+    ul:after {
+        clear: both;
+    }
+`;
 
 class ImportList extends Component {
     constructor (props) {
@@ -38,44 +116,48 @@ class ImportList extends Component {
         );
         if (this.props.trello !== null) {
             selectListElement = (
-                <ul className="main-navigation col s2 offset-s5 center-align browser-default">
-                    <li className="center-align">
-                        <a href="#">Trello Boards</a>
-                        <ul>
-                            {this.props.trello.boards.map(board => {
-                                return (
-                                    <li>
-                                        <a href="#">{board.name}</a>
-                                        <ul>
-                                            {board.listArray.map(list => {
-                                                return (
-                                                    <li>
-                                                        <a
-                                                            onClick={this.trelloListClicked.bind(
-                                                                this,
-                                                                list.id,
-                                                                list.name,
-                                                                board.id,
-                                                                board.name
-                                                            )}
-                                                            href="#"
-                                                        >
-                                                            {list.name}
-                                                        </a>
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </li>
-                </ul>
+                <div className="row col s1 offset-s5 center-align">
+                    <ul className="main-navigation col center-align" style={{ marginLeft: "50%" }}>
+                        <li className="center-align">
+                            <a className="center-align" href="#">
+                                Trello Boards
+                            </a>
+                            <ul>
+                                {this.props.trello.boards.map(board => {
+                                    return (
+                                        <li>
+                                            <a href="#">{board.name}</a>
+                                            <ul>
+                                                {board.listArray.map(list => {
+                                                    return (
+                                                        <li>
+                                                            <a
+                                                                onClick={this.trelloListClicked.bind(
+                                                                    this,
+                                                                    list.id,
+                                                                    list.name,
+                                                                    board.id,
+                                                                    board.name
+                                                                )}
+                                                                href="#"
+                                                            >
+                                                                {list.name}
+                                                            </a>
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             );
         }
 
-        return <div className="row">{selectListElement}</div>;
+        return <DropDownMenuStyledDiv className="row center-align">{selectListElement}</DropDownMenuStyledDiv>;
     }
 }
 
