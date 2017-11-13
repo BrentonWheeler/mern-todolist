@@ -64,13 +64,14 @@ class TodoItem extends Component {
         );
     }
 
+    // Updates local component state to allow editing of item text
     handleItemTextOnChange (e) {
         this.setState({
             inputItemText: e.target.value
         });
     }
 
-    // This updates the redux store
+    // This creates a redux action that is sent to server
     handleItemTextUpdate () {
         if (this.state.inputItemText === "") {
             this.notify();
@@ -93,6 +94,8 @@ class TodoItem extends Component {
     }
 
     render () {
+        console.log("rendering item with props:");
+        console.log(this.props);
         // Asigning the item text to either a label or input to allow editing
         let itemTextElement;
         if (this.state.showInput) {
@@ -109,7 +112,10 @@ class TodoItem extends Component {
                 </div>
             );
         } else {
-            itemTextElement = <span onClick={this.handleItemTextClick}>{this.props.item.text}</span>;
+            itemTextElement = (
+                // Passing the item text from redux store instead of from redux store then down from todoList, as that wasnt rerendering correctly
+                <span onClick={this.handleItemTextClick}>{this.props.todoList.listItems[this.props.i].text}</span>
+            );
         }
 
         return (
@@ -154,6 +160,12 @@ TodoItem.propTypes = {
 };
 
 // Redux Connections
+const mapStateToProps = state => {
+    return {
+        todoList: state.todoLists
+    };
+};
+
 const matchDispatchToProps = dispatch => {
     return bindActionCreators(
         {
@@ -165,4 +177,4 @@ const matchDispatchToProps = dispatch => {
     );
 };
 
-export default connect(null, matchDispatchToProps)(TodoItem);
+export default connect(mapStateToProps, matchDispatchToProps)(TodoItem);

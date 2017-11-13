@@ -27,7 +27,6 @@ export default function (state = initialState, action) {
             });
             break;
         case CREATE_TODO_ITEM:
-            console.log("aye");
             return Object.assign({}, state, {
                 listItems: addTodoItemToArray(state.listItems, action)
             });
@@ -57,6 +56,7 @@ export default function (state = initialState, action) {
             });
             break;
         case UPDATE_TODO_ITEM_TEXT:
+            console.log("update todoItem text - todoListReducer");
             return Object.assign({}, state, {
                 listItems: updateItemTextInArray(state.listItems, action)
             });

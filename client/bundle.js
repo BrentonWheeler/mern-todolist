@@ -924,16 +924,12 @@ var GET_TRELLO_LISTS = exports.GET_TRELLO_LISTS = "get_trello_lists";
 var GET_TRELLO_LIST_ITEMS = exports.GET_TRELLO_LIST_ITEMS = "get_trello_list_items";
 var SAVE_TRELLO_LIST_INFO = exports.SAVE_TRELLO_LIST_INFO = "save_trello_list_info";
 
-//export const SERVER_CREATE_TODO_LIST = "server/create_todo_list";
-var SERVER_CREATE_TODO_ITEM = exports.SERVER_CREATE_TODO_ITEM = "server/create_todo_item"; //
-//export const SERVER_GET_TODO_ITEMS = "server/get_todo_items";
-var SERVER_DELETE_TODO_ITEM = exports.SERVER_DELETE_TODO_ITEM = "server/delete_todo_item"; //
-var SERVER_TOGGLE_TODO_ITEM = exports.SERVER_TOGGLE_TODO_ITEM = "server/toggle_todo_item"; //
+// Only these need to be sent to server and emitted to other clients
+var SERVER_CREATE_TODO_ITEM = exports.SERVER_CREATE_TODO_ITEM = "server/create_todo_item";
+var SERVER_DELETE_TODO_ITEM = exports.SERVER_DELETE_TODO_ITEM = "server/delete_todo_item";
+var SERVER_TOGGLE_TODO_ITEM = exports.SERVER_TOGGLE_TODO_ITEM = "server/toggle_todo_item";
 var SERVER_UPDATE_TODO_ITEM_TEXT = exports.SERVER_UPDATE_TODO_ITEM_TEXT = "server/update_todo_item_text";
 var SERVER_UPDATE_TITLE = exports.SERVER_UPDATE_TITLE = "server/update_title";
-//export const SERVER_GET_TRELLO_LISTS = "server/get_trello_lists";
-//export const SERVER_GET_TRELLO_LIST_ITEMS = "server/get_trello_list_items";
-//export const SERVER_SAVE_TRELLO_LIST_INFO = "server/save_trello_list_info";
 
 /***/ }),
 /* 12 */
@@ -33861,7 +33857,6 @@ exports.default = function () {
             });
             break;
         case _types.CREATE_TODO_ITEM:
-            console.log("aye");
             return Object.assign({}, state, {
                 listItems: addTodoItemToArray(state.listItems, action)
             });
@@ -33886,6 +33881,7 @@ exports.default = function () {
             });
             break;
         case _types.UPDATE_TODO_ITEM_TEXT:
+            console.log("update todoItem text - todoListReducer");
             return Object.assign({}, state, {
                 listItems: updateItemTextInArray(state.listItems, action)
             });
@@ -40045,6 +40041,8 @@ var TodoItem = function (_Component) {
     }, {
         key: "render",
         value: function render() {
+            console.log("rendering item with props:");
+            console.log(this.props);
             // Asigning the item text to either a label or input to allow editing
             var itemTextElement = void 0;
             if (this.state.showInput) {
@@ -40061,10 +40059,12 @@ var TodoItem = function (_Component) {
                     })
                 );
             } else {
-                itemTextElement = _react2.default.createElement(
+                itemTextElement =
+                // Passing the item text from redux store instead of from redux store then down from todoList, as that wasnt rerendering correctly
+                _react2.default.createElement(
                     "span",
                     { onClick: this.handleItemTextClick },
-                    this.props.item.text
+                    this.props.todoList.listItems[this.props.i].text
                 );
             }
 
@@ -40115,6 +40115,12 @@ TodoItem.propTypes = {
 };
 
 // Redux Connections
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        todoList: state.todoLists
+    };
+};
+
 var matchDispatchToProps = function matchDispatchToProps(dispatch) {
     return (0, _redux.bindActionCreators)({
         deleteTodoItemAction: _deleteTodoItemAction2.default,
@@ -40123,7 +40129,7 @@ var matchDispatchToProps = function matchDispatchToProps(dispatch) {
     }, dispatch);
 };
 
-exports.default = (0, _reactRedux.connect)(null, matchDispatchToProps)(TodoItem);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, matchDispatchToProps)(TodoItem);
 
 /***/ }),
 /* 358 */
@@ -40148,26 +40154,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function deleteTodoItemAction(todoListID, todoItemID) {
     return function (dispatch) {
         return _todoList2.default.deleteItem(todoListID, todoItemID).then(function () {
-            dispatch(deleteTodoItemActionAsyncSERVER(todoItemID));
-            //dispatch(deleteTodoItemActionAsync(todoItemID));
+            dispatch(deleteTodoItemActionToServerAsync(todoItemID));
             return;
         });
     };
 }
 
-function deleteTodoItemActionAsyncSERVER(todoItemID) {
+function deleteTodoItemActionToServerAsync(todoItemID) {
     return {
         type: _types.SERVER_DELETE_TODO_ITEM,
         id: todoItemID
     };
 }
-
-// function deleteTodoItemActionAsync (todoItemID) {
-//     return {
-//         type: DELETE_TODO_ITEM,
-//         id: todoItemID
-//     };
-// }
 
 /***/ }),
 /* 359 */
@@ -40192,13 +40190,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function toggleCompleteAction(todoListID, todoItemID, currentState) {
     return function (dispatch) {
         return _todoList2.default.toggleItem(todoListID, todoItemID, currentState).then(function (res) {
-            dispatch(toggleCompleteActionAsyncSERVER(todoItemID, currentState));
+            dispatch(toggleCompleteActionToServerAsync(todoItemID, currentState));
             return;
         });
     };
 }
 
-function toggleCompleteActionAsyncSERVER(todoItemID, currentState) {
+function toggleCompleteActionToServerAsync(todoItemID, currentState) {
     return {
         type: _types.SERVER_TOGGLE_TODO_ITEM,
         todoItemID: todoItemID,
@@ -40229,12 +40227,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function updateTodoItemTextAction(todoListID, todoItemID, newText) {
     return function (dispatch) {
         return _todoList2.default.updateItemText(todoListID, todoItemID, newText).then(function (res) {
-            dispatch(updateTodoItemTextActionAsyncSERVER(todoItemID, newText));
+            dispatch(updateTodoItemTextActionToServerAsync(todoItemID, newText));
         });
     };
 }
 
-function updateTodoItemTextActionAsyncSERVER(todoItemID, newText) {
+function updateTodoItemTextActionToServerAsync(todoItemID, newText) {
     return {
         type: _types.SERVER_UPDATE_TODO_ITEM_TEXT,
         todoItemID: todoItemID,
@@ -42275,12 +42273,12 @@ function createTodoItemAction(text, todoListID) {
     return function (dispatch) {
         return _todoList2.default.addItem({ text: text, todoListID: todoListID }).then(function (res) {
             var shortID = res.data.shortID;
-            dispatch(createTodoItemActionAsyncSERVER(text, todoListID, shortID));
+            dispatch(createTodoItemActionToServerAsync(text, todoListID, shortID));
         });
     };
 }
 
-function createTodoItemActionAsyncSERVER(text, todoListID, shortID) {
+function createTodoItemActionToServerAsync(text, todoListID, shortID) {
     return {
         type: _types.SERVER_CREATE_TODO_ITEM,
         text: text,
@@ -42497,12 +42495,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function updateTitleAction(todoListID, newTitle) {
     return function (dispatch) {
         return _todoList2.default.updateTitle(todoListID, newTitle).then(function (res) {
-            dispatch(updateTitleActionAsync(todoListID, newTitle));
+            dispatch(updateTitleActionToServerAsync(todoListID, newTitle));
         });
     };
 }
 
-function updateTitleActionAsync(todoListID, newTitle) {
+function updateTitleActionToServerAsync(todoListID, newTitle) {
     return {
         type: _types.SERVER_UPDATE_TITLE,
         todoListID: todoListID,
