@@ -27,6 +27,7 @@ export default function (state = initialState, action) {
             });
             break;
         case CREATE_TODO_ITEM:
+            console.log("aye");
             return Object.assign({}, state, {
                 listItems: addTodoItemToArray(state.listItems, action)
             });

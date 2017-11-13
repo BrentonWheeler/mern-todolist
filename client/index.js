@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createStore, applyMiddleware } from "redux";
+import createSocketIoMiddleware from "redux-socket.io";
+import io from "socket.io-client";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -9,8 +11,17 @@ import Home from "./components/Home";
 import Login from "./components/login";
 import App from "./components/app";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+let socket = io("http://localhost:4201");
+let socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+//let store = applyMiddleware(socketIoMiddleware)(createStore)(reducer);
+
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, socketIoMiddleware)));
+
+// store.subscribe(() => {
+//     console.log("new client state", store.getState());
+// });
+//store.dispatch({ type: "server/hello", data: "Hello!123" });
 
 ReactDOM.render(
     <BrowserRouter>
