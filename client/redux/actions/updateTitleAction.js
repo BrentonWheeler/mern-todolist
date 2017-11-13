@@ -1,5 +1,5 @@
 import todoListAPI from "../../api/todoList";
-import { UPDATE_TITLE } from "./types";
+import { SERVER_UPDATE_TITLE } from "./types";
 
 export default function updateTitleAction (todoListID, newTitle) {
     return dispatch => {
@@ -11,7 +11,7 @@ export default function updateTitleAction (todoListID, newTitle) {
 
 function updateTitleActionAsync (todoListID, newTitle) {
     return {
-        type: UPDATE_TITLE,
+        type: SERVER_UPDATE_TITLE,
         todoListID: todoListID,
         newTitle: newTitle
     };

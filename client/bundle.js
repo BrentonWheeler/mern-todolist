@@ -924,7 +924,16 @@ var GET_TRELLO_LISTS = exports.GET_TRELLO_LISTS = "get_trello_lists";
 var GET_TRELLO_LIST_ITEMS = exports.GET_TRELLO_LIST_ITEMS = "get_trello_list_items";
 var SAVE_TRELLO_LIST_INFO = exports.SAVE_TRELLO_LIST_INFO = "save_trello_list_info";
 
-var SERVER_CREATE_TODO_ITEM = exports.SERVER_CREATE_TODO_ITEM = "server/create_todo_item";
+//export const SERVER_CREATE_TODO_LIST = "server/create_todo_list";
+var SERVER_CREATE_TODO_ITEM = exports.SERVER_CREATE_TODO_ITEM = "server/create_todo_item"; //
+//export const SERVER_GET_TODO_ITEMS = "server/get_todo_items";
+var SERVER_DELETE_TODO_ITEM = exports.SERVER_DELETE_TODO_ITEM = "server/delete_todo_item"; //
+var SERVER_TOGGLE_TODO_ITEM = exports.SERVER_TOGGLE_TODO_ITEM = "server/toggle_todo_item"; //
+var SERVER_UPDATE_TODO_ITEM_TEXT = exports.SERVER_UPDATE_TODO_ITEM_TEXT = "server/update_todo_item_text";
+var SERVER_UPDATE_TITLE = exports.SERVER_UPDATE_TITLE = "server/update_title";
+//export const SERVER_GET_TRELLO_LISTS = "server/get_trello_lists";
+//export const SERVER_GET_TRELLO_LIST_ITEMS = "server/get_trello_list_items";
+//export const SERVER_SAVE_TRELLO_LIST_INFO = "server/save_trello_list_info";
 
 /***/ }),
 /* 12 */
@@ -40139,18 +40148,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function deleteTodoItemAction(todoListID, todoItemID) {
     return function (dispatch) {
         return _todoList2.default.deleteItem(todoListID, todoItemID).then(function () {
-            dispatch(deleteTodoItemActionAsync(todoItemID));
+            dispatch(deleteTodoItemActionAsyncSERVER(todoItemID));
+            //dispatch(deleteTodoItemActionAsync(todoItemID));
             return;
         });
     };
 }
 
-function deleteTodoItemActionAsync(todoItemID) {
+function deleteTodoItemActionAsyncSERVER(todoItemID) {
     return {
-        type: _types.DELETE_TODO_ITEM,
+        type: _types.SERVER_DELETE_TODO_ITEM,
         id: todoItemID
     };
 }
+
+// function deleteTodoItemActionAsync (todoItemID) {
+//     return {
+//         type: DELETE_TODO_ITEM,
+//         id: todoItemID
+//     };
+// }
 
 /***/ }),
 /* 359 */
@@ -40175,15 +40192,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function toggleCompleteAction(todoListID, todoItemID, currentState) {
     return function (dispatch) {
         return _todoList2.default.toggleItem(todoListID, todoItemID, currentState).then(function (res) {
-            dispatch(toggleCompleteActionAsync(todoItemID, currentState));
+            dispatch(toggleCompleteActionAsyncSERVER(todoItemID, currentState));
             return;
         });
     };
 }
 
-function toggleCompleteActionAsync(todoItemID, currentState) {
+function toggleCompleteActionAsyncSERVER(todoItemID, currentState) {
     return {
-        type: _types.TOGGLE_TODO_ITEM,
+        type: _types.SERVER_TOGGLE_TODO_ITEM,
         todoItemID: todoItemID,
         currentState: currentState
     };
@@ -40212,14 +40229,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function updateTodoItemTextAction(todoListID, todoItemID, newText) {
     return function (dispatch) {
         return _todoList2.default.updateItemText(todoListID, todoItemID, newText).then(function (res) {
-            dispatch(updateTodoItemTextActionAsync(todoItemID, newText));
+            dispatch(updateTodoItemTextActionAsyncSERVER(todoItemID, newText));
         });
     };
 }
 
-function updateTodoItemTextActionAsync(todoItemID, newText) {
+function updateTodoItemTextActionAsyncSERVER(todoItemID, newText) {
     return {
-        type: _types.UPDATE_TODO_ITEM_TEXT,
+        type: _types.SERVER_UPDATE_TODO_ITEM_TEXT,
         todoItemID: todoItemID,
         newText: newText
     };
@@ -42259,7 +42276,6 @@ function createTodoItemAction(text, todoListID) {
         return _todoList2.default.addItem({ text: text, todoListID: todoListID }).then(function (res) {
             var shortID = res.data.shortID;
             dispatch(createTodoItemActionAsyncSERVER(text, todoListID, shortID));
-            //dispatch(createTodoItemActionAsync(text, todoListID, shortID));
         });
     };
 }
@@ -42272,15 +42288,6 @@ function createTodoItemActionAsyncSERVER(text, todoListID, shortID) {
         id: shortID
     };
 }
-
-// function createTodoItemActionAsync (text, todoListID, shortID) {
-//     return {
-//         type: CREATE_TODO_ITEM,
-//         text: text,
-//         todoListID: todoListID,
-//         id: shortID
-//     };
-// }
 
 /***/ }),
 /* 374 */
@@ -42497,7 +42504,7 @@ function updateTitleAction(todoListID, newTitle) {
 
 function updateTitleActionAsync(todoListID, newTitle) {
     return {
-        type: _types.UPDATE_TITLE,
+        type: _types.SERVER_UPDATE_TITLE,
         todoListID: todoListID,
         newTitle: newTitle
     };

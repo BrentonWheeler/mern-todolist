@@ -1,18 +1,26 @@
 import todoListAPI from "../../api/todoList";
-import { DELETE_TODO_ITEM } from "./types";
+import { SERVER_DELETE_TODO_ITEM } from "./types";
 
 export default function deleteTodoItemAction (todoListID, todoItemID) {
     return dispatch => {
         return todoListAPI.deleteItem(todoListID, todoItemID).then(() => {
-            dispatch(deleteTodoItemActionAsync(todoItemID));
+            dispatch(deleteTodoItemActionAsyncSERVER(todoItemID));
+            //dispatch(deleteTodoItemActionAsync(todoItemID));
             return;
         });
     };
 }
 
-function deleteTodoItemActionAsync (todoItemID) {
+function deleteTodoItemActionAsyncSERVER (todoItemID) {
     return {
-        type: DELETE_TODO_ITEM,
+        type: SERVER_DELETE_TODO_ITEM,
         id: todoItemID
     };
 }
+
+// function deleteTodoItemActionAsync (todoItemID) {
+//     return {
+//         type: DELETE_TODO_ITEM,
+//         id: todoItemID
+//     };
+// }
