@@ -4,6 +4,17 @@ var shortid = require("shortid");
 var Promise = require("promise");
 var path = require("path");
 var TodoList = require("../models/todoListModels");
+var OAuth = require("oauth").OAuth;
+
+/*
+/     OAuth Setup and Functions
+*/
+const requestURL = "https://trello.com/1/OAuthGetRequestToken";
+const accessURL = "https://trello.com/1/OAuthGetAccessToken";
+const key = process.env.TRELLO_KEY;
+const secret = process.env.TRELLO_OAUTH_SECRET;
+const loginCallback = process.env.BASE_URL + "trello/OAuthCallback";
+const oauth = new OAuth(requestURL, accessURL, key, secret, "1.0A", loginCallback, "HMAC-SHA1");
 
 TodoListRouter.use(express.static(path.join(__dirname, "../../client")));
 
@@ -31,16 +42,7 @@ TodoListRouter.route("/create").post(function (req, res) {
 // Route to add individual todoList item
 TodoListRouter.route("/addItem").post(function (req, res) {
     let shortID = shortid.generate();
-    TodoList.findOneAndUpdate(
-        { id: req.body.todoListID },
-        { $push: { listItems: { text: req.body.text, completed: false, id: shortID } } },
-        { safe: true, upsert: true },
-        function (err, model) {
-            if (err) {
-                console.log(err);
-            }
-        }
-    );
+    addItem(req.body.todoListID, req.body.text, shortID);
     res.json({ success: true, shortID: shortID });
 });
 
@@ -106,19 +108,9 @@ TodoListRouter.route("/updateItemText").post(function (req, res) {
 
 // Route to update title of a todoList
 TodoListRouter.route("/updateTitle").post(function (req, res) {
-    TodoList.update(
-        { id: req.body.tlID },
-        {
-            $set: {
-                title: req.body.newTitle
-            }
-        },
-        function (err) {
-            if (!err) {
-                res.json({ success: true });
-            }
-        }
-    );
+    //make this a promise
+    updateTitle(req.body.tlID, req.body.newTitle);
+    res.json({ success: true });
 });
 
 // Route to retrieve a todoList
@@ -133,7 +125,41 @@ TodoListRouter.route("/:id").get(function (req, res) {
     });
 });
 
+// Import a trello list into a todoList
+TodoListRouter.route("/getListItems").post(function (req, res) {
+    updateTitle(req.body.todoListID, req.body.title);
+    getTrelloListItems(req, res);
+});
+
 /* TodoList helper functions */
+function addItem (todoListID, text, itemID) {
+    TodoList.findOneAndUpdate(
+        { id: todoListID },
+        { $push: { listItems: { text: text, completed: false, id: itemID } } },
+        { safe: true, upsert: true },
+        function (err) {
+            if (err) {
+                console.log(err);
+            }
+        }
+    );
+}
+
+function updateTitle (todoListID, newTitle) {
+    TodoList.update(
+        { id: todoListID },
+        {
+            $set: {
+                title: newTitle
+            }
+        },
+        function (err) {
+            if (err) {
+                console.log(err);
+            }
+        }
+    );
+}
 
 // Recursively check for an unused ID
 function doesntExistInDB (shortID, callback) {
@@ -149,6 +175,25 @@ function doesntExistInDB (shortID, callback) {
 function createTodoListInDB (newID) {
     var todoList = new TodoList(newID);
     return todoList.save();
+}
+
+function getTrelloListItems (request, response) {
+    oauth.getProtectedResource(
+        "https://api.trello.com/1/lists/" + request.body.trelloListID + "/cards",
+        "GET",
+        request.body.token,
+        request.body.secret,
+        function (error, data, res) {
+            let dataJSON = JSON.parse(data);
+            let itemArray = [];
+            dataJSON.map(item => {
+                let shortID = shortid.generate();
+                itemArray.push({ text: item.name, completed: false, id: shortID });
+                addItem(request.body.todoListID, item.name, shortID);
+            });
+            response.json(itemArray);
+        }
+    );
 }
 
 module.exports = TodoListRouter;

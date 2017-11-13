@@ -5,12 +5,14 @@ import {
     DELETE_TODO_ITEM,
     TOGGLE_TODO_ITEM,
     UPDATE_TODO_ITEM_TEXT,
-    UPDATE_TITLE
+    UPDATE_TITLE,
+    GET_TRELLO_LIST_ITEMS
 } from "../actions/types";
 
 const initialState = {
+    // TODO: redo this initial state
     id: "",
-    title: "My Todo List",
+    title: "",
     listItems: []
 };
 
@@ -19,6 +21,8 @@ export default function (state = initialState, action) {
         case CREATE_TODO_LIST:
             return Object.assign({}, state, {
                 id: action.id,
+                title: "My Todo List",
+                isImporting: action.isImporting,
                 listItems: []
             });
             break;
@@ -59,6 +63,12 @@ export default function (state = initialState, action) {
         case UPDATE_TITLE:
             return Object.assign({}, state, {
                 title: action.newTitle
+            });
+            break;
+        case GET_TRELLO_LIST_ITEMS:
+            return Object.assign({}, state, {
+                title: action.title,
+                listItems: action.itemArray
             });
             break;
         default:
