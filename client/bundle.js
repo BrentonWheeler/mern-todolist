@@ -35117,7 +35117,6 @@ var ImportList = function (_Component) {
         value: function trelloListClicked(listID, listName, boardID, boardName) {
             var _this2 = this;
 
-            //console.log(listid);
             this.props.createTodoListAction(true).then(function (id) {
                 _this2.props.saveTrelloListInfoAction(listID, listName, boardID, boardName);
                 _this2.props.history.push("todolist/" + id);
@@ -39836,10 +39835,8 @@ var TodoList = function (_Component) {
         key: "componentWillMount",
         value: function componentWillMount() {
             if (this.props.todoList.id === "") {
-                console.log("here111");
                 this.props.getTodoItemsAction(this.props.urlID);
             } else if (this.props.todoList.isImporting) {
-                console.log("here222");
                 this.props.getTrelloListItemsAction(this.props.trello, this.props.todoList.id);
             }
         }
