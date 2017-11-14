@@ -15903,6 +15903,7 @@ function createTodoAction(isImporting) {
         return _todoList2.default.create().then(function (res) {
             var id = res.data.id;
             dispatch(createTodoActionToServerAsync(id, isImporting));
+            dispatch(createTodoActionAsync(id, isImporting));
             return id;
         });
     };
@@ -15911,6 +15912,14 @@ function createTodoAction(isImporting) {
 function createTodoActionToServerAsync(id, isImporting) {
     return {
         type: _types.SERVER_CREATE_TODO_LIST,
+        todoListID: id,
+        isImporting: isImporting
+    };
+}
+
+function createTodoActionAsync(id, isImporting) {
+    return {
+        type: _types.CREATE_TODO_LIST,
         todoListID: id,
         isImporting: isImporting
     };
@@ -39827,8 +39836,10 @@ var TodoList = function (_Component) {
         key: "componentWillMount",
         value: function componentWillMount() {
             if (this.props.todoList.id === "") {
+                console.log("here111");
                 this.props.getTodoItemsAction(this.props.urlID);
             } else if (this.props.todoList.isImporting) {
+                console.log("here222");
                 this.props.getTrelloListItemsAction(this.props.trello, this.props.todoList.id);
             }
         }
@@ -42532,6 +42543,7 @@ function getTodoItemsAction(todoListID) {
             var itemArray = itemsJSON.data.itemArray;
             var title = itemsJSON.data.title;
             dispatch(getTodoItemsActionToServerAsync(itemArray, todoListID, title));
+            dispatch(getTodoItemsActionAsync(itemArray, todoListID, title));
             return itemArray;
         });
     };
@@ -42540,6 +42552,15 @@ function getTodoItemsAction(todoListID) {
 function getTodoItemsActionToServerAsync(itemArray, todoListID, title) {
     return {
         type: _types.SERVER_GET_TODO_ITEMS,
+        itemArray: itemArray,
+        todoListID: todoListID,
+        title: title
+    };
+}
+
+function getTodoItemsActionAsync(itemArray, todoListID, title) {
+    return {
+        type: _types.GET_TODO_ITEMS,
         itemArray: itemArray,
         todoListID: todoListID,
         title: title
@@ -42556,7 +42577,7 @@ function getTodoItemsActionToServerAsync(itemArray, todoListID, title) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = getTodoItemsAction;
+exports.default = getTrelloListItemsAction;
 
 var _trello = __webpack_require__(144);
 
@@ -42566,7 +42587,7 @@ var _types = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getTodoItemsAction(trelloObject, todoListID) {
+function getTrelloListItemsAction(trelloObject, todoListID) {
     return function (dispatch) {
         var title = trelloObject.importBoardName + ": " + trelloObject.importListName;
         return _trello2.default.getListItems(trelloObject.token, trelloObject.secret, todoListID, trelloObject.importListID, title).then(function (res) {
@@ -42576,13 +42597,13 @@ function getTodoItemsAction(trelloObject, todoListID) {
             //     { text: "item one", completed: false, id: "1111111" },
             //     { text: "item two", completed: false, id: "222222" }
             // ];
-            dispatch(getTodoItemsActionAsync(title, itemArray));
+            dispatch(getTrelloListItemsActionAsync(title, itemArray));
             //return list;
         });
     };
 }
 
-function getTodoItemsActionAsync(title, itemArray) {
+function getTrelloListItemsActionAsync(title, itemArray) {
     return {
         type: _types.GET_TRELLO_LIST_ITEMS,
         title: title,
