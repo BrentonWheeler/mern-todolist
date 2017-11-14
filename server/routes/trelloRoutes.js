@@ -65,7 +65,6 @@ var getUserLists = function (boardsArray, token, secret) {
                             });
                             result.push(dataItem);
                             resolve1(dataItem);
-                            //console.log(dataItem);
                         }
                     );
                 })

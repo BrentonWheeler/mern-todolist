@@ -96,7 +96,6 @@ class ImportList extends Component {
     }
 
     trelloListClicked (listID, listName, boardID, boardName) {
-        //console.log(listid);
         this.props.createTodoListAction(true).then(id => {
             this.props.saveTrelloListInfoAction(listID, listName, boardID, boardName);
             this.props.history.push("todolist/" + id);

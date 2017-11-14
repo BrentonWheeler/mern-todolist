@@ -20,7 +20,7 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case CREATE_TODO_LIST:
             return Object.assign({}, state, {
-                id: action.id,
+                id: action.todoListID,
                 title: "My Todo List",
                 isImporting: action.isImporting,
                 listItems: []
