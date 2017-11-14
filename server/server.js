@@ -11,7 +11,7 @@ var server = http.createServer();
 var socket_io = require("socket.io");
 
 // Websockets and redux
-server.listen(4201);
+server.listen(process.env.PORT || 4201);
 var io = socket_io();
 io.attach(server);
 io.on("connection", function (socket) {
