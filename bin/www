@@ -1,5 +1,9 @@
 var app = require('../server/server');
 
-app.listen(port = process.env.PORT || 4200, function(){
+var server = app.listen(port = process.env.PORT || 4200, function(){
   console.log('running at localhost:' + port);
 });
+
+// Socket.io
+var http = require("http");
+var io = require('../server/modules/socket').listen(server);

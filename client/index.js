@@ -12,7 +12,7 @@ import Login from "./components/login";
 import App from "./components/app";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-let socket = io(process.env.BASE_URL + ":" + process.env.PORT || ":4201");
+let socket = io(process.env.BASE_URL);
 let socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, socketIoMiddleware)));

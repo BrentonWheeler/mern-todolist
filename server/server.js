@@ -5,44 +5,6 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 
-// Socket imports
-var http = require("http");
-var server = http.createServer();
-var socket_io = require("socket.io");
-
-// Websockets and redux
-server.listen(process.env.PORT || 4201);
-var io = socket_io();
-io.attach(server);
-io.on("connection", function (socket) {
-    socket.on("action", action => {
-        if (action.type === "server/create_todo_list" || action.type === "server/get_todo_items") {
-            //leave all other rooms minus socket.id room
-            let leaveOtherRooms = new Promise((resolve, reject) => {
-                for (let room in socket.rooms) {
-                    if (room !== socket.id) {
-                        socket.leave(room);
-                    }
-                }
-                resolve();
-            });
-
-            leaveOtherRooms.then(() => {
-                //join new todoListID room
-                socket.join(action.todoListID);
-            });
-
-            let newActionType = action.type.replace("server/", "");
-            //just emits the action back to the sender
-            io.sockets.to(socket.id).emit("action", { ...action, type: newActionType });
-        } else {
-            // these events are broadcasted to all other users on the same todoList
-            let newActionType = action.type.replace("server/", "");
-            io.sockets.in(action.todoListID).emit("action", { ...action, type: newActionType });
-        }
-    });
-});
-
 // Route imports
 var indexRoutes = require("./routes/index");
 var userRoutes = require("./routes/userRoutes");

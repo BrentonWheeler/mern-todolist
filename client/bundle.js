@@ -17377,7 +17377,7 @@ var _reactRouterDom = __webpack_require__(382);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var socket = (0, _socket2.default)("" + ":4201");
+var socket = (0, _socket2.default)("");
 var socketIoMiddleware = (0, _reduxSocket2.default)(socket, "server/");
 
 var store = (0, _redux.createStore)(_rootReducer2.default, (0, _reduxDevtoolsExtension.composeWithDevTools)((0, _redux.applyMiddleware)(_reduxThunk2.default, socketIoMiddleware)));
