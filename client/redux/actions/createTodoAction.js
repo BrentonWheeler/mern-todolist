@@ -1,20 +1,20 @@
 import todoListAPI from "../../api/todoList";
-import { CREATE_TODO_LIST } from "./types";
+import { SERVER_CREATE_TODO_LIST } from "./types";
 
 export default function createTodoAction (isImporting) {
     return dispatch => {
         return todoListAPI.create().then(res => {
             let id = res.data.id;
-            dispatch(createTodoActionAsync(id, isImporting));
+            dispatch(createTodoActionToServerAsync(id, isImporting));
             return id;
         });
     };
 }
 
-function createTodoActionAsync (id, isImporting) {
+function createTodoActionToServerAsync (id, isImporting) {
     return {
-        type: CREATE_TODO_LIST,
-        id: id,
+        type: SERVER_CREATE_TODO_LIST,
+        todoListID: id,
         isImporting: isImporting
     };
 }

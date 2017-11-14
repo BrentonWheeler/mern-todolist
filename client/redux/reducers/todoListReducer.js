@@ -20,7 +20,7 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case CREATE_TODO_LIST:
             return Object.assign({}, state, {
-                id: action.id,
+                id: action.todoListID,
                 title: "My Todo List",
                 isImporting: action.isImporting,
                 listItems: []
@@ -56,7 +56,6 @@ export default function (state = initialState, action) {
             });
             break;
         case UPDATE_TODO_ITEM_TEXT:
-            console.log("update todoItem text - todoListReducer");
             return Object.assign({}, state, {
                 listItems: updateItemTextInArray(state.listItems, action)
             });

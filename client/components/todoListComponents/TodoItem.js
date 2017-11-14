@@ -94,8 +94,6 @@ class TodoItem extends Component {
     }
 
     render () {
-        console.log("rendering item with props:");
-        console.log(this.props);
         // Asigning the item text to either a label or input to allow editing
         let itemTextElement;
         if (this.state.showInput) {

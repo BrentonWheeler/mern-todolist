@@ -11,17 +11,11 @@ import Home from "./components/Home";
 import Login from "./components/login";
 import App from "./components/app";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-let socket = io("http://localhost:4201");
+
+let socket = io(process.env.BASE_URL + ":4201");
 let socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
-//let store = applyMiddleware(socketIoMiddleware)(createStore)(reducer);
-
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, socketIoMiddleware)));
-
-// store.subscribe(() => {
-//     console.log("new client state", store.getState());
-// });
-//store.dispatch({ type: "server/hello", data: "Hello!123" });
 
 ReactDOM.render(
     <BrowserRouter>

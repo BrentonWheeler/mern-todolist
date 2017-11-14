@@ -4,15 +4,16 @@ import { SERVER_TOGGLE_TODO_ITEM } from "./types";
 export default function toggleCompleteAction (todoListID, todoItemID, currentState) {
     return dispatch => {
         return todoListAPI.toggleItem(todoListID, todoItemID, currentState).then(res => {
-            dispatch(toggleCompleteActionToServerAsync(todoItemID, currentState));
+            dispatch(toggleCompleteActionToServerAsync(todoListID, todoItemID, currentState));
             return;
         });
     };
 }
 
-function toggleCompleteActionToServerAsync (todoItemID, currentState) {
+function toggleCompleteActionToServerAsync (todoListID, todoItemID, currentState) {
     return {
         type: SERVER_TOGGLE_TODO_ITEM,
+        todoListID: todoListID,
         todoItemID: todoItemID,
         currentState: currentState
     };

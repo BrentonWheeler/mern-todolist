@@ -17,9 +17,37 @@ io.attach(server);
 io.on("connection", function (socket) {
     console.log("Socket connected: " + socket.id);
     socket.on("action", action => {
-        console.log("Got data: ", action);
-        let newActionType = action.type.replace("server/", "");
-        io.sockets.emit("action", { ...action, type: newActionType });
+        if (action.type === "server/create_todo_list" || action.type === "server/get_todo_items") {
+            console.log("before leaving rooms");
+            console.log(socket.rooms);
+
+            //leave all other rooms minus socket.id room
+            let leaveOtherRooms = new Promise((resolve, reject) => {
+                for (let room in socket.rooms) {
+                    if (room !== socket.id) {
+                        socket.leave(room, function () {
+                            console.log("leaving old room");
+                        });
+                    }
+                }
+                resolve();
+            });
+
+            leaveOtherRooms.then(() => {
+                //join new todoListID room
+                socket.join(action.todoListID, function () {
+                    console.log(socket.rooms);
+                });
+            });
+
+            let newActionType = action.type.replace("server/", "");
+            //just emits the action back to the sender
+            io.sockets.to(socket.id).emit("action", { ...action, type: newActionType });
+        } else {
+            // these events are broadcasted to all other users on the same todoList
+            let newActionType = action.type.replace("server/", "");
+            io.sockets.in(action.todoListID).emit("action", { ...action, type: newActionType });
+        }
     });
 });
 
