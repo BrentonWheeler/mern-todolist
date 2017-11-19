@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import createTodoListAction from "../redux/actions/createTodoAction";
 import getTrelloListsAction from "../redux/actions/getTrelloListsAction";
 import ImportList from "./ImportList";
-import "./../styles/sass/materialize.scss";
+//import "./../styles/sass/materialize.scss";
 
 class Home extends Component {
     constructor (props) {
