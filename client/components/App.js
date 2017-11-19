@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TodoList from "./todoList";
+import TodoList from "./TodoList";
 //import Login from "./login";
 import { connect } from "react-redux";
 import { CopyToClipboard } from "react-copy-to-clipboard";

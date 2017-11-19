@@ -8,7 +8,7 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./redux/reducers/rootReducer";
 import Home from "./components/Home";
-import Login from "./components/login";
+import Login from "./components/Login";
 import App from "./components/App";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
