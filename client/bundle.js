@@ -17374,13 +17374,13 @@ var _Home = __webpack_require__(310);
 
 var _Home2 = _interopRequireDefault(_Home);
 
-var _login = __webpack_require__(352);
+var _Login = __webpack_require__(352);
 
-var _login2 = _interopRequireDefault(_login);
+var _Login2 = _interopRequireDefault(_Login);
 
-var _app = __webpack_require__(355);
+var _App = __webpack_require__(355);
 
-var _app2 = _interopRequireDefault(_app);
+var _App2 = _interopRequireDefault(_App);
 
 var _reactRouterDom = __webpack_require__(382);
 
@@ -17404,9 +17404,9 @@ _reactDom2.default.render(_react2.default.createElement(
                 _reactRouterDom.Switch,
                 null,
                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _Home2.default }),
-                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/login", component: _login2.default }),
-                _react2.default.createElement(_reactRouterDom.Route, { path: "/todolist/:id&trelloListID=:listID", component: _app2.default }),
-                _react2.default.createElement(_reactRouterDom.Route, { path: "/todolist/:id", component: _app2.default }),
+                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/login", component: _Login2.default }),
+                _react2.default.createElement(_reactRouterDom.Route, { path: "/todolist/:id&trelloListID=:listID", component: _App2.default }),
+                _react2.default.createElement(_reactRouterDom.Route, { path: "/todolist/:id", component: _App2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, {
                     exact: true,
                     path: "/accessToken=:accessToken&accessTokenSecret=:accessTokenSecret",
@@ -34027,6 +34027,8 @@ var _ImportList = __webpack_require__(331);
 
 var _ImportList2 = _interopRequireDefault(_ImportList);
 
+__webpack_require__(339);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34034,8 +34036,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-__webpack_require__(339);
 
 var Home = function (_Component) {
     _inherits(Home, _Component);
@@ -34053,7 +34053,7 @@ var Home = function (_Component) {
         return _this;
     }
 
-    // Check if trello auth has been passed in url
+    //Check if trello auth has been passed in url
 
 
     _createClass(Home, [{
@@ -39255,8 +39255,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./materialize.scss", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./materialize.scss");
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./materialize.scss", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./materialize.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -39665,9 +39665,9 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _todoList = __webpack_require__(356);
+var _TodoList = __webpack_require__(356);
 
-var _todoList2 = _interopRequireDefault(_todoList);
+var _TodoList2 = _interopRequireDefault(_TodoList);
 
 var _reactRedux = __webpack_require__(22);
 
@@ -39721,7 +39721,7 @@ var App = function (_Component) {
                     ),
                     " "
                 ),
-                _react2.default.createElement(_todoList2.default, { urlID: this.props.match.params.id, urlListID: this.props.match.params.listID }),
+                _react2.default.createElement(_TodoList2.default, { urlID: this.props.match.params.id, urlListID: this.props.match.params.listID }),
                 _react2.default.createElement(
                     "span",
                     { className: "", style: { position: "absolute", top: "0px", left: "0px" } },

@@ -27,11 +27,11 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                loader: "style-loader!css-loader!resolve-url-loader!sass-loader?sourceMap"
+                loader: "style-loader!css-loader!sass-loader?sourceMap"
             },
             {
                 test: /\.css$/,
-                loader: "style-loader!css-loader!resolve-url-loader"
+                loader: "style-loader!css-loader"
             },
             {
                 test: /\.(png|woff|woff2|eot|ttf|svg)$/,
