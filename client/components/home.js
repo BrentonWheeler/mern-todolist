@@ -17,7 +17,7 @@ class Home extends Component {
         this.newTodoList = this.newTodoList.bind(this);
     }
 
-    // Check if trello auth has been passed in url
+    //Check if trello auth has been passed in url
     componentWillMount () {
         if (this.props.match.params.accessToken !== undefined) {
             //this.setState({ showTrelloLists: true });

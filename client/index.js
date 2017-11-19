@@ -9,7 +9,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./redux/reducers/rootReducer";
 import Home from "./components/Home";
 import Login from "./components/login";
-import App from "./components/app";
+import App from "./components/App";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 let socket = io(process.env.BASE_URL);
