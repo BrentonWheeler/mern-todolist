@@ -9,11 +9,18 @@ import { ToastContainer, toast } from "react-toastify";
 class App extends Component {
     constructor (props) {
         super(props);
+        this.state = {
+            toastID: null
+        };
         this.notify = this.notify.bind(this);
     }
 
     notify () {
-        toast.success("Url copied to clipboard");
+        if (!toast.isActive(this.state.toastID)) {
+            this.setState({
+                toastID: toast.success("Url copied to clipboard")
+            });
+        }
     }
 
     render () {

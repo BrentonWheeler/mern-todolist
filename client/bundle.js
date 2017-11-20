@@ -39010,6 +39010,9 @@ var App = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
+        _this.state = {
+            toastID: null
+        };
         _this.notify = _this.notify.bind(_this);
         return _this;
     }
@@ -39017,7 +39020,11 @@ var App = function (_Component) {
     _createClass(App, [{
         key: "notify",
         value: function notify() {
-            _reactToastify.toast.success("Url copied to clipboard");
+            if (!_reactToastify.toast.isActive(this.state.toastID)) {
+                this.setState({
+                    toastID: _reactToastify.toast.success("Url copied to clipboard")
+                });
+            }
         }
     }, {
         key: "render",
@@ -39254,8 +39261,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-//import "react-toastify/dist/ReactToastify.min.css";
-
 var TodoItem = function (_Component) {
     _inherits(TodoItem, _Component);
 
@@ -39266,7 +39271,8 @@ var TodoItem = function (_Component) {
 
         _this.state = {
             showInput: false,
-            inputItemText: _this.props.item.text
+            inputItemText: _this.props.item.text,
+            toastID: null
         };
         _this.handleItemTextClick = _this.handleItemTextClick.bind(_this);
         _this.handleItemTextOnChange = _this.handleItemTextOnChange.bind(_this);
@@ -39281,7 +39287,11 @@ var TodoItem = function (_Component) {
     _createClass(TodoItem, [{
         key: "notify",
         value: function notify() {
-            _reactToastify.toast.error("Item text input cannot be empty");
+            if (!_reactToastify.toast.isActive(this.state.toastID)) {
+                this.setState({
+                    toastID: _reactToastify.toast.error("Item text input cannot be empty")
+                });
+            }
         }
     }, {
         key: "handleItemToggleComplete",
@@ -39405,16 +39415,7 @@ var TodoItem = function (_Component) {
                         onClick: this.handleItemDelete
                     },
                     "x"
-                ),
-                _react2.default.createElement(_reactToastify.ToastContainer, {
-                    position: "top-left",
-                    type: "error",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    newestOnTop: false,
-                    closeOnClick: true,
-                    pauseOnHover: true
-                })
+                )
             );
         }
     }]);
@@ -41478,8 +41479,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-//import "react-toastify/dist/ReactToastify.min.css";
-
 var AddItemInput = function (_Component) {
     _inherits(AddItemInput, _Component);
 
@@ -41489,7 +41488,8 @@ var AddItemInput = function (_Component) {
         var _this = _possibleConstructorReturn(this, (AddItemInput.__proto__ || Object.getPrototypeOf(AddItemInput)).call(this, props));
 
         _this.state = {
-            addItemText: ""
+            addItemText: "",
+            toastID: null
         };
         _this.addItemInputChange = _this.addItemInputChange.bind(_this);
         _this.checkIfEnterKey = _this.checkIfEnterKey.bind(_this);
@@ -41501,7 +41501,11 @@ var AddItemInput = function (_Component) {
     _createClass(AddItemInput, [{
         key: "notify",
         value: function notify() {
-            _reactToastify.toast.error("Item input cannot be empty");
+            if (!_reactToastify.toast.isActive(this.state.toastID)) {
+                this.setState({
+                    toastID: _reactToastify.toast.error("Item input cannot be empty")
+                });
+            }
         }
 
         // Input onChange handler
@@ -41553,16 +41557,7 @@ var AddItemInput = function (_Component) {
                     "button",
                     { className: "waves-effect waves-light row btn col s3", onClick: this.addItem },
                     "Add Item"
-                ),
-                _react2.default.createElement(_reactToastify.ToastContainer, {
-                    position: "top-left",
-                    type: "error",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    newestOnTop: false,
-                    closeOnClick: true,
-                    pauseOnHover: true
-                })
+                )
             );
         }
     }]);
@@ -41668,8 +41663,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-//import "react-toastify/dist/ReactToastify.min.css";
-
 var Title = function (_Component) {
     _inherits(Title, _Component);
 
@@ -41680,7 +41673,8 @@ var Title = function (_Component) {
 
         _this.state = {
             showTitleInput: false,
-            inputTitleText: _this.props.todoListTitle
+            inputTitleText: _this.props.todoListTitle,
+            toastID: null
         };
         _this.handleTitleOnChange = _this.handleTitleOnChange.bind(_this);
         _this.handleTitleOnUpdate = _this.handleTitleOnUpdate.bind(_this);
@@ -41693,7 +41687,11 @@ var Title = function (_Component) {
     _createClass(Title, [{
         key: "notify",
         value: function notify() {
-            _reactToastify.toast.error("Title input cannot be empty");
+            if (!_reactToastify.toast.isActive(this.state.toastID)) {
+                this.setState({
+                    toastID: _reactToastify.toast.error("Title input cannot be empty")
+                });
+            }
         }
 
         // This just updates react state in the scope of the individual item
@@ -41783,16 +41781,7 @@ var Title = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 null,
-                titleElement,
-                _react2.default.createElement(_reactToastify.ToastContainer, {
-                    position: "top-left",
-                    type: "error",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    newestOnTop: false,
-                    closeOnClick: true,
-                    pauseOnHover: true
-                })
+                titleElement
             );
         }
     }]);

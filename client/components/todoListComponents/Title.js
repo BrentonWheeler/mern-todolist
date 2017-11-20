@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import updateTitleAction from "../../redux/actions/updateTitleAction";
-import { ToastContainer, toast } from "react-toastify";
-//import "react-toastify/dist/ReactToastify.min.css";
+import { toast } from "react-toastify";
 
 class Title extends Component {
     constructor (props) {
         super(props);
         this.state = {
             showTitleInput: false,
-            inputTitleText: this.props.todoListTitle
+            inputTitleText: this.props.todoListTitle,
+            toastID: null
         };
         this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
         this.handleTitleOnUpdate = this.handleTitleOnUpdate.bind(this);
@@ -21,7 +21,11 @@ class Title extends Component {
     }
 
     notify () {
-        toast.error("Title input cannot be empty");
+        if (!toast.isActive(this.state.toastID)) {
+            this.setState({
+                toastID: toast.error("Title input cannot be empty")
+            });
+        }
     }
 
     // This just updates react state in the scope of the individual item
@@ -99,20 +103,7 @@ class Title extends Component {
             );
         }
 
-        return (
-            <div>
-                {titleElement}
-                <ToastContainer
-                    position="top-left"
-                    type="error"
-                    autoClose={3000}
-                    hideProgressBar
-                    newestOnTop={false}
-                    closeOnClick
-                    pauseOnHover
-                />
-            </div>
-        );
+        return <div>{titleElement}</div>;
     }
 }
 

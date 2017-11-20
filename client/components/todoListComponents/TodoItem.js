@@ -5,15 +5,15 @@ import { connect } from "react-redux";
 import deleteTodoItemAction from "../../redux/actions/deleteTodoItemAction";
 import toggleCompleteAction from "../../redux/actions/toggleCompleteAction";
 import updateTodoItemTextAction from "../../redux/actions/updateTodoItemTextAction";
-import { ToastContainer, toast } from "react-toastify";
-//import "react-toastify/dist/ReactToastify.min.css";
+import { toast } from "react-toastify";
 
 class TodoItem extends Component {
     constructor (props) {
         super(props);
         this.state = {
             showInput: false,
-            inputItemText: this.props.item.text
+            inputItemText: this.props.item.text,
+            toastID: null
         };
         this.handleItemTextClick = this.handleItemTextClick.bind(this);
         this.handleItemTextOnChange = this.handleItemTextOnChange.bind(this);
@@ -25,7 +25,11 @@ class TodoItem extends Component {
     }
 
     notify () {
-        toast.error("Item text input cannot be empty");
+        if (!toast.isActive(this.state.toastID)) {
+            this.setState({
+                toastID: toast.error("Item text input cannot be empty")
+            });
+        }
     }
 
     handleItemToggleComplete (e) {
@@ -133,15 +137,6 @@ class TodoItem extends Component {
                 >
                     x
                 </button>
-                <ToastContainer
-                    position="top-left"
-                    type="error"
-                    autoClose={3000}
-                    hideProgressBar
-                    newestOnTop={false}
-                    closeOnClick
-                    pauseOnHover
-                />
             </li>
         );
     }

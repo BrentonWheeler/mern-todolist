@@ -3,14 +3,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import createTodoItemAction from "../../redux/actions/createTodoItemAction";
-import { ToastContainer, toast } from "react-toastify";
-//import "react-toastify/dist/ReactToastify.min.css";
+import { toast } from "react-toastify";
 
 class AddItemInput extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            addItemText: ""
+            addItemText: "",
+            toastID: null
         };
         this.addItemInputChange = this.addItemInputChange.bind(this);
         this.checkIfEnterKey = this.checkIfEnterKey.bind(this);
@@ -19,7 +19,11 @@ class AddItemInput extends Component {
     }
 
     notify () {
-        toast.error("Item input cannot be empty");
+        if (!toast.isActive(this.state.toastID)) {
+            this.setState({
+                toastID: toast.error("Item input cannot be empty")
+            });
+        }
     }
 
     // Input onChange handler
@@ -61,15 +65,6 @@ class AddItemInput extends Component {
                 <button className="waves-effect waves-light row btn col s3" onClick={this.addItem}>
                     Add Item
                 </button>
-                <ToastContainer
-                    position="top-left"
-                    type="error"
-                    autoClose={3000}
-                    hideProgressBar
-                    newestOnTop={false}
-                    closeOnClick
-                    pauseOnHover
-                />
             </div>
         );
     }
