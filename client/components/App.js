@@ -4,7 +4,7 @@ import TodoList from "./TodoList";
 import { connect } from "react-redux";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
+//import "react-toastify/dist/ReactToastify.min.css";
 
 class App extends Component {
     constructor (props) {

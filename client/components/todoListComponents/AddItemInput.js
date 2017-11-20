@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import createTodoItemAction from "../../redux/actions/createTodoItemAction";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
+//import "react-toastify/dist/ReactToastify.min.css";
 
 class AddItemInput extends Component {
     constructor (props) {

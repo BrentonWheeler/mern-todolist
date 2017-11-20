@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import updateTitleAction from "../../redux/actions/updateTitleAction";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
+//import "react-toastify/dist/ReactToastify.min.css";
 
 class Title extends Component {
     constructor (props) {

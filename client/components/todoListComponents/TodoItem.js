@@ -6,7 +6,7 @@ import deleteTodoItemAction from "../../redux/actions/deleteTodoItemAction";
 import toggleCompleteAction from "../../redux/actions/toggleCompleteAction";
 import updateTodoItemTextAction from "../../redux/actions/updateTodoItemTextAction";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
+//import "react-toastify/dist/ReactToastify.min.css";
 
 class TodoItem extends Component {
     constructor (props) {
