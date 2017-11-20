@@ -22,7 +22,7 @@ io.on("connection", function (socket) {
         } else {
             // these events are broadcasted to all other users on the same todoList
             let newActionType = action.type.replace("server/", "");
-            io.sockets.in(action.todoListID).emit("action", { ...action, type: newActionType });
+            socket.broadcast.to(action.todoListID).emit("action", { ...action, type: newActionType });
         }
     });
 });

@@ -39472,9 +39472,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function deleteTodoItemAction(todoListID, todoItemID) {
     return function (dispatch) {
         return _todoList2.default.deleteItem(todoListID, todoItemID).then(function () {
+            dispatch(deleteTodoItemActionAsync(todoItemID));
             dispatch(deleteTodoItemActionToServerAsync(todoListID, todoItemID));
             return;
         });
+    };
+}
+
+function deleteTodoItemActionAsync(todoItemID) {
+    return {
+        type: _types.DELETE_TODO_ITEM,
+        id: todoItemID
     };
 }
 
@@ -39509,9 +39517,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function toggleCompleteAction(todoListID, todoItemID, currentState) {
     return function (dispatch) {
         return _todoList2.default.toggleItem(todoListID, todoItemID, currentState).then(function (res) {
+            dispatch(toggleCompleteActionAsync(todoItemID, currentState));
             dispatch(toggleCompleteActionToServerAsync(todoListID, todoItemID, currentState));
             return;
         });
+    };
+}
+
+function toggleCompleteActionAsync(todoItemID, currentState) {
+    return {
+        type: _types.TOGGLE_TODO_ITEM,
+        todoItemID: todoItemID,
+        currentState: currentState
     };
 }
 
@@ -39547,8 +39564,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function updateTodoItemTextAction(todoListID, todoItemID, newText) {
     return function (dispatch) {
         return _todoList2.default.updateItemText(todoListID, todoItemID, newText).then(function (res) {
+            dispatch(updateTodoItemTextActionAsync(todoItemID, newText));
             dispatch(updateTodoItemTextActionToServerAsync(todoListID, todoItemID, newText));
         });
+    };
+}
+
+function updateTodoItemTextActionAsync(todoItemID, newText) {
+    return {
+        type: _types.UPDATE_TODO_ITEM_TEXT,
+        todoItemID: todoItemID,
+        newText: newText
     };
 }
 
@@ -41580,8 +41606,17 @@ function createTodoItemAction(text, todoListID) {
     return function (dispatch) {
         return _todoList2.default.addItem({ text: text, todoListID: todoListID }).then(function (res) {
             var shortID = res.data.shortID;
+            dispatch(createTodoItemActionAsync(text, shortID));
             dispatch(createTodoItemActionToServerAsync(text, todoListID, shortID));
         });
+    };
+}
+
+function createTodoItemActionAsync(text, shortID) {
+    return {
+        type: _types.CREATE_TODO_ITEM,
+        text: text,
+        id: shortID
     };
 }
 
@@ -41802,8 +41837,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function updateTitleAction(todoListID, newTitle) {
     return function (dispatch) {
         return _todoList2.default.updateTitle(todoListID, newTitle).then(function (res) {
+            dispatch(updateTitleActionAsync(newTitle));
             dispatch(updateTitleActionToServerAsync(todoListID, newTitle));
         });
+    };
+}
+
+function updateTitleActionAsync(newTitle) {
+    return {
+        type: _types.UPDATE_TITLE,
+        newTitle: newTitle
     };
 }
 
