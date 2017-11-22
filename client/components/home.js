@@ -11,20 +11,18 @@ class Home extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            showTrelloLists: false
+            loadingFromTrello: false
         };
         this.loginClicked = this.loginClicked.bind(this);
         this.newTodoList = this.newTodoList.bind(this);
     }
 
-    //Check if trello auth has been passed in url
+    //Check if trello auth has been passed in cookie
     componentWillMount () {
-        if (this.props.match.params.accessToken !== undefined) {
-            //this.setState({ showTrelloLists: true });
-            this.props.getTrelloListsAction(
-                this.props.match.params.accessToken,
-                this.props.match.params.accessTokenSecret
-            );
+        if (document.cookie !== "") {
+            this.setState({ loadingFromTrello: true });
+            let trelloAuthKey = document.cookie.split("=")[1].replace(";", "");
+            this.props.getTrelloListsAction(trelloAuthKey);
         }
     }
 
@@ -49,11 +47,11 @@ class Home extends Component {
                     }}
                 >
                     {/* {<button onClick={this.loginClicked}>Login/Register</button>} */}
-                    <button className="waves-effect waves-light row btn pulse" onClick={this.newTodoList}>
+                    <button className="waves-effect waves-light row btn" onClick={this.newTodoList}>
                         Create new TodoList
                     </button>
                 </div>
-                <ImportList history={this.props.history} />
+                <ImportList history={this.props.history} loading={this.state.loadingFromTrello} />
             </div>
         );
     }

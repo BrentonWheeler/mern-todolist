@@ -5,7 +5,7 @@ export default function getTrelloListItemsAction (trelloObject, todoListID) {
     return dispatch => {
         let title = trelloObject.importBoardName + ": " + trelloObject.importListName;
         return trelloAPI
-            .getListItems(trelloObject.token, trelloObject.secret, todoListID, trelloObject.importListID, title)
+            .getListItems(trelloObject.trelloAuthKey, todoListID, trelloObject.importListID, title)
             .then(res => {
                 let itemArray = res.data;
 

@@ -2,25 +2,13 @@ import React, { Component } from "react";
 import TodoList from "./TodoList";
 //import Login from "./login";
 import { connect } from "react-redux";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { ToastContainer, toast } from "react-toastify";
+//import { CopyToClipboard } from "react-copy-to-clipboard";
+import { ToastContainer } from "react-toastify";
 //import "react-toastify/dist/ReactToastify.min.css";
 
 class App extends Component {
     constructor (props) {
         super(props);
-        this.state = {
-            toastID: null
-        };
-        this.notify = this.notify.bind(this);
-    }
-
-    notify () {
-        if (!toast.isActive(this.state.toastID)) {
-            this.setState({
-                toastID: toast.success("Url copied to clipboard")
-            });
-        }
     }
 
     render () {
@@ -32,13 +20,6 @@ class App extends Component {
                     </a>{" "}
                 </span>
                 <TodoList urlID={this.props.match.params.id} urlListID={this.props.match.params.listID} />
-                <span className="" style={{ position: "absolute", top: "0px", left: "0px" }}>
-                    * Click{" "}
-                    <CopyToClipboard text={window.location.href}>
-                        <a onClick={this.notify}>here</a>
-                    </CopyToClipboard>{" "}
-                    to copy url to clipboard
-                </span>
                 <ToastContainer
                     position="top-left"
                     type="success"

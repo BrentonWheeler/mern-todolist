@@ -1,21 +1,20 @@
 import trelloAPI from "../../api/trello";
 import { GET_TRELLO_LISTS } from "./types";
 
-export default function getTrelloListsAction (token, secret) {
+export default function getTrelloListsAction (trelloAuthKey) {
     return dispatch => {
-        return trelloAPI.getBoards(token, secret).then(res => {
+        return trelloAPI.getBoards(trelloAuthKey).then(res => {
             let boards = res.data;
-            dispatch(getTrelloListsActionAsync(token, secret, boards));
+            dispatch(getTrelloListsActionAsync(trelloAuthKey, boards));
             return boards;
         });
     };
 }
 
-function getTrelloListsActionAsync (token, secret, boards) {
+function getTrelloListsActionAsync (trelloAuthKey, boards) {
     return {
         type: GET_TRELLO_LISTS,
-        token: token,
-        secret: secret,
+        trelloAuthKey: trelloAuthKey,
         boards: boards
     };
 }

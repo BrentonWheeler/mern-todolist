@@ -103,6 +103,7 @@ class ImportList extends Component {
     }
 
     render () {
+        // Defaultly showing import from Trello button
         let selectListElement = (
             <div className="col s6 offset-s3 center-align">
                 <div className="input-field inline">
@@ -114,6 +115,7 @@ class ImportList extends Component {
             </div>
         );
         if (this.props.trello !== null) {
+            // Showing Trello lists
             selectListElement = (
                 <div className="row col s1 offset-s5 center-align">
                     <ul className="main-navigation col center-align" style={{ marginLeft: "50%" }}>
@@ -152,6 +154,15 @@ class ImportList extends Component {
                             </ul>
                         </li>
                     </ul>
+                </div>
+            );
+        } else if (this.props.loading) {
+            // Showing loading spinner
+            selectListElement = (
+                <div className="col s2 offset-s5 center-align">
+                    <div className="progress">
+                        <div className="indeterminate" />
+                    </div>
                 </div>
             );
         }

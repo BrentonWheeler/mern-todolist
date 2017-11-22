@@ -6,8 +6,7 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case GET_TRELLO_LISTS:
             return Object.assign({}, state, {
-                token: action.token,
-                secret: action.secret,
+                trelloAuthKey: action.trelloAuthKey,
                 boards: action.boards
             });
             break;

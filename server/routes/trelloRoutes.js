@@ -2,6 +2,8 @@ var express = require("express");
 var trelloRouter = new express.Router();
 var OAuth = require("oauth").OAuth;
 var url = require("url");
+var Trello = require("../models/trelloAuthModel");
+var KeyGenerator = require("uuid-key-generator");
 
 /*
 /     OAuth Setup and Functions
@@ -11,22 +13,20 @@ const accessURL = "https://trello.com/1/OAuthGetAccessToken";
 const authorizeURL = "https://trello.com/1/OAuthAuthorizeToken";
 const appName = "Mern Todolist";
 
+// Developer API auth
 const key = process.env.TRELLO_KEY;
 const secret = process.env.TRELLO_OAUTH_SECRET;
 
 // Trello redirects the user here after authentication
 const loginCallback = process.env.BASE_URL + "trello/OAuthCallback";
-
-// You should have {"token": "tokenSecret"} pairs in a real application
-// Storage should be more permanent (redis would be a good choice)
 const oauthSecrets = {};
-
 const oauth = new OAuth(requestURL, accessURL, key, secret, "1.0A", loginCallback, "HMAC-SHA1");
+const keygen = new KeyGenerator(256, KeyGenerator.BASE62);
 
 const login = function (req, res) {
     oauth.getOAuthRequestToken(function (error, token, tokenSecret, results) {
         oauthSecrets[token] = tokenSecret;
-        res.redirect(`${authorizeURL}?oauth_token=${token}&name=${appName}&expiration=1hour`);
+        res.redirect(`${authorizeURL}?oauth_token=${token}&name=${appName}&expiration=30days`);
     });
 };
 
@@ -36,13 +36,25 @@ var callback = function (request, response) {
     const tokenSecret = oauthSecrets[token];
     const verifier = query.oauth_verifier;
     oauth.getOAuthAccessToken(token, tokenSecret, verifier, function (error, accessToken, accessTokenSecret, results) {
-        // In a real app, the accessToken and accessTokenSecret should be stored
-        let data = { accessToken: accessToken, accessTokenSecret: accessTokenSecret };
-        let urlParameters = Object.keys(data)
-            .map(i => `${i}=${data[i]}`)
-            .join("&");
-        response.redirect(process.env.BASE_URL + urlParameters);
-        //response.json();
+        // Store token and secret agaisnt random key, give cookie with that random key to user
+        let findCookieKey = new Promise(function (resolve, reject) {
+            doesntExistInDB(keygen.generateKey(), function (resultKey) {
+                resolve(resultKey);
+            });
+        });
+        findCookieKey.then(resultKey => {
+            let newTrelloAuth = { cookieKey: resultKey, token: accessToken, secret: accessTokenSecret };
+            createTrelloAuthEntry(newTrelloAuth)
+                .then(entry => {
+                    response.cookie("trelloAuth", resultKey);
+                    response.status(200);
+                    console.log(resultKey);
+                    response.redirect(process.env.BASE_URL);
+                })
+                .catch(err => {
+                    response.status(400).send("unable to save to database");
+                });
+        });
     });
 };
 
@@ -77,24 +89,55 @@ var getUserLists = function (boardsArray, token, secret) {
 };
 
 var getUserBoards = function (request, response) {
-    oauth.getProtectedResource(
-        "https://trello.com/1/members/my/boards",
-        "GET",
-        request.body.token,
-        request.body.secret,
-        function (error, data, res) {
-            //Now we can respond with data to show that we have access to your Trello account via OAuth
-            let dataJSON = JSON.parse(data);
-            let boardsArray = [];
-            dataJSON.map(board => {
-                boardsArray.push({ name: board.name, id: board.id });
-            });
-            getUserLists(boardsArray, request.body.token, request.body.secret).then(boardsAndLists => {
-                response.json(boardsAndLists);
-            });
-        }
-    );
+    new Promise((resolve, reject) => {
+        console.log(request.body.trelloAuthKey);
+        getTrelloAuthEntryFromCookieKey(request.body.trelloAuthKey, function (resultDoc) {
+            resolve(resultDoc);
+        });
+    }).then(dbEntry => {
+        oauth.getProtectedResource(
+            "https://trello.com/1/members/my/boards",
+            "GET",
+            dbEntry.token,
+            dbEntry.secret,
+            function (error, data, res) {
+                let dataJSON = JSON.parse(data);
+                let boardsArray = [];
+                dataJSON.map(board => {
+                    boardsArray.push({ name: board.name, id: board.id });
+                });
+                getUserLists(boardsArray, dbEntry.token, dbEntry.secret).then(boardsAndLists => {
+                    response.json(boardsAndLists);
+                });
+            }
+        );
+    });
 };
+
+function doesntExistInDB (cookieKey, callback) {
+    Trello.findOne({ cookieKey: cookieKey }, function (err, doc) {
+        if (doc === null) {
+            return callback(cookieKey);
+        } else {
+            doesntExistInDB(keygen.generateKey(), callback);
+        }
+    });
+}
+
+function createTrelloAuthEntry (trelloAuth) {
+    var newTrelloAuth = new Trello(trelloAuth);
+    return newTrelloAuth.save();
+}
+
+function getTrelloAuthEntryFromCookieKey (trelloAuthKey, callback) {
+    Trello.findOne({ cookieKey: trelloAuthKey }, function (err, doc) {
+        if (doc === null) {
+            console.log("key not found");
+        } else {
+            return callback(doc);
+        }
+    });
+}
 
 /*
 /     Routes

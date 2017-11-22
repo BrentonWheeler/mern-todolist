@@ -4,6 +4,7 @@ var shortid = require("shortid");
 var Promise = require("promise");
 var path = require("path");
 var TodoList = require("../models/todoListModels");
+var Trello = require("../models/trelloAuthModel");
 var OAuth = require("oauth").OAuth;
 
 /*
@@ -178,22 +179,38 @@ function createTodoListInDB (newID) {
 }
 
 function getTrelloListItems (request, response) {
-    oauth.getProtectedResource(
-        "https://api.trello.com/1/lists/" + request.body.trelloListID + "/cards",
-        "GET",
-        request.body.token,
-        request.body.secret,
-        function (error, data, res) {
-            let dataJSON = JSON.parse(data);
-            let itemArray = [];
-            dataJSON.map(item => {
-                let shortID = shortid.generate();
-                itemArray.push({ text: item.name, completed: false, id: shortID });
-                addItem(request.body.todoListID, item.name, shortID);
-            });
-            response.json(itemArray);
+    new Promise((resolve, reject) => {
+        console.log(request.body.trelloAuthKey);
+        getTrelloAuthEntryFromCookieKey(request.body.trelloAuthKey, function (resultDoc) {
+            resolve(resultDoc);
+        });
+    }).then(dbEntry => {
+        oauth.getProtectedResource(
+            "https://api.trello.com/1/lists/" + request.body.trelloListID + "/cards",
+            "GET",
+            dbEntry.token,
+            dbEntry.secret,
+            function (error, data, res) {
+                let dataJSON = JSON.parse(data);
+                let itemArray = [];
+                dataJSON.map(item => {
+                    let shortID = shortid.generate();
+                    itemArray.push({ text: item.name, completed: false, id: shortID });
+                    addItem(request.body.todoListID, item.name, shortID);
+                });
+                response.json(itemArray);
+            }
+        );
+    });
+}
+function getTrelloAuthEntryFromCookieKey (trelloAuthKey, callback) {
+    Trello.findOne({ cookieKey: trelloAuthKey }, function (err, doc) {
+        if (doc === null) {
+            console.log("key not found");
+        } else {
+            return callback(doc);
         }
-    );
+    });
 }
 
 module.exports = TodoListRouter;

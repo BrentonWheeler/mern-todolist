@@ -4,6 +4,7 @@ var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
+var cookieParser = require("cookie-parser");
 
 // Route imports
 var indexRoutes = require("./routes/index");
@@ -35,7 +36,7 @@ app.engine("html", function (path, options, callback) {
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 // Routing
 app.use("/", indexRoutes);
 app.use("/users", userRoutes);
