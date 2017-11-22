@@ -48,7 +48,6 @@ var callback = function (request, response) {
                 .then(entry => {
                     response.cookie("trelloAuth", resultKey);
                     response.status(200);
-                    console.log(resultKey);
                     response.redirect(process.env.BASE_URL);
                 })
                 .catch(err => {
@@ -90,7 +89,6 @@ var getUserLists = function (boardsArray, token, secret) {
 
 var getUserBoards = function (request, response) {
     new Promise((resolve, reject) => {
-        console.log(request.body.trelloAuthKey);
         getTrelloAuthEntryFromCookieKey(request.body.trelloAuthKey, function (resultDoc) {
             resolve(resultDoc);
         });

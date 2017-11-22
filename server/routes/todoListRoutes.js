@@ -180,7 +180,6 @@ function createTodoListInDB (newID) {
 
 function getTrelloListItems (request, response) {
     new Promise((resolve, reject) => {
-        console.log(request.body.trelloAuthKey);
         getTrelloAuthEntryFromCookieKey(request.body.trelloAuthKey, function (resultDoc) {
             resolve(resultDoc);
         });

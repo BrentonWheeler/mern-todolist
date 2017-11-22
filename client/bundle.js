@@ -39138,7 +39138,6 @@ var TodoList = function (_Component) {
             if (this.props.todoList.id === "") {
                 this.props.getTodoItemsAction(this.props.urlID);
             } else if (this.props.todoList.isImporting) {
-                console.log(this.props.trello);
                 this.props.getTrelloListItemsAction(this.props.trello, this.props.todoList.id);
             }
         }
