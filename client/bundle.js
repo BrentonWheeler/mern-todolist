@@ -34645,15 +34645,11 @@ var ImportList = function (_Component) {
                 "div",
                 { className: "col s6 offset-s3 center-align" },
                 _react2.default.createElement(
-                    "div",
-                    { className: "input-field inline" },
-                    _react2.default.createElement(
-                        "button",
-                        { onClick: this.importClicked, className: "waves-effect waves-light btn " },
-                        " ",
-                        "import from Trello",
-                        " "
-                    )
+                    "button",
+                    { onClick: this.importClicked, className: "waves-effect waves-light btn " },
+                    " ",
+                    "import from Trello",
+                    " "
                 )
             );
             if (this.props.trello !== null) {

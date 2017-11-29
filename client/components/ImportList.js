@@ -106,12 +106,10 @@ class ImportList extends Component {
         // Defaultly showing import from Trello button
         let selectListElement = (
             <div className="col s6 offset-s3 center-align">
-                <div className="input-field inline">
-                    <button onClick={this.importClicked} className="waves-effect waves-light btn ">
-                        {" "}
-                        import from Trello{" "}
-                    </button>
-                </div>
+                <button onClick={this.importClicked} className="waves-effect waves-light btn ">
+                    {" "}
+                    import from Trello{" "}
+                </button>
             </div>
         );
         if (this.props.trello !== null) {
