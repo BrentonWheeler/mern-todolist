@@ -16,10 +16,9 @@ class App extends Component {
     linkWithGithubIssue () {
         let cookieJSON = cookie.parse(document.cookie);
         if (!cookieJSON.hasOwnProperty("githubAuth")) {
-            // OAuth to github here
             location.href = process.env.BASE_URL + "/github/login";
         } else {
-            console.log(cookieJSON);
+            // Show a menu of relevant repos and their issues here
         }
     }
 

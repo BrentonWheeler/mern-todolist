@@ -1,11 +1,11 @@
 const express = require("express");
 const githubRouter = new express.Router();
-//var url = require("url");
-//var GitHub = require("../models/githubAuthModel");
 const request = require("request");
 const queryString = require("query-string");
-//const GitHubApi = require("github");
-
+var GitHub = require("../models/githubAuthModel");
+var authHelpers = require("../modules/authHelpers");
+var KeyGenerator = require("uuid-key-generator");
+const keygen = new KeyGenerator(256, KeyGenerator.BASE62);
 /*
 /     Routes
 */
@@ -21,65 +21,46 @@ githubRouter.get("/login", function (req, res) {
 });
 
 githubRouter.get("/callback", function (req, res) {
-    request.post(
-        "https://github.com/login/oauth/access_token?client_id=" +
-            process.env.GITHUB_CLIENT_ID +
-            "&redirect_uri=" +
-            process.env.BASE_URL +
-            "/github/callback&client_secret=" +
-            process.env.GITHUB_CLIENT_SECRET +
-            "&code=" +
-            req.query.code,
-        function (error, response, body) {
-            if (!error && response.statusCode === 200) {
-                console.log(error);
+    // Get access token from the code returned in url from github
+    let getAccessToken = new Promise(function (resolve, reject) {
+        request.post(
+            "https://github.com/login/oauth/access_token?client_id=" +
+                process.env.GITHUB_CLIENT_ID +
+                "&redirect_uri=" +
+                process.env.BASE_URL +
+                "/github/callback&client_secret=" +
+                process.env.GITHUB_CLIENT_SECRET +
+                "&code=" +
+                req.query.code,
+            function (error, response, body) {
+                body = queryString.parse(body);
+                resolve(body.access_token);
             }
-            body = queryString.parse(body);
-            let accessToken = body.access_token;
-        }
-    );
-    res.send("ayetest");
+        );
+    });
+
+    // Store token and secret agaisnt random key, give cookie with that random key to user
+    let findNewCookieKey = new Promise(function (resolve, reject) {
+        authHelpers.doesntExistInDB(GitHub, keygen.generateKey(), function (resultKey) {
+            resolve(resultKey);
+        });
+    });
+
+    getAccessToken.then(accessToken => {
+        findNewCookieKey.then(resultKey => {
+            let newGitHubAuth = { cookieKey: resultKey, token: accessToken };
+            authHelpers
+                .createAuthEntry(GitHub, newGitHubAuth)
+                .then(entry => {
+                    res.cookie("githubAuth", resultKey);
+                    res.status(200);
+                    res.redirect(process.env.BASE_URL);
+                })
+                .catch(err => {
+                    res.status(400).send("unable to save to database");
+                });
+        });
+    });
 });
-
-githubRouter.get("/callback123", function (req, res) {
-    console.log("123");
-    res.send("ayetest1");
-});
-
-//var github = new GitHubApi();
-
-// githubRouter.get("/auth", function () {
-//     github.authorization.create({
-//         client_id: process.env.GITHUB_CLIENT_ID,
-//         client_secret: process.env.GITHUB_CLIENT_SECRET
-//     });
-// });
-
-// github.authorization.create(
-//     {
-//         scopes: ["user", "public_repo", "repo", "repo:status", "gist"],
-//         note: "what this auth is for",
-//         note_url: "http://url-to-this-auth-app",
-//         headers: {
-//             "X-GitHub-OTP": "two-factor-code"
-//         },
-//         client_id: process.env.GITHUB_CLIENT_ID,
-//         client_secret: process.env.GITHUB_CLIENT_SECRET
-//     },
-//     function (err, res) {
-//         if (err) throw err;
-//         if (res.token) {
-//             console.log(res.token);
-//             // save and use res.token as in the Oauth process above from now on
-//         }
-//     }
-// );
-
-// TODO: optional authentication here depending on desired endpoints. See below in README.
-
-// github.users.getFollowingForUser({ username: "defunkt" }, function (err, res) {
-//     if (err) throw err;
-//     console.log(JSON.stringify(res));
-// });
 
 module.exports = githubRouter;

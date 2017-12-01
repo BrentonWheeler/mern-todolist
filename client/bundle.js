@@ -33776,8 +33776,7 @@ var Home = function (_Component) {
             var cookieJSON = _cookie2.default.parse(document.cookie);
             if (cookieJSON.hasOwnProperty("trelloAuth")) {
                 this.setState({ loadingFromTrello: true });
-                var trelloAuthKey = document.cookie.split("=")[1].replace(";", "");
-                this.props.getTrelloListsAction(trelloAuthKey);
+                this.props.getTrelloListsAction(cookieJSON.trelloAuth);
             }
         }
     }, {
@@ -39232,10 +39231,9 @@ var App = function (_Component) {
         value: function linkWithGithubIssue() {
             var cookieJSON = _cookie2.default.parse(document.cookie);
             if (!cookieJSON.hasOwnProperty("githubAuth")) {
-                // OAuth to github here
                 location.href = "" + "/github/login";
             } else {
-                console.log(cookieJSON);
+                // Show a menu of relevant repos and their issues here
             }
         }
     }, {

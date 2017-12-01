@@ -19,7 +19,7 @@ mongoose.Promise = require("bluebird");
 mongoose
     .connect(process.env.MONGODB_URL)
     .then(() => {
-        console.log("Start");
+        console.log("Connected to MongoDB");
     })
     .catch(err => {
         console.error("App starting error:", err.stack);

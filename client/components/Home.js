@@ -23,8 +23,7 @@ class Home extends Component {
         let cookieJSON = cookie.parse(document.cookie);
         if (cookieJSON.hasOwnProperty("trelloAuth")) {
             this.setState({ loadingFromTrello: true });
-            let trelloAuthKey = document.cookie.split("=")[1].replace(";", "");
-            this.props.getTrelloListsAction(trelloAuthKey);
+            this.props.getTrelloListsAction(cookieJSON.trelloAuth);
         }
     }
 

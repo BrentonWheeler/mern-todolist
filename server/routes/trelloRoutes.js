@@ -38,12 +38,12 @@ var callback = function (request, response) {
     const verifier = query.oauth_verifier;
     oauth.getOAuthAccessToken(token, tokenSecret, verifier, function (error, accessToken, accessTokenSecret, results) {
         // Store token and secret agaisnt random key, give cookie with that random key to user
-        let findCookieKey = new Promise(function (resolve, reject) {
+        let findNewCookieKey = new Promise(function (resolve, reject) {
             authHelpers.doesntExistInDB(Trello, keygen.generateKey(), function (resultKey) {
                 resolve(resultKey);
             });
         });
-        findCookieKey.then(resultKey => {
+        findNewCookieKey.then(resultKey => {
             let newTrelloAuth = { cookieKey: resultKey, token: accessToken, secret: accessTokenSecret };
             authHelpers
                 .createAuthEntry(Trello, newTrelloAuth)
