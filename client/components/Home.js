@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import createTodoListAction from "../redux/actions/createTodoAction";
 import getTrelloListsAction from "../redux/actions/getTrelloListsAction";
 import ImportList from "./ImportList";
+import cookie from "cookie";
 //import "./../styles/sass/materialize.scss";
 
 class Home extends Component {
@@ -19,7 +20,8 @@ class Home extends Component {
 
     //Check if trello auth has been passed in cookie
     componentWillMount () {
-        if (document.cookie !== "") {
+        let cookieJSON = cookie.parse(document.cookie);
+        if (cookieJSON.hasOwnProperty("trelloAuth")) {
             this.setState({ loadingFromTrello: true });
             let trelloAuthKey = document.cookie.split("=")[1].replace(";", "");
             this.props.getTrelloListsAction(trelloAuthKey);

@@ -11,6 +11,7 @@ var indexRoutes = require("./routes/index");
 var userRoutes = require("./routes/userRoutes");
 var todoListRoutes = require("./routes/todoListRoutes");
 var trelloRoutes = require("./routes/trelloRoutes");
+var gitHubRoutes = require("./routes/gitHubRoutes");
 
 // Mongoose connection with mongodb
 mongoose.Promise = require("bluebird");
@@ -37,11 +38,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
 // Routing
 app.use("/", indexRoutes);
 app.use("/users", userRoutes);
 app.use("/todoList", todoListRoutes);
 app.use("/trello", trelloRoutes);
+app.use("/gitHub", gitHubRoutes);
 
 // Error handler
 app.use(function (err, req, res, next) {
