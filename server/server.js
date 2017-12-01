@@ -5,13 +5,14 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 var cookieParser = require("cookie-parser");
+var app = express();
 
 // Route imports
 var indexRoutes = require("./routes/index");
 var userRoutes = require("./routes/userRoutes");
 var todoListRoutes = require("./routes/todoListRoutes");
 var trelloRoutes = require("./routes/trelloRoutes");
-var gitHubRoutes = require("./routes/gitHubRoutes");
+var githubRoutes = require("./routes/githubRoutes");
 
 // Mongoose connection with mongodb
 mongoose.Promise = require("bluebird");
@@ -24,8 +25,6 @@ mongoose
         console.error("App starting error:", err.stack);
         process.exit(1);
     });
-
-var app = express();
 
 // View engine
 app.set("view engine", "html");
@@ -44,7 +43,7 @@ app.use("/", indexRoutes);
 app.use("/users", userRoutes);
 app.use("/todoList", todoListRoutes);
 app.use("/trello", trelloRoutes);
-app.use("/gitHub", gitHubRoutes);
+app.use("/github", githubRoutes);
 
 // Error handler
 app.use(function (err, req, res, next) {

@@ -14,7 +14,7 @@ const requestURL = "https://trello.com/1/OAuthGetRequestToken";
 const accessURL = "https://trello.com/1/OAuthGetAccessToken";
 const key = process.env.TRELLO_KEY;
 const secret = process.env.TRELLO_OAUTH_SECRET;
-const loginCallback = process.env.BASE_URL + "trello/OAuthCallback";
+const loginCallback = process.env.BASE_URL + "/trello/OAuthCallback";
 const oauth = new OAuth(requestURL, accessURL, key, secret, "1.0A", loginCallback, "HMAC-SHA1");
 
 TodoListRouter.use(express.static(path.join(__dirname, "../../client")));

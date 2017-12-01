@@ -39197,6 +39197,10 @@ var _reactRedux = __webpack_require__(22);
 
 var _reactToastify = __webpack_require__(49);
 
+var _cookie = __webpack_require__(144);
+
+var _cookie2 = _interopRequireDefault(_cookie);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39208,8 +39212,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 //import { CopyToClipboard } from "react-copy-to-clipboard";
 
-
 //import "react-toastify/dist/ReactToastify.min.css";
+
 
 var App = function (_Component) {
     _inherits(App, _Component);
@@ -39217,10 +39221,24 @@ var App = function (_Component) {
     function App(props) {
         _classCallCheck(this, App);
 
-        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+        _this.linkWithGithubIssue = _this.linkWithGithubIssue.bind(_this);
+        return _this;
     }
 
     _createClass(App, [{
+        key: "linkWithGithubIssue",
+        value: function linkWithGithubIssue() {
+            var cookieJSON = _cookie2.default.parse(document.cookie);
+            if (!cookieJSON.hasOwnProperty("githubAuth")) {
+                // OAuth to github here
+                location.href = "" + "/github/auth";
+            } else {
+                console.log(cookieJSON);
+            }
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -39238,6 +39256,14 @@ var App = function (_Component) {
                     " "
                 ),
                 _react2.default.createElement(_TodoList2.default, { urlID: this.props.match.params.id, urlListID: this.props.match.params.listID }),
+                _react2.default.createElement(
+                    "button",
+                    {
+                        className: "waves-effect waves-light row btn col s8 offset-s2",
+                        onClick: this.linkWithGithubIssue
+                    },
+                    "Add as a tasklist to a GitHub Issue"
+                ),
                 _react2.default.createElement(_reactToastify.ToastContainer, {
                     position: "top-left",
                     type: "success",
@@ -39310,10 +39336,6 @@ var _getTrelloListItemsAction = __webpack_require__(361);
 
 var _getTrelloListItemsAction2 = _interopRequireDefault(_getTrelloListItemsAction);
 
-var _cookie = __webpack_require__(144);
-
-var _cookie2 = _interopRequireDefault(_cookie);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39328,10 +39350,7 @@ var TodoList = function (_Component) {
     function TodoList(props) {
         _classCallCheck(this, TodoList);
 
-        var _this = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
-
-        _this.linkWithGithubIssue = _this.linkWithGithubIssue.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
     }
 
     // Loads todo items if url accessed directly
@@ -39344,17 +39363,6 @@ var TodoList = function (_Component) {
                 this.props.getTodoItemsAction(this.props.urlID);
             } else if (this.props.todoList.isImporting) {
                 this.props.getTrelloListItemsAction(this.props.trello, this.props.todoList.id);
-            }
-        }
-    }, {
-        key: "linkWithGithubIssue",
-        value: function linkWithGithubIssue() {
-            var cookieJSON = _cookie2.default.parse(document.cookie);
-            if (!cookieJSON.hasOwnProperty("gitHubAuth")) {
-                // OAuth to github here
-                document.cookie = _cookie2.default.serialize("gitHubAuth", "123");
-            } else {
-                console.log(cookieJSON);
             }
         }
     }, {
@@ -39380,15 +39388,7 @@ var TodoList = function (_Component) {
                         return _react2.default.createElement(_TodoItem2.default, { todoListID: _this2.props.todoList.id, key: i, i: i, item: item });
                     })
                 ),
-                _react2.default.createElement("br", null),
-                _react2.default.createElement(
-                    "button",
-                    {
-                        className: "waves-effect waves-light row btn col s8 offset-s2",
-                        onClick: this.linkWithGithubIssue
-                    },
-                    "Add as a tasklist to a GitHub Issue"
-                )
+                _react2.default.createElement("br", null)
             );
         }
     }]);

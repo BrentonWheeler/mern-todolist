@@ -18,7 +18,7 @@ const key = process.env.TRELLO_KEY;
 const secret = process.env.TRELLO_OAUTH_SECRET;
 
 // Trello redirects the user here after authentication
-const loginCallback = process.env.BASE_URL + "trello/OAuthCallback";
+const loginCallback = process.env.BASE_URL + "/trello/OAuthCallback";
 const oauthSecrets = {};
 const oauth = new OAuth(requestURL, accessURL, key, secret, "1.0A", loginCallback, "HMAC-SHA1");
 const keygen = new KeyGenerator(256, KeyGenerator.BASE62);

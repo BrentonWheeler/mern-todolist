@@ -7,12 +7,10 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
 import getTrelloListItemsAction from "../redux/actions/getTrelloListItemsAction";
-import cookie from "cookie";
 
 class TodoList extends Component {
     constructor (props) {
         super(props);
-        this.linkWithGithubIssue = this.linkWithGithubIssue.bind(this);
     }
 
     // Loads todo items if url accessed directly
@@ -21,16 +19,6 @@ class TodoList extends Component {
             this.props.getTodoItemsAction(this.props.urlID);
         } else if (this.props.todoList.isImporting) {
             this.props.getTrelloListItemsAction(this.props.trello, this.props.todoList.id);
-        }
-    }
-
-    linkWithGithubIssue () {
-        let cookieJSON = cookie.parse(document.cookie);
-        if (!cookieJSON.hasOwnProperty("gitHubAuth")) {
-            // OAuth to github here
-            //document.cookie = cookie.serialize("gitHubAuth", "123");
-        } else {
-            console.log(cookieJSON);
         }
     }
 
@@ -51,12 +39,6 @@ class TodoList extends Component {
                     ))}
                 </ul>
                 <br />
-                <button
-                    className="waves-effect waves-light row btn col s8 offset-s2"
-                    onClick={this.linkWithGithubIssue}
-                >
-                    Add as a tasklist to a GitHub Issue
-                </button>
             </div>
         );
     }
