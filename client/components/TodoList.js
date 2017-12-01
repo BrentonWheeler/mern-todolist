@@ -12,7 +12,7 @@ import cookie from "cookie";
 class TodoList extends Component {
     constructor (props) {
         super(props);
-        this.LinkToGithubIssue = this.LinkToGithubIssue.bind(this);
+        this.linkWithGithubIssue = this.linkWithGithubIssue.bind(this);
     }
 
     // Loads todo items if url accessed directly
@@ -24,10 +24,11 @@ class TodoList extends Component {
         }
     }
 
-    linkToGithubIssue () {
+    linkWithGithubIssue () {
         let cookieJSON = cookie.parse(document.cookie);
         if (!cookieJSON.hasOwnProperty("gitHubAuth")) {
             // OAuth to github here
+            //document.cookie = cookie.serialize("gitHubAuth", "123");
         } else {
             console.log(cookieJSON);
         }
@@ -39,18 +40,21 @@ class TodoList extends Component {
                 style={{
                     marginTop: "2.5%"
                 }}
-                className="col s6 offset-s3"
+                className="col s8 offset-s2"
             >
                 <Title todoListID={this.props.todoList.id} todoListTitle={this.props.todoList.title} />
                 <AddItemInput todoListID={this.props.todoList.id} />
                 <br />
-                <ul className="TodoList collection col s6 offset-s3">
+                <ul className="TodoList collection col s8 offset-s2">
                     {this.props.todoList.listItems.map((item, i) => (
                         <TodoItem todoListID={this.props.todoList.id} key={i} i={i} item={item} />
                     ))}
                 </ul>
                 <br />
-                <button className="waves-effect waves-light row btn" onClick={this.linkToGithubIssue}>
+                <button
+                    className="waves-effect waves-light row btn col s8 offset-s2"
+                    onClick={this.linkWithGithubIssue}
+                >
                     Add as a tasklist to a GitHub Issue
                 </button>
             </div>

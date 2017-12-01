@@ -39330,7 +39330,7 @@ var TodoList = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
 
-        _this.LinkToGithubIssue = _this.LinkToGithubIssue.bind(_this);
+        _this.linkWithGithubIssue = _this.linkWithGithubIssue.bind(_this);
         return _this;
     }
 
@@ -39347,11 +39347,12 @@ var TodoList = function (_Component) {
             }
         }
     }, {
-        key: "linkToGithubIssue",
-        value: function linkToGithubIssue() {
+        key: "linkWithGithubIssue",
+        value: function linkWithGithubIssue() {
             var cookieJSON = _cookie2.default.parse(document.cookie);
             if (!cookieJSON.hasOwnProperty("gitHubAuth")) {
                 // OAuth to github here
+                document.cookie = _cookie2.default.serialize("gitHubAuth", "123");
             } else {
                 console.log(cookieJSON);
             }
@@ -39367,14 +39368,14 @@ var TodoList = function (_Component) {
                     style: {
                         marginTop: "2.5%"
                     },
-                    className: "col s6 offset-s3"
+                    className: "col s8 offset-s2"
                 },
                 _react2.default.createElement(_Title2.default, { todoListID: this.props.todoList.id, todoListTitle: this.props.todoList.title }),
                 _react2.default.createElement(_AddItemInput2.default, { todoListID: this.props.todoList.id }),
                 _react2.default.createElement("br", null),
                 _react2.default.createElement(
                     "ul",
-                    { className: "TodoList collection col s6 offset-s3" },
+                    { className: "TodoList collection col s8 offset-s2" },
                     this.props.todoList.listItems.map(function (item, i) {
                         return _react2.default.createElement(_TodoItem2.default, { todoListID: _this2.props.todoList.id, key: i, i: i, item: item });
                     })
@@ -39382,7 +39383,10 @@ var TodoList = function (_Component) {
                 _react2.default.createElement("br", null),
                 _react2.default.createElement(
                     "button",
-                    { className: "waves-effect waves-light row btn", onClick: this.linkToGithubIssue },
+                    {
+                        className: "waves-effect waves-light row btn col s8 offset-s2",
+                        onClick: this.linkWithGithubIssue
+                    },
                     "Add as a tasklist to a GitHub Issue"
                 )
             );
