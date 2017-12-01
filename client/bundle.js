@@ -39233,7 +39233,7 @@ var App = function (_Component) {
             var cookieJSON = _cookie2.default.parse(document.cookie);
             if (!cookieJSON.hasOwnProperty("githubAuth")) {
                 // OAuth to github here
-                location.href = "" + "/github/auth";
+                location.href = "" + "/github/login";
             } else {
                 console.log(cookieJSON);
             }
@@ -39259,7 +39259,7 @@ var App = function (_Component) {
                 _react2.default.createElement(
                     "button",
                     {
-                        className: "waves-effect waves-light row btn col s8 offset-s2",
+                        className: "waves-effect waves-light row btn col s4 offset-s4",
                         onClick: this.linkWithGithubIssue
                     },
                     "Add as a tasklist to a GitHub Issue"

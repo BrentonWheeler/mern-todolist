@@ -17,7 +17,7 @@ class App extends Component {
         let cookieJSON = cookie.parse(document.cookie);
         if (!cookieJSON.hasOwnProperty("githubAuth")) {
             // OAuth to github here
-            location.href = process.env.BASE_URL + "/github/auth";
+            location.href = process.env.BASE_URL + "/github/login";
         } else {
             console.log(cookieJSON);
         }
@@ -31,7 +31,7 @@ class App extends Component {
                 </span>
                 <TodoList urlID={this.props.match.params.id} urlListID={this.props.match.params.listID} />
                 <button
-                    className="waves-effect waves-light row btn col s8 offset-s2"
+                    className="waves-effect waves-light row btn col s4 offset-s4"
                     onClick={this.linkWithGithubIssue}
                 >
                     Add as a tasklist to a GitHub Issue

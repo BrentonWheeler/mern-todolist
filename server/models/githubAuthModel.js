@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 // TrelloAuth collection and schema
 var githubAuth = new Schema(
     {
-        githubId: { type: String, required: true }
+        cookieKey: { type: String, unique: true, required: true },
+        token: { type: String, required: true }
     },
     {
         collection: "githubAuth"

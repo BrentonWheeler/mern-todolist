@@ -4,6 +4,7 @@ var OAuth = require("oauth").OAuth;
 var url = require("url");
 var Trello = require("../models/trelloAuthModel");
 var KeyGenerator = require("uuid-key-generator");
+var authHelpers = require("../modules/authHelpers");
 
 /*
 /     OAuth Setup and Functions
@@ -38,13 +39,14 @@ var callback = function (request, response) {
     oauth.getOAuthAccessToken(token, tokenSecret, verifier, function (error, accessToken, accessTokenSecret, results) {
         // Store token and secret agaisnt random key, give cookie with that random key to user
         let findCookieKey = new Promise(function (resolve, reject) {
-            doesntExistInDB(keygen.generateKey(), function (resultKey) {
+            authHelpers.doesntExistInDB(Trello, keygen.generateKey(), function (resultKey) {
                 resolve(resultKey);
             });
         });
         findCookieKey.then(resultKey => {
             let newTrelloAuth = { cookieKey: resultKey, token: accessToken, secret: accessTokenSecret };
-            createTrelloAuthEntry(newTrelloAuth)
+            authHelpers
+                .createAuthEntry(Trello, newTrelloAuth)
                 .then(entry => {
                     response.cookie("trelloAuth", resultKey);
                     response.status(200);
@@ -89,7 +91,7 @@ var getUserLists = function (boardsArray, token, secret) {
 
 var getUserBoards = function (request, response) {
     new Promise((resolve, reject) => {
-        getTrelloAuthEntryFromCookieKey(request.body.trelloAuthKey, function (resultDoc) {
+        authHelpers.getAuthEntryFromCookieKey(Trello, request.body.trelloAuthKey, function (resultDoc) {
             resolve(resultDoc);
         });
     }).then(dbEntry => {
@@ -111,31 +113,6 @@ var getUserBoards = function (request, response) {
         );
     });
 };
-
-function doesntExistInDB (cookieKey, callback) {
-    Trello.findOne({ cookieKey: cookieKey }, function (err, doc) {
-        if (doc === null) {
-            return callback(cookieKey);
-        } else {
-            doesntExistInDB(keygen.generateKey(), callback);
-        }
-    });
-}
-
-function createTrelloAuthEntry (trelloAuth) {
-    var newTrelloAuth = new Trello(trelloAuth);
-    return newTrelloAuth.save();
-}
-
-function getTrelloAuthEntryFromCookieKey (trelloAuthKey, callback) {
-    Trello.findOne({ cookieKey: trelloAuthKey }, function (err, doc) {
-        if (doc === null) {
-            console.log("key not found");
-        } else {
-            return callback(doc);
-        }
-    });
-}
 
 /*
 /     Routes

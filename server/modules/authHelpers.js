@@ -1,0 +1,29 @@
+var KeyGenerator = require("uuid-key-generator");
+const keygen = new KeyGenerator(256, KeyGenerator.BASE62);
+
+function doesntExistInDB (Model, cookieKey, callback) {
+    Model.findOne({ cookieKey: cookieKey }, function (err, doc) {
+        if (doc === null) {
+            return callback(cookieKey);
+        } else {
+            doesntExistInDB(keygen.generateKey(), callback);
+        }
+    });
+}
+
+function createAuthEntry (Model, authEntry) {
+    var newTrelloAuth = new Model(authEntry);
+    return newTrelloAuth.save();
+}
+
+function getAuthEntryFromCookieKey (Model, cookieKey, callback) {
+    Model.findOne({ cookieKey: cookieKey }, function (err, doc) {
+        if (doc === null) {
+            console.log("key not found");
+        } else {
+            return callback(doc);
+        }
+    });
+}
+
+module.exports = { doesntExistInDB, createAuthEntry, getAuthEntryFromCookieKey };
