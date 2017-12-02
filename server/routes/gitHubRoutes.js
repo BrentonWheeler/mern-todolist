@@ -63,4 +63,83 @@ githubRouter.get("/callback", function (req, res) {
     });
 });
 
+githubRouter.post("/getIssues", function (req, res) {
+    // Get users token from cookie key
+    new Promise((resolve, reject) => {
+        authHelpers.getAuthEntryFromCookieKey(GitHub, req.body.gitHubAuthKey, function (resultDoc) {
+            resolve(resultDoc);
+        });
+    }).then(dbEntry => {
+        getUsersWatchedRepos(dbEntry.token).then(repoArray => {
+            var reposCompleted = 0;
+            repoArray.map((repo, i) => {
+                getReposOpenIssues(dbEntry.token, repo).then(formatedIssues => {
+                    repoArray[i].openIssues = [];
+                    formatedIssues.map(issue => {
+                        repoArray[i].openIssues.push(issue);
+                    });
+                    reposCompleted = reposCompleted++;
+                    if (reposCompleted === repoArray.length) {
+                        res.json(repoArray);
+                    }
+                });
+            });
+        });
+    });
+});
+
+// Get users watched repos
+function getUsersWatchedRepos (token) {
+    return new Promise(function (resolve, reject) {
+        request.get(
+            {
+                url: "https://api.github.com/user/subscriptions",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "User-Agent": "Quick TodoList"
+                }
+            },
+            function (error, response, body) {
+                let repoArray = [];
+                body = JSON.parse(body);
+
+                body.forEach(repo => {
+                    repoArray.push({ id: repo.id, name: repo.name, fullName: repo.full_name });
+                });
+                resolve(repoArray);
+            }
+        );
+    });
+}
+
+// Get open issues for a repo
+function getReposOpenIssues (token, repo) {
+    return new Promise(function (resolve, reject) {
+        request.get(
+            {
+                url: "https://api.github.com/repos/" + repo.fullName + "/issues",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "User-Agent": "Quick TodoList"
+                }
+            },
+            function (error, response, body) {
+                body = JSON.parse(body);
+                let openIssues = [];
+                if (Array.isArray(body)) {
+                    body.map(issue => {
+                        openIssues.push({
+                            htmlURL: issue.html_url,
+                            number: issue.number,
+                            title: issue.title,
+                            id: issue.id
+                        });
+                    });
+                }
+                resolve(openIssues);
+            }
+        );
+    });
+}
+
 module.exports = githubRouter;

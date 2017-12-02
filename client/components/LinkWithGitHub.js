@@ -5,6 +5,8 @@ import createTodoListAction from "../redux/actions/createTodoAction";
 import saveTrelloListInfoAction from "../redux/actions/saveTrelloListInfoAction";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import cookie from "cookie";
+import githubAPI from "../api/github";
 
 const DropDownMenuStyledDiv = styled.div`
     ul {
@@ -84,15 +86,29 @@ const DropDownMenuStyledDiv = styled.div`
     }
 `;
 
-class ImportList extends Component {
+class LinkWithGitHub extends Component {
     constructor (props) {
         super(props);
-        this.importClicked = this.importClicked.bind(this);
+        this.state = {
+            loadingFromGitHub: false
+        };
+        this.authClicked = this.authClicked.bind(this);
         this.trelloListClicked = this.trelloListClicked.bind(this);
     }
 
-    importClicked () {
-        location.href = process.env.BASE_URL + "/trello/login";
+    //Check if github auth has been passed in cookie and TodoList is not already linked
+    componentWillMount () {
+        let cookieJSON = cookie.parse(document.cookie);
+        if (cookieJSON.hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL === null) {
+            this.setState({ loadingFromGitHub: true });
+            githubAPI.getIssues(cookieJSON.githubAuth).then(result => {
+                console.log(result);
+            });
+        }
+    }
+
+    authClicked () {
+        location.href = process.env.BASE_URL + "/github/login";
     }
 
     trelloListClicked (listID, listName, boardID, boardName) {
@@ -103,23 +119,24 @@ class ImportList extends Component {
     }
 
     render () {
-        // Defaultly showing import from Trello button
+        // Defaultly showing link to GitHub issue button
         let selectListElement = (
             <div className="col s6 offset-s3 center-align">
-                <button onClick={this.importClicked} className="waves-effect waves-light btn ">
-                    {" "}
-                    import from Trello{" "}
+                <button className="waves-effect waves-light row btn col s4 offset-s4" onClick={this.authClicked}>
+                    Link with a GitHub Issue
                 </button>
             </div>
         );
-        if (this.props.trello !== null) {
-            // Showing Trello lists
+
+        let cookieJSON = cookie.parse(document.cookie);
+        if (cookieJSON.hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL === null) {
+            // Showing GitHub issues
             selectListElement = (
                 <div className="row col s1 offset-s5 center-align">
                     <ul className="main-navigation col center-align" style={{ marginLeft: "50%" }}>
                         <li className="center-align">
                             <a className="center-align" href="#">
-                                Import from Trello
+                                Link with a GitHub issue
                             </a>
                             <ul>
                                 {this.props.trello.boards.map(board => {
@@ -179,14 +196,11 @@ const matchDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        trello: state.trello
+        trello: state.trello,
+        todoList: state.todoLists
     };
 };
 
-ImportList.propTypes = {
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-    }).isRequired
-};
+LinkWithGitHub.propTypes = {};
 
-export default connect(mapStateToProps, matchDispatchToProps)(ImportList);
+export default connect(mapStateToProps, matchDispatchToProps)(LinkWithGitHub);

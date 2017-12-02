@@ -1,15 +1,16 @@
 {
-  "extends": "react",
-  // Your overrides...
-  //   "rules": {
-  //     "eslint no-undef": "error"
-  //"eslint no-console": ["error", { "allow": ["warn", "error"] }]
-  "rules": {
-    "react/prop-types": 0
-  },
-  "env": {
-    "es6": true,
-    "browser": true,
-    "node": true
-  }
+    "extends": "react",
+    // Your overrides...
+    //   "rules": {
+    //     "eslint no-undef": "error"
+    //"eslint no-console": ["error", { "allow": ["warn", "error"] }]
+    "rules": {
+        "react/prop-types": 0,
+        "max-nested-callbacks": 0 // specify the maximum depth callbacks can be nested (off by default)
+    },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true
+    }
 }

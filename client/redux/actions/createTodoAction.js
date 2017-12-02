@@ -24,6 +24,7 @@ function createTodoActionAsync (id, isImporting) {
     return {
         type: CREATE_TODO_LIST,
         todoListID: id,
-        isImporting: isImporting
+        isImporting: isImporting,
+        githubUpdateURL: null
     };
 }

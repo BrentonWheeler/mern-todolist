@@ -13,7 +13,8 @@ const initialState = {
     // TODO: redo this initial state
     id: "",
     title: "",
-    listItems: []
+    listItems: [],
+    githubUpdateURL: null
 };
 
 export default function (state = initialState, action) {
