@@ -2,7 +2,7 @@ import { GET_TRELLO_LISTS, SAVE_TRELLO_LIST_INFO } from "../actions/types";
 
 const initialState = null;
 
-export default function (state = initialState, action) {
+export default (state = initialState, action) => {
     switch (action.type) {
         case GET_TRELLO_LISTS:
             return Object.assign({}, state, {
@@ -21,4 +21,4 @@ export default function (state = initialState, action) {
         default:
             return state;
     }
-}
+};

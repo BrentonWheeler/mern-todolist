@@ -10,7 +10,7 @@ const keygen = new KeyGenerator(256, KeyGenerator.BASE62);
 /     Routes
 */
 
-githubRouter.get("/login", function (req, res) {
+githubRouter.get("/login", (req, res) => {
     res.redirect(
         "https://github.com/login/oauth/authorize?client_id=" +
             process.env.GITHUB_CLIENT_ID +
@@ -20,9 +20,9 @@ githubRouter.get("/login", function (req, res) {
     );
 });
 
-githubRouter.get("/callback", function (req, res) {
+githubRouter.get("/callback", (req, res) => {
     // Get access token from the code returned in url from github
-    let getAccessToken = new Promise(function (resolve, reject) {
+    let getAccessToken = new Promise((resolve, reject) => {
         request.post(
             "https://github.com/login/oauth/access_token?client_id=" +
                 process.env.GITHUB_CLIENT_ID +
@@ -32,7 +32,7 @@ githubRouter.get("/callback", function (req, res) {
                 process.env.GITHUB_CLIENT_SECRET +
                 "&code=" +
                 req.query.code,
-            function (error, response, body) {
+            (error, response, body) => {
                 body = queryString.parse(body);
                 resolve(body.access_token);
             }
@@ -40,8 +40,8 @@ githubRouter.get("/callback", function (req, res) {
     });
 
     // Store token and secret agaisnt random key, give cookie with that random key to user
-    let findNewCookieKey = new Promise(function (resolve, reject) {
-        authHelpers.doesntExistInDB(GitHub, keygen.generateKey(), function (resultKey) {
+    let findNewCookieKey = new Promise((resolve, reject) => {
+        authHelpers.doesntExistInDB(GitHub, keygen.generateKey(), resultKey => {
             resolve(resultKey);
         });
     });
@@ -63,10 +63,10 @@ githubRouter.get("/callback", function (req, res) {
     });
 });
 
-githubRouter.post("/getIssues", function (req, res) {
+githubRouter.post("/getIssues", (req, res) => {
     // Get users token from cookie key
     new Promise((resolve, reject) => {
-        authHelpers.getAuthEntryFromCookieKey(GitHub, req.body.gitHubAuthKey, function (resultDoc) {
+        authHelpers.getAuthEntryFromCookieKey(GitHub, req.body.gitHubAuthKey, resultDoc => {
             resolve(resultDoc);
         });
     }).then(dbEntry => {
@@ -79,8 +79,9 @@ githubRouter.post("/getIssues", function (req, res) {
 
 // Get users issues
 function getUsersIssues (token, pageNumber, array) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         function repeatGetUsersIssues (token, pageNumber, array) {
+            console.log("running for page: " + pageNumber);
             request.get(
                 {
                     url: "https://api.github.com/issues?filter=all&sort=updated&per_page=100&page=" + pageNumber,
@@ -89,7 +90,7 @@ function getUsersIssues (token, pageNumber, array) {
                         "User-Agent": "Quick TodoList"
                     }
                 },
-                function (error, response, body) {
+                (error, response, body) => {
                     let issuesOnPage = 0;
                     body = JSON.parse(body);
                     body.forEach(issue => {
@@ -119,7 +120,7 @@ function getUsersIssues (token, pageNumber, array) {
 
 // Get users watched repos
 function getUsersWatchedRepos (token) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         request.get(
             {
                 url: "https://api.github.com/user/subscriptions",
@@ -128,7 +129,7 @@ function getUsersWatchedRepos (token) {
                     "User-Agent": "Quick TodoList"
                 }
             },
-            function (error, response, body) {
+            (error, response, body) => {
                 let repoArray = [];
                 body = JSON.parse(body);
 
@@ -143,7 +144,7 @@ function getUsersWatchedRepos (token) {
 
 // Get open issues for a repo
 function getReposOpenIssues (token, repo) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         request.get(
             {
                 url: "https://api.github.com/repos/" + repo.fullName + "/issues",
@@ -152,7 +153,7 @@ function getReposOpenIssues (token, repo) {
                     "User-Agent": "Quick TodoList"
                 }
             },
-            function (error, response, body) {
+            (error, response, body) => {
                 body = JSON.parse(body);
                 let openIssues = [];
                 if (Array.isArray(body)) {

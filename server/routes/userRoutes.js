@@ -17,8 +17,8 @@ UserRouter.route("/register").post(function (req, res) {
 });
 
 // User login route
-UserRouter.route("/login").post(function (req, res) {
-    User.findOne({ username: req.body.data.username }, function (err, docs) {
+UserRouter.route("/login").post((req, res) => {
+    User.findOne({ username: req.body.data.username }, (err, docs) => {
         if (docs === null) {
             res.status(400).send("username doesnt exist");
         } else if (docs.password === req.body.data.password) {

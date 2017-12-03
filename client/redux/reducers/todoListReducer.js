@@ -17,7 +17,7 @@ const initialState = {
     githubUpdateURL: null
 };
 
-export default function (state = initialState, action) {
+export default (state = initialState, action) => {
     switch (action.type) {
         case CREATE_TODO_LIST:
             return Object.assign({}, state, {
@@ -75,7 +75,7 @@ export default function (state = initialState, action) {
         default:
             return state;
     }
-}
+};
 
 /* Helper functions */
 

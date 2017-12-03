@@ -1,7 +1,7 @@
 var socket_io = require("socket.io");
 var io = socket_io();
 
-io.on("connection", function (socket) {
+io.on("connection", socket => {
     socket.on("action", action => {
         // These two action types signify a user joining a todolist 'room'
         if (action.type === "server/create_todo_list" || action.type === "server/get_todo_items") {

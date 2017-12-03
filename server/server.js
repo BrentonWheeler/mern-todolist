@@ -28,7 +28,7 @@ mongoose
 
 // View engine
 app.set("view engine", "html");
-app.engine("html", function (path, options, callback) {
+app.engine("html", (path, options, callback) => {
     fs.readFile(path, "utf-8", callback);
 });
 
