@@ -43,6 +43,9 @@ export default (state = initialState, action) => {
                 },
                 {
                     title: action.title
+                },
+                {
+                    githubUpdateURL: action.githubUpdateURL
                 }
             );
             break;

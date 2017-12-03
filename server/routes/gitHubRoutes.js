@@ -70,31 +70,75 @@ githubRouter.post("/getIssues", (req, res) => {
             resolve(resultDoc);
         });
     }).then(dbEntry => {
-        let issueArray = [];
-        getUsersIssues(dbEntry.token, 1, issueArray).then(() => {
+        getUsersIssues(dbEntry.token).then(issueArray => {
             res.json(issueArray);
         });
     });
 });
 
+githubRouter.post("/createNewTaskList", (req, res) => {
+    // Get users token from cookie key
+    new Promise((resolve, reject) => {
+        authHelpers.getAuthEntryFromCookieKey(GitHub, req.body.gitHubAuthKey, resultDoc => {
+            resolve(resultDoc);
+        });
+    }).then(dbEntry => {
+        console.log(req.body.taskListString);
+        console.log(req.body.selectedIssue.repoFullName);
+        insertTaskList(dbEntry.token, req.body.taskListString, req.body.selectedIssue).then(issueArray => {
+            res.json({ sucess: true });
+        });
+    });
+});
+
 // Get users issues
-function getUsersIssues (token, pageNumber, array) {
+function insertTaskList (token, taskListString, selectedIssue) {
     return new Promise((resolve, reject) => {
-        function repeatGetUsersIssues (token, pageNumber, array) {
+        request.post(
+            {
+                url:
+                    "https://api.github.com/repos/" +
+                    selectedIssue.repoFullName +
+                    "/issues/" +
+                    selectedIssue.number +
+                    "/comments",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "User-Agent": "Quick Todo-List"
+                },
+                body: JSON.stringify({
+                    body: taskListString
+                })
+            },
+            (error, response, body) => {
+                console.log(error);
+                console.log(body);
+                resolve();
+            }
+        );
+    });
+}
+
+// Get users issues
+function getUsersIssues (token) {
+    let issueArray = [];
+    let pageNumber = 1;
+    return new Promise((resolve, reject) => {
+        function repeatGetUsersIssues (pageNumber) {
             console.log("running for page: " + pageNumber);
             request.get(
                 {
                     url: "https://api.github.com/issues?filter=all&sort=updated&per_page=100&page=" + pageNumber,
                     headers: {
                         "Authorization": "Bearer " + token,
-                        "User-Agent": "Quick TodoList"
+                        "User-Agent": "Quick Todo-List"
                     }
                 },
                 (error, response, body) => {
                     let issuesOnPage = 0;
                     body = JSON.parse(body);
                     body.forEach(issue => {
-                        array.push({
+                        issueArray.push({
                             htmlURL: issue.html_url,
                             number: issue.number,
                             title: issue.title,
@@ -107,14 +151,14 @@ function getUsersIssues (token, pageNumber, array) {
                     });
 
                     if (issuesOnPage < 100) {
-                        resolve();
+                        resolve(issueArray);
                     } else {
-                        repeatGetUsersIssues(token, pageNumber + 1, array);
+                        repeatGetUsersIssues(pageNumber + 1);
                     }
                 }
             );
         }
-        repeatGetUsersIssues(token, pageNumber, array);
+        repeatGetUsersIssues(pageNumber);
     });
 }
 
@@ -126,7 +170,7 @@ function getUsersWatchedRepos (token) {
                 url: "https://api.github.com/user/subscriptions",
                 headers: {
                     "Authorization": "Bearer " + token,
-                    "User-Agent": "Quick TodoList"
+                    "User-Agent": "Quick Todo-List"
                 }
             },
             (error, response, body) => {
@@ -150,7 +194,7 @@ function getReposOpenIssues (token, repo) {
                 url: "https://api.github.com/repos/" + repo.fullName + "/issues",
                 headers: {
                     "Authorization": "Bearer " + token,
-                    "User-Agent": "Quick TodoList"
+                    "User-Agent": "Quick Todo-List"
                 }
             },
             (error, response, body) => {

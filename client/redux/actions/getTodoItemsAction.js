@@ -6,8 +6,9 @@ export default function getTodoItemsAction (todoListID) {
         return todoListAPI.getItems(todoListID).then(itemsJSON => {
             let itemArray = itemsJSON.data.itemArray;
             let title = itemsJSON.data.title;
+            let githubUpdateURL = itemsJSON.data.githubUpdateURL;
             dispatch(getTodoItemsActionToServerAsync(itemArray, todoListID, title));
-            dispatch(getTodoItemsActionAsync(itemArray, todoListID, title));
+            dispatch(getTodoItemsActionAsync(itemArray, todoListID, title, githubUpdateURL));
             return itemArray;
         });
     };
@@ -22,11 +23,12 @@ function getTodoItemsActionToServerAsync (itemArray, todoListID, title) {
     };
 }
 
-function getTodoItemsActionAsync (itemArray, todoListID, title) {
+function getTodoItemsActionAsync (itemArray, todoListID, title, githubUpdateURL) {
     return {
         type: GET_TODO_ITEMS,
         itemArray: itemArray,
         todoListID: todoListID,
-        title: title
+        title: title,
+        githubUpdateURL: githubUpdateURL
     };
 }

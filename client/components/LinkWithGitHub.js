@@ -1,88 +1,75 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import SearchInput from "./SearchInput";
 import createTodoListAction from "../redux/actions/createTodoAction";
 import saveTrelloListInfoAction from "../redux/actions/saveTrelloListInfoAction";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+//import PropTypes from "prop-types";
 import cookie from "cookie";
 import githubAPI from "../api/github";
+import styled from "styled-components";
 
-const DropDownMenuStyledDiv = styled.div`
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        background: #2bbbae;
+const searchInputStyledDiv = styled.div`
+    body {
+        font-family: Helvetica, sans-serif;
     }
 
-    ul li {
-        display: block;
+    .react-autosuggest__container {
         position: relative;
-        float: left;
-        background: #2bbbae;
     }
 
-    /* This hides the dropdowns */
+    .react-autosuggest__input {
+        width: 240px;
+        height: 30px;
+        padding: 10px 20px;
+        font-family: Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 16px;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+    }
 
-    li ul {
+    .react-autosuggest__input--focused {
+        outline: none;
+    }
+
+    .react-autosuggest__input--open {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .react-autosuggest__suggestions-container {
         display: none;
     }
 
-    ul li a {
-        display: block;
-        padding: 1em;
-        text-decoration: none;
-        white-space: nowrap;
-        color: #fff;
-    }
-
-    ul li a:hover {
-        background: #2c3e50;
-    }
-
-    /* Display the dropdown */
-
-    li:hover > ul {
+    .react-autosuggest__suggestions-container--open {
         display: block;
         position: absolute;
+        top: 51px;
+        width: 280px;
+        border: 1px solid #aaa;
+        background-color: #fff;
+        font-family: Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 16px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        z-index: 2;
     }
 
-    li:hover li {
-        float: none;
+    .react-autosuggest__suggestions-list {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
     }
 
-    li:hover a {
-        background: #2bbbae;
+    .react-autosuggest__suggestion {
+        cursor: pointer;
+        padding: 10px 20px;
     }
 
-    li:hover li a:hover {
-        background: #2c3e50;
-    }
-
-    .main-navigation li ul li {
-        border-top: 0;
-    }
-
-    /* Displays second level dropdowns to the right of the first level dropdown */
-
-    ul ul ul {
-        left: 100%;
-        top: 0;
-    }
-
-    /* Simple clearfix */
-
-    ul:before,
-    ul:after {
-        content: " ";
-        /* 1 */
-        display: table;
-        /* 2 */
-    }
-
-    ul:after {
-        clear: both;
+    .react-autosuggest__suggestion--highlighted {
+        background-color: #ddd;
     }
 `;
 
@@ -90,10 +77,14 @@ class LinkWithGitHub extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            loadingFromGitHub: false
+            loadingFromGitHub: false,
+            githubIssues: null,
+            value: "",
+            selectedIssue: null
         };
         this.authClicked = this.authClicked.bind(this);
-        this.trelloListClicked = this.trelloListClicked.bind(this);
+        this.link = this.link.bind(this);
+        this.githubInputOnChange = this.githubInputOnChange.bind(this);
     }
 
     //Check if github auth has been passed in cookie and TodoList is not already linked
@@ -103,6 +94,8 @@ class LinkWithGitHub extends Component {
             this.setState({ loadingFromGitHub: true });
             githubAPI.getIssues(cookieJSON.githubAuth).then(result => {
                 console.log(result);
+                this.setState({ githubIssues: result.data });
+                this.setState({ loadingFromGitHub: false });
             });
         }
     }
@@ -111,10 +104,42 @@ class LinkWithGitHub extends Component {
         location.href = process.env.BASE_URL + "/github/login";
     }
 
-    trelloListClicked (listID, listName, boardID, boardName) {
-        this.props.createTodoListAction(true).then(id => {
-            this.props.saveTrelloListInfoAction(listID, listName, boardID, boardName);
-            this.props.history.push("todolist/" + id);
+    link () {
+        for (let i in this.state.githubIssues) {
+            if (this.state.value === this.state.githubIssues[i].title) {
+                this.setState(
+                    {
+                        selectedIssue: this.state.githubIssues[i]
+                    },
+                    () => {
+                        // Parse TodoList object to a string that the GitHub API expects
+                        let taskListString = "### " + this.props.todoList.title;
+                        this.props.todoList.listItems.map(item => {
+                            taskListString += "\n- [" + (item.completed ? "x" : " ") + "] " + item.text;
+                        });
+                        taskListString += "\n\nCreated with [Quick Todo-List](https://brentonwheeler.com)";
+                        //taskListString += "\\n\\nCreated with [Quick Todo-List](" + process.env.BASE_URL + ")";
+
+                        // Github api insert tasklist
+                        let cookieJSON = cookie.parse(document.cookie);
+                        console.log(this.state.selectedIssue);
+                        githubAPI
+                            .createNewTaskList(cookieJSON.githubAuth, taskListString, this.state.selectedIssue)
+                            .then(result => {
+                                console.log(result);
+                            });
+
+                        // Todolist api: add as todoList.githubUpdateURL (which will require a full redux flow)}
+                    }
+                );
+                break;
+            }
+        }
+    }
+
+    githubInputOnChange (event, { newValue }) {
+        this.setState({
+            value: newValue
         });
     }
 
@@ -129,49 +154,41 @@ class LinkWithGitHub extends Component {
         );
 
         let cookieJSON = cookie.parse(document.cookie);
-        if (cookieJSON.hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL === null) {
+        if (
+            cookieJSON.hasOwnProperty("githubAuth") &&
+            this.props.todoList.githubUpdateURL === null &&
+            !this.state.loadingFromGitHub
+        ) {
             // Showing GitHub issues
+            let linkButton = (
+                <button className="waves-effect waves-light row btn col s2 disabled" onClick={this.link}>
+                    Link
+                </button>
+            );
+            for (let i in this.state.githubIssues) {
+                if (this.state.value === this.state.githubIssues[i].title) {
+                    linkButton = (
+                        <button className="waves-effect waves-light row btn col s2" onClick={this.link}>
+                            Link
+                        </button>
+                    );
+                    break;
+                }
+            }
+
             selectListElement = (
-                <div className="row col s1 offset-s5 center-align">
-                    <ul className="main-navigation col center-align" style={{ marginLeft: "50%" }}>
-                        <li className="center-align">
-                            <a className="center-align" href="#">
-                                Link with a GitHub issue
-                            </a>
-                            <ul>
-                                {this.props.trello.boards.map(board => {
-                                    return (
-                                        <li>
-                                            <a href="#">{board.name}</a>
-                                            <ul>
-                                                {board.listArray.map(list => {
-                                                    return (
-                                                        <li>
-                                                            <a
-                                                                onClick={this.trelloListClicked.bind(
-                                                                    this,
-                                                                    list.id,
-                                                                    list.name,
-                                                                    board.id,
-                                                                    board.name
-                                                                )}
-                                                                href="#"
-                                                            >
-                                                                {list.name}
-                                                            </a>
-                                                        </li>
-                                                    );
-                                                })}
-                                            </ul>
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        </li>
-                    </ul>
+                <div className="row">
+                    <div className="col s2 offset-s4 center-align">
+                        <SearchInput
+                            onChange={this.githubInputOnChange.bind(this)}
+                            githubIssues={this.state.githubIssues}
+                            value={this.state.value}
+                        />
+                    </div>
+                    {linkButton}
                 </div>
             );
-        } else if (this.props.loading) {
+        } else if (this.state.loadingFromGitHub) {
             // Showing loading spinner
             selectListElement = (
                 <div className="col s2 offset-s5 center-align">
@@ -182,7 +199,7 @@ class LinkWithGitHub extends Component {
             );
         }
 
-        return <DropDownMenuStyledDiv className="row center-align">{selectListElement}</DropDownMenuStyledDiv>;
+        return <searchInputStyledDiv className="row center-align">{selectListElement}</searchInputStyledDiv>;
     }
 }
 

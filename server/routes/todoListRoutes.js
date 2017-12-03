@@ -49,12 +49,12 @@ TodoListRouter.route("/addItem").post((req, res) => {
 
 // Route to retrieve all items in a todoList
 TodoListRouter.route("/getItems").post((req, res) => {
-    TodoList.findOne({ id: req.body.urlID }, (err, docs) => {
-        if (docs === null) {
+    TodoList.findOne({ id: req.body.urlID }, (err, doc) => {
+        if (doc === null) {
             console.log("id not found");
             res.json({ err: "error" });
         } else {
-            res.json({ itemArray: docs.listItems, title: docs.title });
+            res.json({ itemArray: doc.listItems, title: doc.title, githubUpdateURL: doc.githubUpdateURL });
         }
     });
 });
