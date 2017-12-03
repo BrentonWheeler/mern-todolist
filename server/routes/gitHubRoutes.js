@@ -70,23 +70,52 @@ githubRouter.post("/getIssues", function (req, res) {
             resolve(resultDoc);
         });
     }).then(dbEntry => {
-        getUsersWatchedRepos(dbEntry.token).then(repoArray => {
-            var reposCompleted = 0;
-            repoArray.map((repo, i) => {
-                getReposOpenIssues(dbEntry.token, repo).then(formatedIssues => {
-                    repoArray[i].openIssues = [];
-                    formatedIssues.map(issue => {
-                        repoArray[i].openIssues.push(issue);
-                    });
-                    reposCompleted = reposCompleted++;
-                    if (reposCompleted === repoArray.length) {
-                        res.json(repoArray);
-                    }
-                });
-            });
+        let issueArray = [];
+        getUsersIssues(dbEntry.token, 1, issueArray).then(() => {
+            res.json(issueArray);
         });
     });
 });
+
+// Get users issues
+function getUsersIssues (token, pageNumber, array) {
+    return new Promise(function (resolve, reject) {
+        function repeatGetUsersIssues (token, pageNumber, array) {
+            request.get(
+                {
+                    url: "https://api.github.com/issues?filter=all&sort=updated&per_page=100&page=" + pageNumber,
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "User-Agent": "Quick TodoList"
+                    }
+                },
+                function (error, response, body) {
+                    let issuesOnPage = 0;
+                    body = JSON.parse(body);
+                    body.forEach(issue => {
+                        array.push({
+                            htmlURL: issue.html_url,
+                            number: issue.number,
+                            title: issue.title,
+                            id: issue.id,
+                            repoFullName: issue.repository.full_name,
+                            repoName: issue.repository.name,
+                            repoID: issue.repository.id
+                        });
+                        issuesOnPage += 1;
+                    });
+
+                    if (issuesOnPage < 100) {
+                        resolve();
+                    } else {
+                        repeatGetUsersIssues(token, pageNumber + 1, array);
+                    }
+                }
+            );
+        }
+        repeatGetUsersIssues(token, pageNumber, array);
+    });
+}
 
 // Get users watched repos
 function getUsersWatchedRepos (token) {
