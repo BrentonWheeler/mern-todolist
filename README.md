@@ -1,8 +1,11 @@
 # Functionality
 Allows a user to create a new todolist with no account creation commitment and share it with another user by sending them the url.
 
-Trello flow: 
+### Trello integration flow: 
 ![trello flow gif](https://github.com/BrentonWheeler/mern-todolist/blob/master/readmeGifs/todolistapp%20trello%20flow.gif "trello flow gif")
+
+### GitHub integration flow: 
+![trello flow gif](https://github.com/BrentonWheeler/mern-todolist/blob/master/readmeGifs/todolistapp%20github%20flow.gif "github flow gif")
 
 # Scripts to run project (and develop):
 npm run dev = frontend development
