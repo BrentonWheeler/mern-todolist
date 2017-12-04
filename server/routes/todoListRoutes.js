@@ -5,7 +5,9 @@ var Promise = require("promise");
 var path = require("path");
 var TodoList = require("../models/todoListModels");
 var Trello = require("../models/trelloAuthModel");
+var GitHub = require("../models/githubAuthModel");
 var OAuth = require("oauth").OAuth;
+var authHelpers = require("../modules/authHelpers");
 
 /*
 /     OAuth Setup and Functions
@@ -54,7 +56,12 @@ TodoListRouter.route("/getItems").post((req, res) => {
             console.log("id not found");
             res.json({ err: "error" });
         } else {
-            res.json({ itemArray: doc.listItems, title: doc.title, githubUpdateURL: doc.githubUpdateURL });
+            res.json({
+                itemArray: doc.listItems,
+                title: doc.title,
+                githubUpdateURL: doc.githubUpdateURL,
+                githubAccessURL: doc.githubAccessURL
+            });
         }
     });
 });
@@ -132,6 +139,13 @@ TodoListRouter.route("/getListItems").post((req, res) => {
     getTrelloListItems(req, res);
 });
 
+// Route to update GitHub update and access urls of a todoList
+TodoListRouter.route("/updateGitHubLinks").post((req, res) => {
+    // TODO: Make this return a thenable promise
+    updateGitHubLinks(req.body.tlID, req.body.updateURL, req.body.accessURL);
+    res.json({ success: true });
+});
+
 /* TodoList helper functions */
 function addItem (todoListID, text, itemID) {
     TodoList.findOneAndUpdate(
@@ -153,6 +167,21 @@ function updateTitle (todoListID, newTitle) {
             $set: {
                 title: newTitle
             }
+        },
+        err => {
+            if (err) {
+                console.log(err);
+            }
+        }
+    );
+}
+
+function updateGitHubLinks (todoListID, updateURL, accessURL) {
+    TodoList.update(
+        { id: todoListID },
+        {
+            githubUpdateURL: updateURL,
+            githubAccessURL: accessURL
         },
         err => {
             if (err) {

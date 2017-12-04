@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import SearchInput from "./SearchInput";
-import createTodoListAction from "../redux/actions/createTodoAction";
-import saveTrelloListInfoAction from "../redux/actions/saveTrelloListInfoAction";
+import updateGitHubLinks from "../redux/actions/updateGitHubLinks";
 //import PropTypes from "prop-types";
 import cookie from "cookie";
 import githubAPI from "../api/github";
@@ -42,6 +41,7 @@ class LinkWithGitHub extends Component {
     }
 
     linkButtonOnClick () {
+        this.setState({ loadingFromGitHub: true });
         this.setSelectedIssue().then(() => {
             // Github api insert tasklist
             githubAPI
@@ -51,10 +51,11 @@ class LinkWithGitHub extends Component {
                     this.state.selectedIssue
                 )
                 .then(result => {
-                    // Todolist api: add as todoList.githubUpdateURL (which will require a full redux flow)}
-                    // update url = result.data.url
-                    // link on page url = result.data.html_url
-                    //console.log(result.data.url);
+                    this.props
+                        .updateGitHubLinks(this.props.todoList.id, result.data.url, result.data.html_url)
+                        .then(() => {
+                            this.setState({ loadingFromGitHub: false });
+                        });
                 });
         });
     }
@@ -100,7 +101,7 @@ class LinkWithGitHub extends Component {
     }
 
     render () {
-        // Defaultly showing link to GitHub issue button
+        // Unauthed with GitHub: show "link to GitHub issue" button
         let selectListElement = (
             <div className="col s6 offset-s3 center-align">
                 <button className="waves-effect waves-light row btn col s4 offset-s4" onClick={this.authClicked}>
@@ -109,12 +110,20 @@ class LinkWithGitHub extends Component {
             </div>
         );
 
-        if (
+        if (cookie.parse(document.cookie).hasOwnProperty("githubAuth") && this.state.loadingFromGitHub) {
+            // Authed with GitHub: show loading spinner
+            selectListElement = (
+                <div className="col s2 offset-s5 center-align">
+                    <div className="progress">
+                        <div className="indeterminate" />
+                    </div>
+                </div>
+            );
+        } else if (
             cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
-            this.props.todoList.githubUpdateURL === null &&
-            !this.state.loadingFromGitHub
+            this.props.todoList.githubUpdateURL === null
         ) {
-            // Showing GitHub issues
+            // Authed with GitHub: show GitHub issue search box
             let linkButton = <button className="waves-effect waves-light row btn col s2 disabled">Link</button>;
             for (let i in this.state.githubIssues) {
                 let issueIdentificationString =
@@ -145,32 +154,38 @@ class LinkWithGitHub extends Component {
                     {linkButton}
                 </div>
             );
-        } else if (this.state.loadingFromGitHub) {
-            // Showing loading spinner
+        } else if (
+            cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
+            this.props.todoList.githubUpdateURL !== null
+        ) {
+            // Authed with GitHub AND TodoList is linked with a Issue: show GitHub options
+            let linkButton = (
+                <button className="waves-effect waves-light row btn col s2">Update GitHub TaskList</button>
+            );
+
             selectListElement = (
-                <div className="col s2 offset-s5 center-align">
-                    <div className="progress">
-                        <div className="indeterminate" />
+                <div>
+                    <div className="col s12 offset-s4">
+                        {linkButton}
+                        <span className="col s3 center-align">
+                            <a href={this.props.todoList.githubAccessURL}>Linked Issue</a>
+                        </span>
                     </div>
                 </div>
             );
         }
 
-        return <div>{selectListElement}</div>;
+        return selectListElement;
     }
 }
 
 // Redux Connections
 const matchDispatchToProps = dispatch => {
-    return bindActionCreators(
-        { createTodoListAction: createTodoListAction, saveTrelloListInfoAction: saveTrelloListInfoAction },
-        dispatch
-    );
+    return bindActionCreators({ updateGitHubLinks: updateGitHubLinks }, dispatch);
 };
 
 const mapStateToProps = state => {
     return {
-        trello: state.trello,
         todoList: state.todoLists
     };
 };

@@ -6,7 +6,8 @@ import {
     TOGGLE_TODO_ITEM,
     UPDATE_TODO_ITEM_TEXT,
     UPDATE_TITLE,
-    GET_TRELLO_LIST_ITEMS
+    GET_TRELLO_LIST_ITEMS,
+    UPDATE_GITHUB_LINKS
 } from "../actions/types";
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
     id: "",
     title: "",
     listItems: [],
-    githubUpdateURL: null
+    githubUpdateURL: null,
+    githubAccessURL: null
 };
 
 export default (state = initialState, action) => {
@@ -24,7 +26,9 @@ export default (state = initialState, action) => {
                 id: action.todoListID,
                 title: "My Todo List",
                 isImporting: action.isImporting,
-                listItems: []
+                listItems: [],
+                githubUpdateURL: null,
+                githubAccessURL: null
             });
             break;
         case CREATE_TODO_ITEM:
@@ -36,16 +40,11 @@ export default (state = initialState, action) => {
             return Object.assign(
                 {},
                 {
-                    id: action.todoListID
-                },
-                {
-                    listItems: action.itemArray
-                },
-                {
-                    title: action.title
-                },
-                {
-                    githubUpdateURL: action.githubUpdateURL
+                    id: action.todoListID,
+                    listItems: action.itemArray,
+                    title: action.title,
+                    githubUpdateURL: action.githubUpdateURL,
+                    githubAccessURL: action.githubAccessURL
                 }
             );
             break;
@@ -75,6 +74,15 @@ export default (state = initialState, action) => {
                 listItems: action.itemArray
             });
             break;
+        case UPDATE_GITHUB_LINKS:
+            console.log(3);
+            console.log(action.updateURL);
+            return Object.assign({}, state, {
+                githubUpdateURL: action.updateURL,
+                githubAccessURL: action.accessURL
+            });
+            break;
+
         default:
             return state;
     }

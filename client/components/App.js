@@ -18,8 +18,8 @@ class App extends Component {
                 <span className="col s6 offset-s3 center-align">
                     GitHub: <a href="https://github.com/BrentonWheeler/mern-todolist">BrentonWheeler/mern-todolist</a>{" "}
                 </span>
-                <TodoList urlID={this.props.match.params.id} urlListID={this.props.match.params.listID} />
                 <LinkWithGitHub />
+                <TodoList urlID={this.props.match.params.id} urlListID={this.props.match.params.listID} />
                 <ToastContainer
                     position="top-left"
                     type="success"

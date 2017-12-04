@@ -139,12 +139,11 @@ class SearchInput extends Component {
 
         // Autosuggest will pass through all these props to the input.
         const inputProps = {
-            placeholder: "Enter <issue title>/<repository name>/<owner name>",
+            placeholder: "<issue title>/<repository name>/<owner name>",
             value,
             onChange: this.props.onChange
         };
 
-        // Finally, render it!
         return (
             <SearchInputStyledDiv className="row center-align">
                 <Autosuggest
