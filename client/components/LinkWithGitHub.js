@@ -83,17 +83,19 @@ class LinkWithGitHub extends Component {
             selectedIssue: null
         };
         this.authClicked = this.authClicked.bind(this);
-        this.link = this.link.bind(this);
+        this.linkButtonOnClick = this.linkButtonOnClick.bind(this);
         this.githubInputOnChange = this.githubInputOnChange.bind(this);
+        this.setSelectedIssue = this.setSelectedIssue.bind(this);
     }
 
     //Check if github auth has been passed in cookie and TodoList is not already linked
     componentWillMount () {
-        let cookieJSON = cookie.parse(document.cookie);
-        if (cookieJSON.hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL === null) {
+        if (
+            cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
+            this.props.todoList.githubUpdateURL === null
+        ) {
             this.setState({ loadingFromGitHub: true });
-            githubAPI.getIssues(cookieJSON.githubAuth).then(result => {
-                console.log(result);
+            githubAPI.getIssues(cookie.parse(document.cookie).githubAuth).then(result => {
                 this.setState({ githubIssues: result.data });
                 this.setState({ loadingFromGitHub: false });
             });
@@ -104,39 +106,50 @@ class LinkWithGitHub extends Component {
         location.href = process.env.BASE_URL + "/github/login";
     }
 
-    link () {
-        for (let i in this.state.githubIssues) {
-            if (this.state.value === this.state.githubIssues[i].title) {
-                this.setState(
-                    {
-                        selectedIssue: this.state.githubIssues[i]
-                    },
-                    () => {
-                        // Parse TodoList object to a string that the GitHub API expects
-                        let taskListString = "### " + this.props.todoList.title;
-                        this.props.todoList.listItems.map(item => {
-                            taskListString += "\n- [" + (item.completed ? "x" : " ") + "] " + item.text;
-                        });
-                        taskListString += "\n\nCreated with [Quick Todo-List](https://brentonwheeler.com)";
-                        //taskListString += "\\n\\nCreated with [Quick Todo-List](" + process.env.BASE_URL + ")";
+    linkButtonOnClick () {
+        this.setSelectedIssue().then(() => {
+            // Github api insert tasklist
+            githubAPI
+                .createNewTaskList(
+                    cookie.parse(document.cookie).githubAuth,
+                    this.parseToGitHubTaskList(this.props.todolist),
+                    this.state.selectedIssue
+                )
+                .then(result => {
+                    console.log(result);
+                });
+        });
 
-                        // Github api insert tasklist
-                        let cookieJSON = cookie.parse(document.cookie);
-                        console.log(this.state.selectedIssue);
-                        githubAPI
-                            .createNewTaskList(cookieJSON.githubAuth, taskListString, this.state.selectedIssue)
-                            .then(result => {
-                                console.log(result);
-                            });
-
-                        // Todolist api: add as todoList.githubUpdateURL (which will require a full redux flow)}
-                    }
-                );
-                break;
-            }
-        }
+        // Todolist api: add as todoList.githubUpdateURL (which will require a full redux flow)}
     }
 
+    setSelectedIssue () {
+        return new Promise((resolve, reject) => {
+            for (let i in this.state.githubIssues) {
+                if (this.state.value === this.state.githubIssues[i].title) {
+                    this.setState(
+                        {
+                            selectedIssue: this.state.githubIssues[i]
+                        },
+                        () => {
+                            resolve();
+                        }
+                    );
+                }
+            }
+        });
+    }
+
+    // Parse TodoList object to a string that the GitHub API expects
+    parseToGitHubTaskList (todolist) {
+        let taskListString = "### " + this.props.todoList.title;
+        this.props.todoList.listItems.map(item => {
+            taskListString += "\n- [" + (item.completed ? "x" : " ") + "] " + item.text;
+        });
+        taskListString += "\n\nCreated with [Quick Todo-List](https://brentonwheeler.com)";
+        //taskListString += "\\n\\nCreated with [Quick Todo-List](" + process.env.BASE_URL + ")";
+        return taskListString;
+    }
     githubInputOnChange (event, { newValue }) {
         this.setState({
             value: newValue
@@ -153,22 +166,17 @@ class LinkWithGitHub extends Component {
             </div>
         );
 
-        let cookieJSON = cookie.parse(document.cookie);
         if (
-            cookieJSON.hasOwnProperty("githubAuth") &&
+            cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
             this.props.todoList.githubUpdateURL === null &&
             !this.state.loadingFromGitHub
         ) {
             // Showing GitHub issues
-            let linkButton = (
-                <button className="waves-effect waves-light row btn col s2 disabled" onClick={this.link}>
-                    Link
-                </button>
-            );
+            let linkButton = <button className="waves-effect waves-light row btn col s2 disabled">Link</button>;
             for (let i in this.state.githubIssues) {
                 if (this.state.value === this.state.githubIssues[i].title) {
                     linkButton = (
-                        <button className="waves-effect waves-light row btn col s2" onClick={this.link}>
+                        <button className="waves-effect waves-light row btn col s2" onClick={this.linkButtonOnClick}>
                             Link
                         </button>
                     );

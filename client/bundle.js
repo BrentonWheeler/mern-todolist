@@ -34266,9 +34266,9 @@ function noop() {}
 	if (
 		true
 	) {
-		!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+		!(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
 			return utf8;
-		}.call(exports, __webpack_require__, exports, module),
+		}).call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	}	else if (freeExports && !freeExports.nodeType) {
 		if (freeModule) { // in Node.js or RingoJS v0.8.0+
@@ -42272,8 +42272,9 @@ var LinkWithGitHub = function (_Component) {
             selectedIssue: null
         };
         _this.authClicked = _this.authClicked.bind(_this);
-        _this.link = _this.link.bind(_this);
+        _this.linkButtonOnClick = _this.linkButtonOnClick.bind(_this);
         _this.githubInputOnChange = _this.githubInputOnChange.bind(_this);
+        _this.setSelectedIssue = _this.setSelectedIssue.bind(_this);
         return _this;
     }
 
@@ -42285,11 +42286,9 @@ var LinkWithGitHub = function (_Component) {
         value: function componentWillMount() {
             var _this2 = this;
 
-            var cookieJSON = _cookie2.default.parse(document.cookie);
-            if (cookieJSON.hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL === null) {
+            if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL === null) {
                 this.setState({ loadingFromGitHub: true });
-                _github2.default.getIssues(cookieJSON.githubAuth).then(function (result) {
-                    console.log(result);
+                _github2.default.getIssues(_cookie2.default.parse(document.cookie).githubAuth).then(function (result) {
                     _this2.setState({ githubIssues: result.data });
                     _this2.setState({ loadingFromGitHub: false });
                 });
@@ -42301,35 +42300,49 @@ var LinkWithGitHub = function (_Component) {
             location.href = "" + "/github/login";
         }
     }, {
-        key: "link",
-        value: function link() {
+        key: "linkButtonOnClick",
+        value: function linkButtonOnClick() {
             var _this3 = this;
 
-            for (var i in this.state.githubIssues) {
-                if (this.state.value === this.state.githubIssues[i].title) {
-                    this.setState({
-                        selectedIssue: this.state.githubIssues[i]
-                    }, function () {
-                        // Parse TodoList object to a string that the GitHub API expects
-                        var taskListString = "### " + _this3.props.todoList.title;
-                        _this3.props.todoList.listItems.map(function (item) {
-                            taskListString += "\n- [" + (item.completed ? "x" : " ") + "] " + item.text;
-                        });
-                        taskListString += "\n\nCreated with [Quick Todo-List](https://brentonwheeler.com)";
-                        //taskListString += "\\n\\nCreated with [Quick Todo-List](" + process.env.BASE_URL + ")";
+            this.setSelectedIssue().then(function () {
+                // Github api insert tasklist
+                _github2.default.createNewTaskList(_cookie2.default.parse(document.cookie).githubAuth, _this3.parseToGitHubTaskList(_this3.props.todolist), _this3.state.selectedIssue).then(function (result) {
+                    console.log(result);
+                });
+            });
 
-                        // Github api insert tasklist
-                        var cookieJSON = _cookie2.default.parse(document.cookie);
-                        console.log(_this3.state.selectedIssue);
-                        _github2.default.createNewTaskList(cookieJSON.githubAuth, taskListString, _this3.state.selectedIssue).then(function (result) {
-                            console.log(result);
-                        });
+            // Todolist api: add as todoList.githubUpdateURL (which will require a full redux flow)}
+        }
+    }, {
+        key: "setSelectedIssue",
+        value: function setSelectedIssue() {
+            var _this4 = this;
 
-                        // Todolist api: add as todoList.githubUpdateURL (which will require a full redux flow)}
-                    });
-                    break;
+            return new Promise(function (resolve, reject) {
+                for (var i in _this4.state.githubIssues) {
+                    if (_this4.state.value === _this4.state.githubIssues[i].title) {
+                        _this4.setState({
+                            selectedIssue: _this4.state.githubIssues[i]
+                        }, function () {
+                            resolve();
+                        });
+                    }
                 }
-            }
+            });
+        }
+
+        // Parse TodoList object to a string that the GitHub API expects
+
+    }, {
+        key: "parseToGitHubTaskList",
+        value: function parseToGitHubTaskList(todolist) {
+            var taskListString = "### " + this.props.todoList.title;
+            this.props.todoList.listItems.map(function (item) {
+                taskListString += "\n- [" + (item.completed ? "x" : " ") + "] " + item.text;
+            });
+            taskListString += "\n\nCreated with [Quick Todo-List](https://brentonwheeler.com)";
+            //taskListString += "\\n\\nCreated with [Quick Todo-List](" + process.env.BASE_URL + ")";
+            return taskListString;
         }
     }, {
         key: "githubInputOnChange",
@@ -42354,19 +42367,18 @@ var LinkWithGitHub = function (_Component) {
                 )
             );
 
-            var cookieJSON = _cookie2.default.parse(document.cookie);
-            if (cookieJSON.hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL === null && !this.state.loadingFromGitHub) {
+            if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL === null && !this.state.loadingFromGitHub) {
                 // Showing GitHub issues
                 var linkButton = _react2.default.createElement(
                     "button",
-                    { className: "waves-effect waves-light row btn col s2 disabled", onClick: this.link },
+                    { className: "waves-effect waves-light row btn col s2 disabled" },
                     "Link"
                 );
                 for (var i in this.state.githubIssues) {
                     if (this.state.value === this.state.githubIssues[i].title) {
                         linkButton = _react2.default.createElement(
                             "button",
-                            { className: "waves-effect waves-light row btn col s2", onClick: this.link },
+                            { className: "waves-effect waves-light row btn col s2", onClick: this.linkButtonOnClick },
                             "Link"
                         );
                         break;

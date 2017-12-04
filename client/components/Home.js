@@ -20,10 +20,9 @@ class Home extends Component {
 
     //Check if trello auth has been passed in cookie
     componentWillMount () {
-        let cookieJSON = cookie.parse(document.cookie);
-        if (cookieJSON.hasOwnProperty("trelloAuth")) {
+        if (cookie.parse(document.cookie).hasOwnProperty("trelloAuth")) {
             this.setState({ loadingFromTrello: true });
-            this.props.getTrelloListsAction(cookieJSON.trelloAuth);
+            this.props.getTrelloListsAction(cookie.parse(document.cookie).trelloAuth);
         }
     }
 
