@@ -12,3 +12,5 @@ Allows a user to create a new todolist with no account creation commitment and s
 2. npm run api (which builds the bundle(.js) then runs the node server)
 
 *local MongoDB needs to be running, or point to an online mongoDB in the MONGODB_URL ".env" variable
+
+A docker container will be coming soon.
