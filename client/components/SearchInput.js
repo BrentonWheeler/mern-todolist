@@ -5,6 +5,71 @@ import React, { Component } from "react";
 // import { connect } from "react-redux";
 // import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
 // import getTrelloListItemsAction from "../redux/actions/getTrelloListItemsAction";
+import styled from "styled-components";
+
+const SearchInputStyledDiv = styled.div`
+    body {
+        font-family: Helvetica, sans-serif;
+    }
+
+    .react-autosuggest__container {
+        position: relative;
+    }
+
+    .react-autosuggest__input {
+        width: 240px;
+        height: 30px;
+        padding: 10px 20px;
+        font-family: Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 16px;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+    }
+
+    .react-autosuggest__input--focused {
+        outline: none;
+    }
+
+    .react-autosuggest__input--open {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .react-autosuggest__suggestions-container {
+        display: none;
+    }
+
+    .react-autosuggest__suggestions-container--open {
+        display: block;
+        position: absolute;
+        top: 51px;
+        width: 280px;
+        border: 1px solid #aaa;
+        background-color: #fff;
+        font-family: Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 16px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        z-index: 2;
+    }
+
+    .react-autosuggest__suggestions-list {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    .react-autosuggest__suggestion {
+        cursor: pointer;
+        padding: 10px 20px;
+    }
+
+    .react-autosuggest__suggestion--highlighted {
+        background-color: #ddd;
+    }
+`;
 
 class SearchInput extends Component {
     constructor () {
@@ -40,15 +105,17 @@ class SearchInput extends Component {
 
         const regex = new RegExp("^" + escapedValue, "i");
 
-        return this.props.githubIssues.filter(issue => regex.test(issue.title));
+        return this.props.githubIssues.filter(issue =>
+            regex.test(issue.title + "/" + issue.repoName + "/" + issue.repoOwner)
+        );
     }
 
     getSuggestionValue (suggestion) {
-        return suggestion.title;
+        return suggestion.title + "/" + suggestion.repoName + "/" + suggestion.repoOwner;
     }
 
     renderSuggestion (suggestion) {
-        return <span>{suggestion.title}</span>;
+        return <span>{suggestion.title + "/" + suggestion.repoName + "/" + suggestion.repoOwner}</span>;
     }
 
     // Autosuggest will call this function every time you need to update suggestions.
@@ -72,21 +139,23 @@ class SearchInput extends Component {
 
         // Autosuggest will pass through all these props to the input.
         const inputProps = {
-            placeholder: "Seach by issue title",
+            placeholder: "Enter <issue title>/<repository name>/<owner name>",
             value,
             onChange: this.props.onChange
         };
 
         // Finally, render it!
         return (
-            <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                getSuggestionValue={this.getSuggestionValue}
-                renderSuggestion={this.renderSuggestion}
-                inputProps={inputProps}
-            />
+            <SearchInputStyledDiv className="row center-align">
+                <Autosuggest
+                    suggestions={suggestions}
+                    onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                    onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                    getSuggestionValue={this.getSuggestionValue}
+                    renderSuggestion={this.renderSuggestion}
+                    inputProps={inputProps}
+                />
+            </SearchInputStyledDiv>
         );
     }
 }

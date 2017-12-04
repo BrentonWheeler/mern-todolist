@@ -12,6 +12,7 @@ export const UPDATE_TITLE = "update_title";
 export const GET_TRELLO_LISTS = "get_trello_lists";
 export const GET_TRELLO_LIST_ITEMS = "get_trello_list_items";
 export const SAVE_TRELLO_LIST_INFO = "save_trello_list_info";
+export const UPDATE_GITHUB_UPDATE_URL = "update_github_update_url";
 
 // Todo types: These need to be sent to server and then emitted to other clients from there
 export const SERVER_CREATE_TODO_LIST = "server/create_todo_list";

@@ -21,7 +21,6 @@ function createAuthEntry (Model, authEntry) {
 }
 
 function getAuthEntryFromCookieKey (Model, cookieKey, callback) {
-    console.log("cookie" + cookieKey);
     Model.findOne({ cookieKey: cookieKey }, (err, doc) => {
         if (doc === null) {
             console.log("key not found");

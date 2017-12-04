@@ -923,6 +923,7 @@ var UPDATE_TITLE = exports.UPDATE_TITLE = "update_title";
 var GET_TRELLO_LISTS = exports.GET_TRELLO_LISTS = "get_trello_lists";
 var GET_TRELLO_LIST_ITEMS = exports.GET_TRELLO_LIST_ITEMS = "get_trello_list_items";
 var SAVE_TRELLO_LIST_INFO = exports.SAVE_TRELLO_LIST_INFO = "save_trello_list_info";
+var UPDATE_GITHUB_UPDATE_URL = exports.UPDATE_GITHUB_UPDATE_URL = "update_github_update_url";
 
 // Todo types: These need to be sent to server and then emitted to other clients from there
 var SERVER_CREATE_TODO_LIST = exports.SERVER_CREATE_TODO_LIST = "server/create_todo_list";
@@ -34266,9 +34267,9 @@ function noop() {}
 	if (
 		true
 	) {
-		!(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+		!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
 			return utf8;
-		}).call(exports, __webpack_require__, exports, module),
+		}.call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	}	else if (freeExports && !freeExports.nodeType) {
 		if (freeModule) { // in Node.js or RingoJS v0.8.0+
@@ -36126,10 +36127,9 @@ var Home = function (_Component) {
     _createClass(Home, [{
         key: "componentWillMount",
         value: function componentWillMount() {
-            var cookieJSON = _cookie2.default.parse(document.cookie);
-            if (cookieJSON.hasOwnProperty("trelloAuth")) {
+            if (_cookie2.default.parse(document.cookie).hasOwnProperty("trelloAuth")) {
                 this.setState({ loadingFromTrello: true });
-                this.props.getTrelloListsAction(cookieJSON.trelloAuth);
+                this.props.getTrelloListsAction(_cookie2.default.parse(document.cookie).trelloAuth);
             }
         }
     }, {
@@ -42209,8 +42209,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(["\n    body {\n        font-family: Helvetica, sans-serif;\n    }\n\n    .react-autosuggest__container {\n        position: relative;\n    }\n\n    .react-autosuggest__input {\n        width: 240px;\n        height: 30px;\n        padding: 10px 20px;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border: 1px solid #aaa;\n        border-radius: 4px;\n    }\n\n    .react-autosuggest__input--focused {\n        outline: none;\n    }\n\n    .react-autosuggest__input--open {\n        border-bottom-left-radius: 0;\n        border-bottom-right-radius: 0;\n    }\n\n    .react-autosuggest__suggestions-container {\n        display: none;\n    }\n\n    .react-autosuggest__suggestions-container--open {\n        display: block;\n        position: absolute;\n        top: 51px;\n        width: 280px;\n        border: 1px solid #aaa;\n        background-color: #fff;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border-bottom-left-radius: 4px;\n        border-bottom-right-radius: 4px;\n        z-index: 2;\n    }\n\n    .react-autosuggest__suggestions-list {\n        margin: 0;\n        padding: 0;\n        list-style-type: none;\n    }\n\n    .react-autosuggest__suggestion {\n        cursor: pointer;\n        padding: 10px 20px;\n    }\n\n    .react-autosuggest__suggestion--highlighted {\n        background-color: #ddd;\n    }\n"], ["\n    body {\n        font-family: Helvetica, sans-serif;\n    }\n\n    .react-autosuggest__container {\n        position: relative;\n    }\n\n    .react-autosuggest__input {\n        width: 240px;\n        height: 30px;\n        padding: 10px 20px;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border: 1px solid #aaa;\n        border-radius: 4px;\n    }\n\n    .react-autosuggest__input--focused {\n        outline: none;\n    }\n\n    .react-autosuggest__input--open {\n        border-bottom-left-radius: 0;\n        border-bottom-right-radius: 0;\n    }\n\n    .react-autosuggest__suggestions-container {\n        display: none;\n    }\n\n    .react-autosuggest__suggestions-container--open {\n        display: block;\n        position: absolute;\n        top: 51px;\n        width: 280px;\n        border: 1px solid #aaa;\n        background-color: #fff;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border-bottom-left-radius: 4px;\n        border-bottom-right-radius: 4px;\n        z-index: 2;\n    }\n\n    .react-autosuggest__suggestions-list {\n        margin: 0;\n        padding: 0;\n        list-style-type: none;\n    }\n\n    .react-autosuggest__suggestion {\n        cursor: pointer;\n        padding: 10px 20px;\n    }\n\n    .react-autosuggest__suggestion--highlighted {\n        background-color: #ddd;\n    }\n"]);
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -42239,10 +42237,6 @@ var _github = __webpack_require__(377);
 
 var _github2 = _interopRequireDefault(_github);
 
-var _styledComponents = __webpack_require__(146);
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -42250,12 +42244,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 //import PropTypes from "prop-types";
 
-
-var searchInputStyledDiv = _styledComponents2.default.div(_templateObject);
 
 var LinkWithGitHub = function (_Component) {
     _inherits(LinkWithGitHub, _Component);
@@ -42307,11 +42297,12 @@ var LinkWithGitHub = function (_Component) {
             this.setSelectedIssue().then(function () {
                 // Github api insert tasklist
                 _github2.default.createNewTaskList(_cookie2.default.parse(document.cookie).githubAuth, _this3.parseToGitHubTaskList(_this3.props.todolist), _this3.state.selectedIssue).then(function (result) {
-                    console.log(result);
+                    // Todolist api: add as todoList.githubUpdateURL (which will require a full redux flow)}
+                    // update url = result.data.url
+                    // link on page url = result.data.html_url
+                    //console.log(result.data.url);
                 });
             });
-
-            // Todolist api: add as todoList.githubUpdateURL (which will require a full redux flow)}
         }
     }, {
         key: "setSelectedIssue",
@@ -42320,7 +42311,8 @@ var LinkWithGitHub = function (_Component) {
 
             return new Promise(function (resolve, reject) {
                 for (var i in _this4.state.githubIssues) {
-                    if (_this4.state.value === _this4.state.githubIssues[i].title) {
+                    var issueIdentificationString = _this4.state.githubIssues[i].title + "/" + _this4.state.githubIssues[i].repoName + "/" + _this4.state.githubIssues[i].repoOwner;
+                    if (_this4.state.value === issueIdentificationString) {
                         _this4.setState({
                             selectedIssue: _this4.state.githubIssues[i]
                         }, function () {
@@ -42375,7 +42367,8 @@ var LinkWithGitHub = function (_Component) {
                     "Link"
                 );
                 for (var i in this.state.githubIssues) {
-                    if (this.state.value === this.state.githubIssues[i].title) {
+                    var issueIdentificationString = this.state.githubIssues[i].title + "/" + this.state.githubIssues[i].repoName + "/" + this.state.githubIssues[i].repoOwner;
+                    if (this.state.value === issueIdentificationString) {
                         linkButton = _react2.default.createElement(
                             "button",
                             { className: "waves-effect waves-light row btn col s2", onClick: this.linkButtonOnClick },
@@ -42413,8 +42406,8 @@ var LinkWithGitHub = function (_Component) {
             }
 
             return _react2.default.createElement(
-                "searchInputStyledDiv",
-                { className: "row center-align" },
+                "div",
+                null,
                 selectListElement
             );
         }
@@ -42454,6 +42447,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _templateObject = _taggedTemplateLiteral(["\n    body {\n        font-family: Helvetica, sans-serif;\n    }\n\n    .react-autosuggest__container {\n        position: relative;\n    }\n\n    .react-autosuggest__input {\n        width: 240px;\n        height: 30px;\n        padding: 10px 20px;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border: 1px solid #aaa;\n        border-radius: 4px;\n    }\n\n    .react-autosuggest__input--focused {\n        outline: none;\n    }\n\n    .react-autosuggest__input--open {\n        border-bottom-left-radius: 0;\n        border-bottom-right-radius: 0;\n    }\n\n    .react-autosuggest__suggestions-container {\n        display: none;\n    }\n\n    .react-autosuggest__suggestions-container--open {\n        display: block;\n        position: absolute;\n        top: 51px;\n        width: 280px;\n        border: 1px solid #aaa;\n        background-color: #fff;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border-bottom-left-radius: 4px;\n        border-bottom-right-radius: 4px;\n        z-index: 2;\n    }\n\n    .react-autosuggest__suggestions-list {\n        margin: 0;\n        padding: 0;\n        list-style-type: none;\n    }\n\n    .react-autosuggest__suggestion {\n        cursor: pointer;\n        padding: 10px 20px;\n    }\n\n    .react-autosuggest__suggestion--highlighted {\n        background-color: #ddd;\n    }\n"], ["\n    body {\n        font-family: Helvetica, sans-serif;\n    }\n\n    .react-autosuggest__container {\n        position: relative;\n    }\n\n    .react-autosuggest__input {\n        width: 240px;\n        height: 30px;\n        padding: 10px 20px;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border: 1px solid #aaa;\n        border-radius: 4px;\n    }\n\n    .react-autosuggest__input--focused {\n        outline: none;\n    }\n\n    .react-autosuggest__input--open {\n        border-bottom-left-radius: 0;\n        border-bottom-right-radius: 0;\n    }\n\n    .react-autosuggest__suggestions-container {\n        display: none;\n    }\n\n    .react-autosuggest__suggestions-container--open {\n        display: block;\n        position: absolute;\n        top: 51px;\n        width: 280px;\n        border: 1px solid #aaa;\n        background-color: #fff;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border-bottom-left-radius: 4px;\n        border-bottom-right-radius: 4px;\n        z-index: 2;\n    }\n\n    .react-autosuggest__suggestions-list {\n        margin: 0;\n        padding: 0;\n        list-style-type: none;\n    }\n\n    .react-autosuggest__suggestion {\n        cursor: pointer;\n        padding: 10px 20px;\n    }\n\n    .react-autosuggest__suggestion--highlighted {\n        background-color: #ddd;\n    }\n"]);
+
 var _reactAutosuggest = __webpack_require__(365);
 
 var _reactAutosuggest2 = _interopRequireDefault(_reactAutosuggest);
@@ -42461,6 +42456,10 @@ var _reactAutosuggest2 = _interopRequireDefault(_reactAutosuggest);
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _styledComponents = __webpack_require__(146);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42470,11 +42469,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 // import PropTypes from "prop-types";
 // import { bindActionCreators } from "redux";
 // import { connect } from "react-redux";
 // import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
 // import getTrelloListItemsAction from "../redux/actions/getTrelloListItemsAction";
+
+
+var SearchInputStyledDiv = _styledComponents2.default.div(_templateObject);
 
 var SearchInput = function (_Component) {
     _inherits(SearchInput, _Component);
@@ -42521,13 +42524,13 @@ var SearchInput = function (_Component) {
             var regex = new RegExp("^" + escapedValue, "i");
 
             return this.props.githubIssues.filter(function (issue) {
-                return regex.test(issue.title);
+                return regex.test(issue.title + "/" + issue.repoName + "/" + issue.repoOwner);
             });
         }
     }, {
         key: "getSuggestionValue",
         value: function getSuggestionValue(suggestion) {
-            return suggestion.title;
+            return suggestion.title + "/" + suggestion.repoName + "/" + suggestion.repoOwner;
         }
     }, {
         key: "renderSuggestion",
@@ -42535,7 +42538,7 @@ var SearchInput = function (_Component) {
             return _react2.default.createElement(
                 "span",
                 null,
-                suggestion.title
+                suggestion.title + "/" + suggestion.repoName + "/" + suggestion.repoOwner
             );
         }
 
@@ -42570,20 +42573,24 @@ var SearchInput = function (_Component) {
             // Autosuggest will pass through all these props to the input.
 
             var inputProps = {
-                placeholder: "Seach by issue title",
+                placeholder: "Enter <issue title>/<repository name>/<owner name>",
                 value: value,
                 onChange: this.props.onChange
             };
 
             // Finally, render it!
-            return _react2.default.createElement(_reactAutosuggest2.default, {
-                suggestions: suggestions,
-                onSuggestionsFetchRequested: this.onSuggestionsFetchRequested,
-                onSuggestionsClearRequested: this.onSuggestionsClearRequested,
-                getSuggestionValue: this.getSuggestionValue,
-                renderSuggestion: this.renderSuggestion,
-                inputProps: inputProps
-            });
+            return _react2.default.createElement(
+                SearchInputStyledDiv,
+                { className: "row center-align" },
+                _react2.default.createElement(_reactAutosuggest2.default, {
+                    suggestions: suggestions,
+                    onSuggestionsFetchRequested: this.onSuggestionsFetchRequested,
+                    onSuggestionsClearRequested: this.onSuggestionsClearRequested,
+                    getSuggestionValue: this.getSuggestionValue,
+                    renderSuggestion: this.renderSuggestion,
+                    inputProps: inputProps
+                })
+            );
         }
     }]);
 

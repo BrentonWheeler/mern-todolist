@@ -83,15 +83,13 @@ githubRouter.post("/createNewTaskList", (req, res) => {
             resolve(resultDoc);
         });
     }).then(dbEntry => {
-        console.log(req.body.taskListString);
-        console.log(req.body.selectedIssue.repoFullName);
-        insertTaskList(dbEntry.token, req.body.taskListString, req.body.selectedIssue).then(issueArray => {
-            res.json({ sucess: true });
+        insertTaskList(dbEntry.token, req.body.taskListString, req.body.selectedIssue).then(body => {
+            res.json(body);
         });
     });
 });
 
-// Get users issues
+// Insert TaskList into a new github comment
 function insertTaskList (token, taskListString, selectedIssue) {
     return new Promise((resolve, reject) => {
         request.post(
@@ -111,9 +109,7 @@ function insertTaskList (token, taskListString, selectedIssue) {
                 })
             },
             (error, response, body) => {
-                console.log(error);
-                console.log(body);
-                resolve();
+                resolve(JSON.parse(body));
             }
         );
     });
@@ -144,6 +140,7 @@ function getUsersIssues (token) {
                             title: issue.title,
                             id: issue.id,
                             repoFullName: issue.repository.full_name,
+                            repoOwner: issue.repository.owner.login,
                             repoName: issue.repository.name,
                             repoID: issue.repository.id
                         });
