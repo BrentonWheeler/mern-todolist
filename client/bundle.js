@@ -36109,6 +36109,10 @@ var Home = function (_Component) {
     _createClass(Home, [{
         key: "componentWillMount",
         value: function componentWillMount() {
+            if (_cookie2.default.parse(document.cookie).hasOwnProperty("tempTodoListID")) {
+                this.props.history.push("todolist/" + _cookie2.default.parse(document.cookie).tempTodoListID);
+                document.cookie = "tempTodoListID=" + "; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            }
             if (_cookie2.default.parse(document.cookie).hasOwnProperty("trelloAuth")) {
                 this.setState({ loadingFromTrello: true });
                 this.props.getTrelloListsAction(_cookie2.default.parse(document.cookie).trelloAuth);
@@ -39324,7 +39328,6 @@ var App = function (_Component) {
                     ),
                     " "
                 ),
-                _react2.default.createElement("br", null),
                 _react2.default.createElement(_LinkWithGitHub2.default, null),
                 _react2.default.createElement(_TodoList2.default, { urlID: this.props.match.params.id, urlListID: this.props.match.params.listID }),
                 _react2.default.createElement(_reactToastify.ToastContainer, {
@@ -42298,6 +42301,7 @@ var LinkWithGitHub = function (_Component) {
     }, {
         key: "authClicked",
         value: function authClicked() {
+            document.cookie = "tempTodoListID=" + this.props.todoList.id;
             location.href = "" + "/github/login";
         }
     }, {
@@ -42371,7 +42375,7 @@ var LinkWithGitHub = function (_Component) {
             );
 
             if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.state.loadingFromGitHub) {
-                // Authed with GitHub: show loading spinner
+                // Authed with GitHub AND loading: show loading spinner
                 selectListElement = _react2.default.createElement(
                     "div",
                     { className: "col s2 offset-s5 center-align" },
@@ -42382,7 +42386,7 @@ var LinkWithGitHub = function (_Component) {
                     )
                 );
             } else if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL === null) {
-                // Authed with GitHub: showing GitHub issue search box
+                // Authed with GitHub AND not yet linked to an issue: show GitHub issue search box
                 var linkButton = _react2.default.createElement(
                     "button",
                     { className: "waves-effect waves-light row btn col s2 disabled" },

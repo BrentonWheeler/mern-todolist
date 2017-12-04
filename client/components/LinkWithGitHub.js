@@ -37,6 +37,7 @@ class LinkWithGitHub extends Component {
     }
 
     authClicked () {
+        document.cookie = "tempTodoListID=" + this.props.todoList.id;
         location.href = process.env.BASE_URL + "/github/login";
     }
 
@@ -111,7 +112,7 @@ class LinkWithGitHub extends Component {
         );
 
         if (cookie.parse(document.cookie).hasOwnProperty("githubAuth") && this.state.loadingFromGitHub) {
-            // Authed with GitHub: show loading spinner
+            // Authed with GitHub AND loading: show loading spinner
             selectListElement = (
                 <div className="col s2 offset-s5 center-align">
                     <div className="progress">
@@ -123,7 +124,7 @@ class LinkWithGitHub extends Component {
             cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
             this.props.todoList.githubUpdateURL === null
         ) {
-            // Authed with GitHub: show GitHub issue search box
+            // Authed with GitHub AND not yet linked to an issue: show GitHub issue search box
             let linkButton = <button className="waves-effect waves-light row btn col s2 disabled">Link</button>;
             for (let i in this.state.githubIssues) {
                 let issueIdentificationString =
