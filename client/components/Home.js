@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import createTodoListAction from "../redux/actions/createTodoAction";
 import getTrelloListsAction from "../redux/actions/getTrelloListsAction";
 import ImportList from "./ImportList";
+import cookie from "cookie";
 //import "./../styles/sass/materialize.scss";
 
 class Home extends Component {
@@ -19,10 +20,13 @@ class Home extends Component {
 
     //Check if trello auth has been passed in cookie
     componentWillMount () {
-        if (document.cookie !== "") {
+        if (cookie.parse(document.cookie).hasOwnProperty("tempTodoListID")) {
+            this.props.history.push("todolist/" + cookie.parse(document.cookie).tempTodoListID);
+            document.cookie = "tempTodoListID=" + "; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        }
+        if (cookie.parse(document.cookie).hasOwnProperty("trelloAuth")) {
             this.setState({ loadingFromTrello: true });
-            let trelloAuthKey = document.cookie.split("=")[1].replace(";", "");
-            this.props.getTrelloListsAction(trelloAuthKey);
+            this.props.getTrelloListsAction(cookie.parse(document.cookie).trelloAuth);
         }
     }
 

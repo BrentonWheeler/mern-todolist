@@ -119,7 +119,7 @@ class ImportList extends Component {
                     <ul className="main-navigation col center-align" style={{ marginLeft: "50%" }}>
                         <li className="center-align">
                             <a className="center-align" href="#">
-                                Trello Boards
+                                Import from Trello
                             </a>
                             <ul>
                                 {this.props.trello.boards.map(board => {

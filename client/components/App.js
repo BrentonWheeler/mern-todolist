@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TodoList from "./TodoList";
+import LinkWithGitHub from "./LinkWithGitHub";
 //import Login from "./login";
 import { connect } from "react-redux";
 //import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -15,10 +16,9 @@ class App extends Component {
         return (
             <div className="App row">
                 <span className="col s6 offset-s3 center-align">
-                    GitHub: <a href="https://github.com/BrentonWheeler/mern-todolist">
-                        BrentonWheeler/mern-todolist
-                    </a>{" "}
+                    GitHub: <a href="https://github.com/BrentonWheeler/mern-todolist">BrentonWheeler/mern-todolist</a>{" "}
                 </span>
+                <LinkWithGitHub />
                 <TodoList urlID={this.props.match.params.id} urlListID={this.props.match.params.listID} />
                 <ToastContainer
                     position="top-left"

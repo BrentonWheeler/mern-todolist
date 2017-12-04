@@ -5,7 +5,9 @@ var Promise = require("promise");
 var path = require("path");
 var TodoList = require("../models/todoListModels");
 var Trello = require("../models/trelloAuthModel");
+var GitHub = require("../models/githubAuthModel");
 var OAuth = require("oauth").OAuth;
+var authHelpers = require("../modules/authHelpers");
 
 /*
 /     OAuth Setup and Functions
@@ -14,16 +16,16 @@ const requestURL = "https://trello.com/1/OAuthGetRequestToken";
 const accessURL = "https://trello.com/1/OAuthGetAccessToken";
 const key = process.env.TRELLO_KEY;
 const secret = process.env.TRELLO_OAUTH_SECRET;
-const loginCallback = process.env.BASE_URL + "trello/OAuthCallback";
+const loginCallback = process.env.BASE_URL + "/trello/OAuthCallback";
 const oauth = new OAuth(requestURL, accessURL, key, secret, "1.0A", loginCallback, "HMAC-SHA1");
 
 TodoListRouter.use(express.static(path.join(__dirname, "../../client")));
 
 // Route to create a new TodoList
-TodoListRouter.route("/create").post(function (req, res) {
+TodoListRouter.route("/create").post((req, res) => {
     var newID;
-    let findUniqueID = new Promise(function (resolve, reject) {
-        doesntExistInDB(shortid.generate(), function (response) {
+    let findUniqueID = new Promise((resolve, reject) => {
+        doesntExistInDB(shortid.generate(), response => {
             resolve(response);
         });
     });
@@ -41,38 +43,43 @@ TodoListRouter.route("/create").post(function (req, res) {
 });
 
 // Route to add individual todoList item
-TodoListRouter.route("/addItem").post(function (req, res) {
+TodoListRouter.route("/addItem").post((req, res) => {
     let shortID = shortid.generate();
     addItem(req.body.todoListID, req.body.text, shortID);
     res.json({ success: true, shortID: shortID });
 });
 
 // Route to retrieve all items in a todoList
-TodoListRouter.route("/getItems").post(function (req, res) {
-    TodoList.findOne({ id: req.body.urlID }, function (err, docs) {
-        if (docs === null) {
+TodoListRouter.route("/getItems").post((req, res) => {
+    TodoList.findOne({ id: req.body.urlID }, (err, doc) => {
+        if (doc === null) {
             console.log("id not found");
             res.json({ err: "error" });
         } else {
-            res.json({ itemArray: docs.listItems, title: docs.title });
+            res.json({
+                itemArray: doc.listItems,
+                title: doc.title,
+                githubUpdateURL: doc.githubUpdateURL,
+                githubAccessURL: doc.githubAccessURL
+            });
         }
     });
 });
 
 // Route to delete individual item in a todoList
-TodoListRouter.route("/deleteItem").post(function (req, res) {
+TodoListRouter.route("/deleteItem").post((req, res) => {
     TodoList.update(
         { id: req.body.tlID },
         { $pull: { listItems: { id: req.body.tiID } } },
         { safe: true, multi: true },
-        function (err, obj) {
+        (err, obj) => {
             res.json({ err: err });
         }
     );
 });
 
 // Route to toggle completion an item
-TodoListRouter.route("/toggleItem").post(function (req, res) {
+TodoListRouter.route("/toggleItem").post((req, res) => {
     // TODO: make this find object based on todoList ID and then todoItem ID
     TodoList.update(
         { "listItems.id": req.body.tiID },
@@ -81,7 +88,7 @@ TodoListRouter.route("/toggleItem").post(function (req, res) {
                 "listItems.$.completed": !req.body.currentState
             }
         },
-        function (err, model) {
+        (err, model) => {
             if (!err) {
                 res.json({ success: true });
             }
@@ -90,7 +97,7 @@ TodoListRouter.route("/toggleItem").post(function (req, res) {
 });
 
 // Route to update the text of an item
-TodoListRouter.route("/updateItemText").post(function (req, res) {
+TodoListRouter.route("/updateItemText").post((req, res) => {
     // TODO: make this find object based on todoList ID and then todoItem ID
     TodoList.update(
         { "listItems.id": req.body.tiID },
@@ -99,7 +106,7 @@ TodoListRouter.route("/updateItemText").post(function (req, res) {
                 "listItems.$.text": req.body.newText
             }
         },
-        function (err, model) {
+        (err, model) => {
             if (!err) {
                 res.json({ success: true });
             }
@@ -108,15 +115,15 @@ TodoListRouter.route("/updateItemText").post(function (req, res) {
 });
 
 // Route to update title of a todoList
-TodoListRouter.route("/updateTitle").post(function (req, res) {
+TodoListRouter.route("/updateTitle").post((req, res) => {
     //make this a promise
     updateTitle(req.body.tlID, req.body.newTitle);
     res.json({ success: true });
 });
 
 // Route to retrieve a todoList
-TodoListRouter.route("/:id").get(function (req, res) {
-    TodoList.findOne({ id: req.params.id }, function (err, docs) {
+TodoListRouter.route("/:id").get((req, res) => {
+    TodoList.findOne({ id: req.params.id }, (err, docs) => {
         if (docs === null) {
             console.log("id not found");
             res.send("todolist id not found");
@@ -127,9 +134,16 @@ TodoListRouter.route("/:id").get(function (req, res) {
 });
 
 // Import a trello list into a todoList
-TodoListRouter.route("/getListItems").post(function (req, res) {
+TodoListRouter.route("/getListItems").post((req, res) => {
     updateTitle(req.body.todoListID, req.body.title);
     getTrelloListItems(req, res);
+});
+
+// Route to update GitHub update and access urls of a todoList
+TodoListRouter.route("/updateGitHubLinks").post((req, res) => {
+    // TODO: Make this return a thenable promise
+    updateGitHubLinks(req.body.tlID, req.body.updateURL, req.body.accessURL);
+    res.json({ success: true });
 });
 
 /* TodoList helper functions */
@@ -138,7 +152,7 @@ function addItem (todoListID, text, itemID) {
         { id: todoListID },
         { $push: { listItems: { text: text, completed: false, id: itemID } } },
         { safe: true, upsert: true },
-        function (err) {
+        err => {
             if (err) {
                 console.log(err);
             }
@@ -154,7 +168,22 @@ function updateTitle (todoListID, newTitle) {
                 title: newTitle
             }
         },
-        function (err) {
+        err => {
+            if (err) {
+                console.log(err);
+            }
+        }
+    );
+}
+
+function updateGitHubLinks (todoListID, updateURL, accessURL) {
+    TodoList.update(
+        { id: todoListID },
+        {
+            githubUpdateURL: updateURL,
+            githubAccessURL: accessURL
+        },
+        err => {
             if (err) {
                 console.log(err);
             }
@@ -164,7 +193,7 @@ function updateTitle (todoListID, newTitle) {
 
 // Recursively check for an unused ID
 function doesntExistInDB (shortID, callback) {
-    TodoList.findOne({ id: shortID }, function (err, docs) {
+    TodoList.findOne({ id: shortID }, (err, docs) => {
         if (docs === null) {
             return callback(shortID);
         } else {
@@ -180,7 +209,7 @@ function createTodoListInDB (newID) {
 
 function getTrelloListItems (request, response) {
     new Promise((resolve, reject) => {
-        getTrelloAuthEntryFromCookieKey(request.body.trelloAuthKey, function (resultDoc) {
+        getTrelloAuthEntryFromCookieKey(request.body.trelloAuthKey, resultDoc => {
             resolve(resultDoc);
         });
     }).then(dbEntry => {
@@ -189,7 +218,7 @@ function getTrelloListItems (request, response) {
             "GET",
             dbEntry.token,
             dbEntry.secret,
-            function (error, data, res) {
+            (error, data, res) => {
                 let dataJSON = JSON.parse(data);
                 let itemArray = [];
                 dataJSON.map(item => {
@@ -203,7 +232,7 @@ function getTrelloListItems (request, response) {
     });
 }
 function getTrelloAuthEntryFromCookieKey (trelloAuthKey, callback) {
-    Trello.findOne({ cookieKey: trelloAuthKey }, function (err, doc) {
+    Trello.findOne({ cookieKey: trelloAuthKey }, (err, doc) => {
         if (doc === null) {
             console.log("key not found");
         } else {

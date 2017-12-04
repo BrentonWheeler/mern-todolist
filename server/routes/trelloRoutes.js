@@ -4,6 +4,7 @@ var OAuth = require("oauth").OAuth;
 var url = require("url");
 var Trello = require("../models/trelloAuthModel");
 var KeyGenerator = require("uuid-key-generator");
+var authHelpers = require("../modules/authHelpers");
 
 /*
 /     OAuth Setup and Functions
@@ -18,33 +19,34 @@ const key = process.env.TRELLO_KEY;
 const secret = process.env.TRELLO_OAUTH_SECRET;
 
 // Trello redirects the user here after authentication
-const loginCallback = process.env.BASE_URL + "trello/OAuthCallback";
+const loginCallback = process.env.BASE_URL + "/trello/OAuthCallback";
 const oauthSecrets = {};
 const oauth = new OAuth(requestURL, accessURL, key, secret, "1.0A", loginCallback, "HMAC-SHA1");
 const keygen = new KeyGenerator(256, KeyGenerator.BASE62);
 
-const login = function (req, res) {
+const login = (req, res) => {
     oauth.getOAuthRequestToken(function (error, token, tokenSecret, results) {
         oauthSecrets[token] = tokenSecret;
         res.redirect(`${authorizeURL}?oauth_token=${token}&name=${appName}&expiration=30days`);
     });
 };
 
-var callback = function (request, response) {
+var callback = (request, response) => {
     const query = url.parse(request.url, true).query;
     const token = query.oauth_token;
     const tokenSecret = oauthSecrets[token];
     const verifier = query.oauth_verifier;
-    oauth.getOAuthAccessToken(token, tokenSecret, verifier, function (error, accessToken, accessTokenSecret, results) {
+    oauth.getOAuthAccessToken(token, tokenSecret, verifier, (error, accessToken, accessTokenSecret, results) => {
         // Store token and secret agaisnt random key, give cookie with that random key to user
-        let findCookieKey = new Promise(function (resolve, reject) {
-            doesntExistInDB(keygen.generateKey(), function (resultKey) {
+        let findNewCookieKey = new Promise(function (resolve, reject) {
+            authHelpers.doesntExistInDB(Trello, keygen.generateKey(), resultKey => {
                 resolve(resultKey);
             });
         });
-        findCookieKey.then(resultKey => {
+        findNewCookieKey.then(resultKey => {
             let newTrelloAuth = { cookieKey: resultKey, token: accessToken, secret: accessTokenSecret };
-            createTrelloAuthEntry(newTrelloAuth)
+            authHelpers
+                .createAuthEntry(Trello, newTrelloAuth)
                 .then(entry => {
                     response.cookie("trelloAuth", resultKey);
                     response.status(200);
@@ -57,7 +59,7 @@ var callback = function (request, response) {
     });
 };
 
-var getUserLists = function (boardsArray, token, secret) {
+var getUserLists = (boardsArray, token, secret) => {
     let result = [];
     return new Promise((resolve, reject) => {
         boardsArray.map(board => {
@@ -68,7 +70,7 @@ var getUserLists = function (boardsArray, token, secret) {
                         "GET",
                         token,
                         secret,
-                        function (error, data, res) {
+                        (error, data, res) => {
                             let dataArray = JSON.parse(data);
                             let dataItem = { name: board.name, id: board.id, listArray: [] };
                             dataArray.map(list => {
@@ -87,9 +89,9 @@ var getUserLists = function (boardsArray, token, secret) {
     });
 };
 
-var getUserBoards = function (request, response) {
+var getUserBoards = (request, response) => {
     new Promise((resolve, reject) => {
-        getTrelloAuthEntryFromCookieKey(request.body.trelloAuthKey, function (resultDoc) {
+        authHelpers.getAuthEntryFromCookieKey(Trello, request.body.trelloAuthKey, resultDoc => {
             resolve(resultDoc);
         });
     }).then(dbEntry => {
@@ -98,7 +100,7 @@ var getUserBoards = function (request, response) {
             "GET",
             dbEntry.token,
             dbEntry.secret,
-            function (error, data, res) {
+            (error, data, res) => {
                 let dataJSON = JSON.parse(data);
                 let boardsArray = [];
                 dataJSON.map(board => {
@@ -112,47 +114,22 @@ var getUserBoards = function (request, response) {
     });
 };
 
-function doesntExistInDB (cookieKey, callback) {
-    Trello.findOne({ cookieKey: cookieKey }, function (err, doc) {
-        if (doc === null) {
-            return callback(cookieKey);
-        } else {
-            doesntExistInDB(keygen.generateKey(), callback);
-        }
-    });
-}
-
-function createTrelloAuthEntry (trelloAuth) {
-    var newTrelloAuth = new Trello(trelloAuth);
-    return newTrelloAuth.save();
-}
-
-function getTrelloAuthEntryFromCookieKey (trelloAuthKey, callback) {
-    Trello.findOne({ cookieKey: trelloAuthKey }, function (err, doc) {
-        if (doc === null) {
-            console.log("key not found");
-        } else {
-            return callback(doc);
-        }
-    });
-}
-
 /*
 /     Routes
 */
-trelloRouter.get("/", function (request, response) {
+trelloRouter.get("/", (request, response) => {
     //response.send("<h1>Oh, hello there!</h1><a href='./login'>Login with OAuth!</a>");
 });
 
-trelloRouter.get("/login", function (request, response) {
+trelloRouter.get("/login", (request, response) => {
     login(request, response);
 });
 
-trelloRouter.get("/OAuthCallback", function (request, response) {
+trelloRouter.get("/OAuthCallback", (request, response) => {
     callback(request, response);
 });
 
-trelloRouter.post("/getBoards", function (request, response) {
+trelloRouter.post("/getBoards", (request, response) => {
     getUserBoards(request, response);
 });
 

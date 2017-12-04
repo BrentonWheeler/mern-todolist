@@ -9,7 +9,9 @@ let todolist = {
     updateItemText: (tlID, tiID, newText) =>
         api.post("/todoList/updateItemText", { tlID: tlID, tiID: tiID, newText: newText }),
     getItems: id => api.post("/todoList/getItems", { urlID: id }),
-    updateTitle: (tlID, newTitle) => api.post("/todoList/updateTitle", { tlID: tlID, newTitle: newTitle })
+    updateTitle: (tlID, newTitle) => api.post("/todoList/updateTitle", { tlID: tlID, newTitle: newTitle }),
+    updateGitHubLinks: (tlID, updateURL, accessURL) =>
+        api.post("/todoList/updateGitHubLinks", { tlID: tlID, updateURL: updateURL, accessURL: accessURL })
 };
 
 export default todolist;
