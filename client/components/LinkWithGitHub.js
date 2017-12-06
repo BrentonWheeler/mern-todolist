@@ -40,7 +40,6 @@ class LinkWithGitHub extends Component {
                     this.state.selectedIssue
                 )
                 .then(result => {
-                    console.log(result);
                     this.props
                         .updateGitHubLinks(
                             this.props.todoList.id,
@@ -68,7 +67,6 @@ class LinkWithGitHub extends Component {
                 this.props.todoList.githubUpdateURL
             )
             .then(result => {
-                console.log(result);
                 if (result.data.message === "Must have admin rights to Repository.") {
                     this.props.notify(
                         "Not Authorized. Link Owner: " + this.props.todoList.githubLinkOwner,
@@ -131,7 +129,7 @@ class LinkWithGitHub extends Component {
             </div>
         );
 
-        if (cookie.parse(document.cookie).hasOwnProperty("githubAuth") && this.state.loading) {
+        if (cookie.parse(document.cookie).hasOwnProperty("githubAuth") && (this.props.loading || this.state.loading)) {
             // Authed with GitHub AND loading: show loading spinner
             selectListElement = (
                 <div className="col s2 offset-s5 center-align">
@@ -177,22 +175,36 @@ class LinkWithGitHub extends Component {
             );
         } else if (
             cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
-            this.props.todoList.githubUpdateURL !== null
+            this.props.todoList.githubUpdateURL !== null &&
+            this.props.isLinkOwner
         ) {
-            // Authed with GitHub AND TodoList is linked with a Issue: show GitHub options
+            // Authed with GitHub AND TodoList is linked with an Issue AND current user can update TaskList: show update button and url
             let updateButton = (
-                <button className="waves-effect waves-light row btn col s2" onClick={this.updateButtonOnClick}>
+                <button className="waves-effect waves-light row btn col s6" onClick={this.updateButtonOnClick}>
                     Update GitHub TaskList
                 </button>
             );
 
             selectListElement = (
                 <div>
-                    <div className="col s12 offset-s4">
+                    <div className="col s4 offset-s4">
                         {updateButton}
-                        <span className="col s3 center-align">
+                        <span className="col s6 center-align">
                             <a href={this.props.todoList.githubAccessURL}>Linked Issue</a>
                         </span>
+                    </div>
+                </div>
+            );
+        } else if (
+            cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
+            this.props.todoList.githubUpdateURL !== null &&
+            !this.props.isLinkOwner
+        ) {
+            // Authed with GitHub AND TodoList is linked with an Issue AND current user cant update TaskList: show url
+            selectListElement = (
+                <div>
+                    <div className="col s4 offset-s4 center-align">
+                        <a href={this.props.todoList.githubAccessURL}>Linked Issue</a>
                     </div>
                 </div>
             );

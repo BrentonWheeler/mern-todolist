@@ -18886,13 +18886,15 @@ var github = {
             selectedIssue: selectedIssue
         });
     },
-    //DOING
     updateTaskList: function updateTaskList(gitHubAuthKey, taskListString, updateURL) {
         return _api2.default.post("/github/updateTaskList", {
             gitHubAuthKey: gitHubAuthKey,
             taskListString: taskListString,
             updateURL: updateURL
         });
+    },
+    getCurrentUser: function getCurrentUser(gitHubAuthKey) {
+        return _api2.default.post("/github/getCurrentUser", { gitHubAuthKey: gitHubAuthKey });
     }
 };
 
@@ -39360,12 +39362,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-//import Login from "./login";
-
-//import { CopyToClipboard } from "react-copy-to-clipboard";
-
-//import "react-toastify/dist/ReactToastify.min.css";
-
 
 var App = function (_Component) {
     _inherits(App, _Component);
@@ -39377,12 +39373,13 @@ var App = function (_Component) {
 
         _this.state = {
             toastID: null,
-            loadingGitHubIssues: false,
-            githubIssues: null
+            githubLinkLoading: false,
+            githubIssues: null,
+            isGitHubLinkOwner: false
         };
         _this.notify = _this.notify.bind(_this);
         _this.loadTodoItemsFromURL = _this.loadTodoItemsFromURL.bind(_this);
-        _this.loadGitHubIssues = _this.loadGitHubIssues.bind(_this);
+        _this.linkWithGithubChecks = _this.linkWithGithubChecks.bind(_this);
         return _this;
     }
 
@@ -39392,7 +39389,7 @@ var App = function (_Component) {
             var _this2 = this;
 
             this.loadTodoItemsFromURL().then(function () {
-                return _this2.loadGitHubIssues();
+                return _this2.linkWithGithubChecks();
             });
         }
 
@@ -39418,20 +39415,31 @@ var App = function (_Component) {
             });
         }
 
-        //Check if github auth has been passed in cookie and TodoList is not already linked
+        // Initial LinkWithGitHub checks for correct setup actions
 
     }, {
-        key: "loadGitHubIssues",
-        value: function loadGitHubIssues() {
+        key: "linkWithGithubChecks",
+        value: function linkWithGithubChecks() {
             var _this4 = this;
 
+            // Check if github auth has been passed in cookie AND TodoList is NOT already linked
             if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL === null) {
-                console.log("wtf");
-                console.log(this.props.todoList);
-                this.setState({ loadingGitHubIssues: true });
+                this.setState({ githubLinkLoading: true });
                 _github2.default.getIssues(_cookie2.default.parse(document.cookie).githubAuth).then(function (result) {
                     _this4.setState({ githubIssues: result.data });
-                    _this4.setState({ loadingGitHubIssues: false });
+                    _this4.setState({ githubLinkLoading: false });
+                });
+                // Check if github auth has been passed in cookie AND TodoList is already linked
+            } else if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL !== null) {
+                this.setState({ githubLinkLoading: true });
+                _github2.default.getCurrentUser(_cookie2.default.parse(document.cookie).githubAuth).then(function (login) {
+                    // Check if current user is owner of the link
+                    if (_this4.props.todoList.githubLinkOwner === login.data) {
+                        _this4.setState({ isGitHubLinkOwner: true });
+                    } else {
+                        _this4.setState({ isGitHubLinkOwner: false });
+                    }
+                    _this4.setState({ githubLinkLoading: false });
                 });
             }
         }
@@ -39462,9 +39470,10 @@ var App = function (_Component) {
                     " "
                 ),
                 _react2.default.createElement(_LinkWithGitHub2.default, {
-                    loading: this.state.loadingGitHubIssues,
+                    loading: this.state.githubLinkLoading,
                     githubIssues: this.state.githubIssues,
-                    notify: this.notify.bind(this)
+                    notify: this.notify.bind(this),
+                    isLinkOwner: this.state.isGitHubLinkOwner
                 }),
                 _react2.default.createElement(_TodoList2.default, { urlID: this.props.match.params.id, urlListID: this.props.match.params.listID }),
                 _react2.default.createElement(_reactToastify.ToastContainer, {
@@ -39560,12 +39569,7 @@ var TodoList = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                {
-                    style: {
-                        marginTop: "2.5%"
-                    },
-                    className: "col s8 offset-s2"
-                },
+                { className: "col s8 offset-s2" },
                 _react2.default.createElement(_Title2.default, { todoListID: this.props.todoList.id, todoListTitle: this.props.todoList.title }),
                 _react2.default.createElement(_AddItemInput2.default, { todoListID: this.props.todoList.id }),
                 _react2.default.createElement("br", null),
@@ -42317,7 +42321,6 @@ var LinkWithGitHub = function (_Component) {
             this.setSelectedIssue().then(function () {
                 // GitHub api insert tasklist
                 _github2.default.createNewTaskList(_cookie2.default.parse(document.cookie).githubAuth, _this2.parseToGitHubTaskList(_this2.props.todolist), _this2.state.selectedIssue).then(function (result) {
-                    console.log(result);
                     _this2.props.updateGitHubLinks(_this2.props.todoList.id, result.data.url, result.data.html_url, result.data.user.login).then(function () {
                         _this2.setState({ loading: false });
                         _this2.props.notify("Linked with Issue: " + _this2.state.selectedIssue.title, _reactToastify.toast.TYPE.SUCCESS);
@@ -42332,7 +42335,6 @@ var LinkWithGitHub = function (_Component) {
 
             this.setState({ loading: true });
             _github2.default.updateTaskList(_cookie2.default.parse(document.cookie).githubAuth, this.parseToGitHubTaskList(this.props.todolist), this.props.todoList.githubUpdateURL).then(function (result) {
-                console.log(result);
                 if (result.data.message === "Must have admin rights to Repository.") {
                     _this3.props.notify("Not Authorized. Link Owner: " + _this3.props.todoList.githubLinkOwner, _reactToastify.toast.TYPE.ERROR);
                 } else {
@@ -42396,7 +42398,7 @@ var LinkWithGitHub = function (_Component) {
                 )
             );
 
-            if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.state.loading) {
+            if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && (this.props.loading || this.state.loading)) {
                 // Authed with GitHub AND loading: show loading spinner
                 selectListElement = _react2.default.createElement(
                     "div",
@@ -42440,11 +42442,11 @@ var LinkWithGitHub = function (_Component) {
                     ),
                     linkButton
                 );
-            } else if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL !== null) {
-                // Authed with GitHub AND TodoList is linked with a Issue: show GitHub options
+            } else if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL !== null && this.props.isLinkOwner) {
+                // Authed with GitHub AND TodoList is linked with an Issue AND current user can update TaskList: show update button and url
                 var updateButton = _react2.default.createElement(
                     "button",
-                    { className: "waves-effect waves-light row btn col s2", onClick: this.updateButtonOnClick },
+                    { className: "waves-effect waves-light row btn col s6", onClick: this.updateButtonOnClick },
                     "Update GitHub TaskList"
                 );
 
@@ -42453,16 +42455,31 @@ var LinkWithGitHub = function (_Component) {
                     null,
                     _react2.default.createElement(
                         "div",
-                        { className: "col s12 offset-s4" },
+                        { className: "col s4 offset-s4" },
                         updateButton,
                         _react2.default.createElement(
                             "span",
-                            { className: "col s3 center-align" },
+                            { className: "col s6 center-align" },
                             _react2.default.createElement(
                                 "a",
                                 { href: this.props.todoList.githubAccessURL },
                                 "Linked Issue"
                             )
+                        )
+                    )
+                );
+            } else if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL !== null && !this.props.isLinkOwner) {
+                // Authed with GitHub AND TodoList is linked with an Issue AND current user cant update TaskList: show url
+                selectListElement = _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement(
+                        "div",
+                        { className: "col s4 offset-s4 center-align" },
+                        _react2.default.createElement(
+                            "a",
+                            { href: this.props.todoList.githubAccessURL },
+                            "Linked Issue"
                         )
                     )
                 );

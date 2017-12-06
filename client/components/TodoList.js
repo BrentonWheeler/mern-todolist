@@ -12,12 +12,7 @@ class TodoList extends Component {
 
     render () {
         return (
-            <div
-                style={{
-                    marginTop: "2.5%"
-                }}
-                className="col s8 offset-s2"
-            >
+            <div className="col s8 offset-s2">
                 <Title todoListID={this.props.todoList.id} todoListTitle={this.props.todoList.title} />
                 <AddItemInput todoListID={this.props.todoList.id} />
                 <br />

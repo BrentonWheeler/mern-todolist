@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import TodoList from "./TodoList";
 import LinkWithGitHub from "./LinkWithGitHub";
-//import Login from "./login";
 import { connect } from "react-redux";
-//import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer } from "react-toastify";
-//import "react-toastify/dist/ReactToastify.min.css";
 import { toast } from "react-toastify";
 import { bindActionCreators } from "redux";
 import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
@@ -18,16 +15,17 @@ class App extends Component {
         super(props);
         this.state = {
             toastID: null,
-            loadingGitHubIssues: false,
-            githubIssues: null
+            githubLinkLoading: false,
+            githubIssues: null,
+            isGitHubLinkOwner: false
         };
         this.notify = this.notify.bind(this);
         this.loadTodoItemsFromURL = this.loadTodoItemsFromURL.bind(this);
-        this.loadGitHubIssues = this.loadGitHubIssues.bind(this);
+        this.linkWithGithubChecks = this.linkWithGithubChecks.bind(this);
     }
 
     componentWillMount () {
-        this.loadTodoItemsFromURL().then(() => this.loadGitHubIssues());
+        this.loadTodoItemsFromURL().then(() => this.linkWithGithubChecks());
     }
 
     // Loads todo items if url accessed directly
@@ -47,18 +45,32 @@ class App extends Component {
         });
     }
 
-    //Check if github auth has been passed in cookie and TodoList is not already linked
-    loadGitHubIssues () {
+    // Initial LinkWithGitHub checks for correct setup actions
+    linkWithGithubChecks () {
+        // Check if github auth has been passed in cookie AND TodoList is NOT already linked
         if (
             cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
             this.props.todoList.githubUpdateURL === null
         ) {
-            console.log("wtf");
-            console.log(this.props.todoList);
-            this.setState({ loadingGitHubIssues: true });
+            this.setState({ githubLinkLoading: true });
             githubAPI.getIssues(cookie.parse(document.cookie).githubAuth).then(result => {
                 this.setState({ githubIssues: result.data });
-                this.setState({ loadingGitHubIssues: false });
+                this.setState({ githubLinkLoading: false });
+            });
+            // Check if github auth has been passed in cookie AND TodoList is already linked
+        } else if (
+            cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
+            this.props.todoList.githubUpdateURL !== null
+        ) {
+            this.setState({ githubLinkLoading: true });
+            githubAPI.getCurrentUser(cookie.parse(document.cookie).githubAuth).then(login => {
+                // Check if current user is owner of the link
+                if (this.props.todoList.githubLinkOwner === login.data) {
+                    this.setState({ isGitHubLinkOwner: true });
+                } else {
+                    this.setState({ isGitHubLinkOwner: false });
+                }
+                this.setState({ githubLinkLoading: false });
             });
         }
     }
@@ -78,9 +90,10 @@ class App extends Component {
                     GitHub: <a href="https://github.com/BrentonWheeler/mern-todolist">BrentonWheeler/mern-todolist</a>{" "}
                 </span>
                 <LinkWithGitHub
-                    loading={this.state.loadingGitHubIssues}
+                    loading={this.state.githubLinkLoading}
                     githubIssues={this.state.githubIssues}
                     notify={this.notify.bind(this)}
+                    isLinkOwner={this.state.isGitHubLinkOwner}
                 />
                 <TodoList urlID={this.props.match.params.id} urlListID={this.props.match.params.listID} />
                 <ToastContainer

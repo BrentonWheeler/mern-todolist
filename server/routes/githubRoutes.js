@@ -102,7 +102,39 @@ githubRouter.post("/updateTaskList", (req, res) => {
     });
 });
 
-// Insert TaskList into a new github comment
+githubRouter.post("/getCurrentUser", (req, res) => {
+    // Get users token from cookie key
+    new Promise((resolve, reject) => {
+        authHelpers.getAuthEntryFromCookieKey(GitHub, req.body.gitHubAuthKey, resultDoc => {
+            resolve(resultDoc);
+        });
+    }).then(dbEntry => {
+        getUser(dbEntry.token).then(login => {
+            res.json(login);
+        });
+    });
+});
+
+// Get users issues
+function getUser (token) {
+    return new Promise((resolve, reject) => {
+        request.get(
+            {
+                url: "https://api.github.com/user",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "User-Agent": "Quick Todo-List"
+                }
+            },
+            (error, response, body) => {
+                body = JSON.parse(body);
+                resolve(body.login);
+            }
+        );
+    });
+}
+
+// Update a linked TaskList
 function updateTaskList (token, taskListString, updateURL) {
     return new Promise((resolve, reject) => {
         request.post(
@@ -155,7 +187,6 @@ function getUsersIssues (token) {
     let pageNumber = 1;
     return new Promise((resolve, reject) => {
         function repeatGetUsersIssues (pageNumber) {
-            console.log("running for page: " + pageNumber);
             request.get(
                 {
                     url: "https://api.github.com/issues?filter=all&sort=updated&per_page=100&page=" + pageNumber,
