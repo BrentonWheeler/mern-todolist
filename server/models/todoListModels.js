@@ -8,7 +8,8 @@ var todoLists = new Schema(
         title: { type: String, required: true },
         listItems: { type: Array },
         githubUpdateURL: { type: String, default: null },
-        githubAccessURL: { type: String, default: null }
+        githubAccessURL: { type: String, default: null },
+        githubLinkOwner: { type: String, default: null }
     },
     {
         collection: "todoLists"

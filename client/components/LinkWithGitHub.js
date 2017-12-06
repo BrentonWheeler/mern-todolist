@@ -6,6 +6,7 @@ import updateGitHubLinks from "../redux/actions/updateGitHubLinks";
 //import PropTypes from "prop-types";
 import cookie from "cookie";
 import githubAPI from "../api/github";
+import { toast } from "react-toastify";
 
 class LinkWithGitHub extends Component {
     constructor (props) {
@@ -20,6 +21,7 @@ class LinkWithGitHub extends Component {
         this.linkButtonOnClick = this.linkButtonOnClick.bind(this);
         this.githubInputOnChange = this.githubInputOnChange.bind(this);
         this.setSelectedIssue = this.setSelectedIssue.bind(this);
+        this.updateButtonOnClick = this.updateButtonOnClick.bind(this);
     }
 
     //Check if github auth has been passed in cookie and TodoList is not already linked
@@ -44,7 +46,7 @@ class LinkWithGitHub extends Component {
     linkButtonOnClick () {
         this.setState({ loadingFromGitHub: true });
         this.setSelectedIssue().then(() => {
-            // Github api insert tasklist
+            // GitHub api insert tasklist
             githubAPI
                 .createNewTaskList(
                     cookie.parse(document.cookie).githubAuth,
@@ -52,10 +54,42 @@ class LinkWithGitHub extends Component {
                     this.state.selectedIssue
                 )
                 .then(result => {
+                    console.log(result);
+                    this.props
+                        .updateGitHubLinks(
+                            this.props.todoList.id,
+                            result.data.url,
+                            result.data.html_url,
+                            result.data.user.login
+                        )
+                        .then(() => {
+                            this.setState({ loadingFromGitHub: false });
+                            this.props.notify(
+                                "Linked with Issue: " + this.state.selectedIssue.title,
+                                toast.TYPE.SUCCESS
+                            );
+                        });
+                });
+        });
+    }
+
+    updateButtonOnClick () {
+        //DOING
+        this.setState({ loadingFromGitHub: true });
+        this.setSelectedIssue().then(() => {
+            // GitHub api update tasklist
+            githubAPI
+                .updateTaskList(
+                    cookie.parse(document.cookie).githubAuth,
+                    this.parseToGitHubTaskList(this.props.todolist),
+                    this.props.todoList.githubUpdateURL
+                )
+                .then(result => {
                     this.props
                         .updateGitHubLinks(this.props.todoList.id, result.data.url, result.data.html_url)
                         .then(() => {
                             this.setState({ loadingFromGitHub: false });
+                            this.props.notify("Linked TaskList updated", toast.TYPE.SUCCESS);
                         });
                 });
         });
@@ -160,14 +194,16 @@ class LinkWithGitHub extends Component {
             this.props.todoList.githubUpdateURL !== null
         ) {
             // Authed with GitHub AND TodoList is linked with a Issue: show GitHub options
-            let linkButton = (
-                <button className="waves-effect waves-light row btn col s2">Update GitHub TaskList</button>
+            let updateButton = (
+                <button className="waves-effect waves-light row btn col s2" onClick={this.updateButtonOnClick}>
+                    Update GitHub TaskList
+                </button>
             );
 
             selectListElement = (
                 <div>
                     <div className="col s12 offset-s4">
-                        {linkButton}
+                        {updateButton}
                         <span className="col s3 center-align">
                             <a href={this.props.todoList.githubAccessURL}>Linked Issue</a>
                         </span>

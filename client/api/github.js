@@ -7,6 +7,13 @@ let github = {
             gitHubAuthKey: gitHubAuthKey,
             taskListString: taskListString,
             selectedIssue: selectedIssue
+        }),
+    //DOING
+    updateTaskList: (gitHubAuthKey, taskListString, selectedIssue) =>
+        api.post("/github/createNewTaskList", {
+            gitHubAuthKey: gitHubAuthKey,
+            taskListString: taskListString,
+            selectedIssue: selectedIssue
         })
 };
 
