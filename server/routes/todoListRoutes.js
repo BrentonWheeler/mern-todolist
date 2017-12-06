@@ -60,7 +60,8 @@ TodoListRouter.route("/getItems").post((req, res) => {
                 itemArray: doc.listItems,
                 title: doc.title,
                 githubUpdateURL: doc.githubUpdateURL,
-                githubAccessURL: doc.githubAccessURL
+                githubAccessURL: doc.githubAccessURL,
+                githubLinkOwner: doc.githubLinkOwner
             });
         }
     });

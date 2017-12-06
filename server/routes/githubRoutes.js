@@ -89,6 +89,40 @@ githubRouter.post("/createNewTaskList", (req, res) => {
     });
 });
 
+githubRouter.post("/updateTaskList", (req, res) => {
+    // Get users token from cookie key
+    new Promise((resolve, reject) => {
+        authHelpers.getAuthEntryFromCookieKey(GitHub, req.body.gitHubAuthKey, resultDoc => {
+            resolve(resultDoc);
+        });
+    }).then(dbEntry => {
+        updateTaskList(dbEntry.token, req.body.taskListString, req.body.updateURL).then(body => {
+            res.json(body);
+        });
+    });
+});
+
+// Insert TaskList into a new github comment
+function updateTaskList (token, taskListString, updateURL) {
+    return new Promise((resolve, reject) => {
+        request.post(
+            {
+                url: updateURL,
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "User-Agent": "Quick Todo-List"
+                },
+                body: JSON.stringify({
+                    body: taskListString
+                })
+            },
+            (error, response, body) => {
+                resolve(JSON.parse(body));
+            }
+        );
+    });
+}
+
 // Insert TaskList into a new github comment
 function insertTaskList (token, taskListString, selectedIssue) {
     return new Promise((resolve, reject) => {

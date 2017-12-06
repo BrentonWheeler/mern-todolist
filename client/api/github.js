@@ -9,11 +9,11 @@ let github = {
             selectedIssue: selectedIssue
         }),
     //DOING
-    updateTaskList: (gitHubAuthKey, taskListString, selectedIssue) =>
-        api.post("/github/createNewTaskList", {
+    updateTaskList: (gitHubAuthKey, taskListString, updateURL) =>
+        api.post("/github/updateTaskList", {
             gitHubAuthKey: gitHubAuthKey,
             taskListString: taskListString,
-            selectedIssue: selectedIssue
+            updateURL: updateURL
         })
 };
 
