@@ -6,34 +6,23 @@ import updateGitHubLinks from "../redux/actions/updateGitHubLinks";
 //import PropTypes from "prop-types";
 import cookie from "cookie";
 import githubAPI from "../api/github";
+import { toast } from "react-toastify";
 
 class LinkWithGitHub extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            loadingFromGitHub: false,
-            githubIssues: null,
+            loading: this.props.loading,
+            githubIssues: this.props.githubIssues,
             value: "",
-            selectedIssue: null
+            selectedIssue: null,
+            isLinkOwner: null
         };
         this.authClicked = this.authClicked.bind(this);
         this.linkButtonOnClick = this.linkButtonOnClick.bind(this);
         this.githubInputOnChange = this.githubInputOnChange.bind(this);
         this.setSelectedIssue = this.setSelectedIssue.bind(this);
-    }
-
-    //Check if github auth has been passed in cookie and TodoList is not already linked
-    componentWillMount () {
-        if (
-            cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
-            this.props.todoList.githubUpdateURL === null
-        ) {
-            this.setState({ loadingFromGitHub: true });
-            githubAPI.getIssues(cookie.parse(document.cookie).githubAuth).then(result => {
-                this.setState({ githubIssues: result.data });
-                this.setState({ loadingFromGitHub: false });
-            });
-        }
+        this.updateButtonOnClick = this.updateButtonOnClick.bind(this);
     }
 
     authClicked () {
@@ -42,9 +31,9 @@ class LinkWithGitHub extends Component {
     }
 
     linkButtonOnClick () {
-        this.setState({ loadingFromGitHub: true });
+        this.setState({ loading: true });
         this.setSelectedIssue().then(() => {
-            // Github api insert tasklist
+            // GitHub api insert tasklist
             githubAPI
                 .createNewTaskList(
                     cookie.parse(document.cookie).githubAuth,
@@ -53,27 +42,58 @@ class LinkWithGitHub extends Component {
                 )
                 .then(result => {
                     this.props
-                        .updateGitHubLinks(this.props.todoList.id, result.data.url, result.data.html_url)
+                        .updateGitHubLinks(
+                            this.props.todoList.id,
+                            result.data.url,
+                            result.data.html_url,
+                            result.data.user.login
+                        )
                         .then(() => {
-                            this.setState({ loadingFromGitHub: false });
+                            this.setState({ loading: false });
+                            this.setState({ isLinkOwner: true });
+                            this.props.notify(
+                                "Linked with Issue: " + this.state.selectedIssue.title,
+                                toast.TYPE.SUCCESS
+                            );
                         });
                 });
         });
     }
 
+    updateButtonOnClick () {
+        this.setState({ loading: true });
+        githubAPI
+            .updateTaskList(
+                cookie.parse(document.cookie).githubAuth,
+                this.parseToGitHubTaskList(this.props.todolist),
+                this.props.todoList.githubUpdateURL
+            )
+            .then(result => {
+                if (result.data.message === "Must have admin rights to Repository.") {
+                    this.props.notify(
+                        "Not Authorized. Link Owner: " + this.props.todoList.githubLinkOwner,
+                        toast.TYPE.ERROR
+                    );
+                } else {
+                    this.props.notify("Linked TaskList updated", toast.TYPE.SUCCESS);
+                }
+                this.setState({ loading: false });
+            });
+    }
+
     setSelectedIssue () {
         return new Promise((resolve, reject) => {
-            for (let i in this.state.githubIssues) {
+            for (let i in this.props.githubIssues) {
                 let issueIdentificationString =
-                    this.state.githubIssues[i].title +
+                    this.props.githubIssues[i].title +
                     "/" +
-                    this.state.githubIssues[i].repoName +
+                    this.props.githubIssues[i].repoName +
                     "/" +
-                    this.state.githubIssues[i].repoOwner;
+                    this.props.githubIssues[i].repoOwner;
                 if (this.state.value === issueIdentificationString) {
                     this.setState(
                         {
-                            selectedIssue: this.state.githubIssues[i]
+                            selectedIssue: this.props.githubIssues[i]
                         },
                         () => {
                             resolve();
@@ -111,7 +131,7 @@ class LinkWithGitHub extends Component {
             </div>
         );
 
-        if (cookie.parse(document.cookie).hasOwnProperty("githubAuth") && this.state.loadingFromGitHub) {
+        if (cookie.parse(document.cookie).hasOwnProperty("githubAuth") && (this.props.loading || this.state.loading)) {
             // Authed with GitHub AND loading: show loading spinner
             selectListElement = (
                 <div className="col s2 offset-s5 center-align">
@@ -126,13 +146,13 @@ class LinkWithGitHub extends Component {
         ) {
             // Authed with GitHub AND not yet linked to an issue: show GitHub issue search box
             let linkButton = <button className="waves-effect waves-light row btn col s2 disabled">Link</button>;
-            for (let i in this.state.githubIssues) {
+            for (let i in this.props.githubIssues) {
                 let issueIdentificationString =
-                    this.state.githubIssues[i].title +
+                    this.props.githubIssues[i].title +
                     "/" +
-                    this.state.githubIssues[i].repoName +
+                    this.props.githubIssues[i].repoName +
                     "/" +
-                    this.state.githubIssues[i].repoOwner;
+                    this.props.githubIssues[i].repoOwner;
                 if (this.state.value === issueIdentificationString) {
                     linkButton = (
                         <button className="waves-effect waves-light row btn col s2" onClick={this.linkButtonOnClick}>
@@ -148,7 +168,7 @@ class LinkWithGitHub extends Component {
                     <div className="col s2 offset-s4 center-align">
                         <SearchInput
                             onChange={this.githubInputOnChange.bind(this)}
-                            githubIssues={this.state.githubIssues}
+                            githubIssues={this.props.githubIssues}
                             value={this.state.value}
                         />
                     </div>
@@ -157,20 +177,36 @@ class LinkWithGitHub extends Component {
             );
         } else if (
             cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
-            this.props.todoList.githubUpdateURL !== null
+            this.props.todoList.githubUpdateURL !== null &&
+            (this.props.isLinkOwner || this.state.isLinkOwner)
         ) {
-            // Authed with GitHub AND TodoList is linked with a Issue: show GitHub options
-            let linkButton = (
-                <button className="waves-effect waves-light row btn col s2">Update GitHub TaskList</button>
+            // Authed with GitHub AND TodoList is linked with an Issue AND current user can update TaskList: show update button and url
+            let updateButton = (
+                <button className="waves-effect waves-light row btn col s6" onClick={this.updateButtonOnClick}>
+                    Update GitHub TaskList
+                </button>
             );
 
             selectListElement = (
                 <div>
-                    <div className="col s12 offset-s4">
-                        {linkButton}
-                        <span className="col s3 center-align">
+                    <div className="col s4 offset-s4">
+                        {updateButton}
+                        <span className="col s6 center-align">
                             <a href={this.props.todoList.githubAccessURL}>Linked Issue</a>
                         </span>
+                    </div>
+                </div>
+            );
+        } else if (
+            cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
+            this.props.todoList.githubUpdateURL !== null &&
+            !this.props.isLinkOwner
+        ) {
+            // Authed with GitHub AND TodoList is linked with an Issue AND current user cant update TaskList: show url
+            selectListElement = (
+                <div>
+                    <div className="col s4 offset-s4 center-align">
+                        <a href={this.props.todoList.githubAccessURL}>Linked Issue</a>
                     </div>
                 </div>
             );

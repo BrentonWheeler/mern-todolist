@@ -6,10 +6,13 @@ export default function getTodoItemsAction (todoListID) {
         return todoListAPI.getItems(todoListID).then(itemsJSON => {
             let itemArray = itemsJSON.data.itemArray;
             let title = itemsJSON.data.title;
-            let githubUpdateURL = itemsJSON.data.githubUpdateURL;
-            let githubAccessURL = itemsJSON.data.githubAccessURL;
+            let github = {
+                githubUpdateURL: itemsJSON.data.githubUpdateURL,
+                githubAccessURL: itemsJSON.data.githubAccessURL,
+                githubLinkOwner: itemsJSON.data.githubLinkOwner
+            };
             dispatch(getTodoItemsActionToServerAsync(itemArray, todoListID, title));
-            dispatch(getTodoItemsActionAsync(itemArray, todoListID, title, githubUpdateURL, githubAccessURL));
+            dispatch(getTodoItemsActionAsync(itemArray, todoListID, title, github));
             return itemArray;
         });
     };
@@ -24,13 +27,14 @@ function getTodoItemsActionToServerAsync (itemArray, todoListID, title) {
     };
 }
 
-function getTodoItemsActionAsync (itemArray, todoListID, title, githubUpdateURL, githubAccessURL) {
+function getTodoItemsActionAsync (itemArray, todoListID, title, github) {
     return {
         type: GET_TODO_ITEMS,
         itemArray: itemArray,
         todoListID: todoListID,
         title: title,
-        githubUpdateURL: githubUpdateURL,
-        githubAccessURL: githubAccessURL
+        githubUpdateURL: github.githubUpdateURL,
+        githubAccessURL: github.githubAccessURL,
+        githubLinkOwner: github.githubLinkOwner
     };
 }

@@ -60,7 +60,8 @@ TodoListRouter.route("/getItems").post((req, res) => {
                 itemArray: doc.listItems,
                 title: doc.title,
                 githubUpdateURL: doc.githubUpdateURL,
-                githubAccessURL: doc.githubAccessURL
+                githubAccessURL: doc.githubAccessURL,
+                githubLinkOwner: doc.githubLinkOwner
             });
         }
     });
@@ -142,7 +143,7 @@ TodoListRouter.route("/getListItems").post((req, res) => {
 // Route to update GitHub update and access urls of a todoList
 TodoListRouter.route("/updateGitHubLinks").post((req, res) => {
     // TODO: Make this return a thenable promise
-    updateGitHubLinks(req.body.tlID, req.body.updateURL, req.body.accessURL);
+    updateGitHubLinks(req.body.tlID, req.body.updateURL, req.body.accessURL, req.body.linkOwner);
     res.json({ success: true });
 });
 
@@ -176,12 +177,13 @@ function updateTitle (todoListID, newTitle) {
     );
 }
 
-function updateGitHubLinks (todoListID, updateURL, accessURL) {
+function updateGitHubLinks (todoListID, updateURL, accessURL, linkOwner) {
     TodoList.update(
         { id: todoListID },
         {
             githubUpdateURL: updateURL,
-            githubAccessURL: accessURL
+            githubAccessURL: accessURL,
+            githubLinkOwner: linkOwner
         },
         err => {
             if (err) {

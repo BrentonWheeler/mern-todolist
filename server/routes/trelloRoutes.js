@@ -12,7 +12,7 @@ var authHelpers = require("../modules/authHelpers");
 const requestURL = "https://trello.com/1/OAuthGetRequestToken";
 const accessURL = "https://trello.com/1/OAuthGetAccessToken";
 const authorizeURL = "https://trello.com/1/OAuthAuthorizeToken";
-const appName = "Mern Todolist";
+const appName = "Quick Todo-List";
 
 // Developer API auth
 const key = process.env.TRELLO_KEY;
@@ -27,7 +27,7 @@ const keygen = new KeyGenerator(256, KeyGenerator.BASE62);
 const login = (req, res) => {
     oauth.getOAuthRequestToken(function (error, token, tokenSecret, results) {
         oauthSecrets[token] = tokenSecret;
-        res.redirect(`${authorizeURL}?oauth_token=${token}&name=${appName}&expiration=30days`);
+        res.redirect(`${authorizeURL}?oauth_token=${token}&name=${appName}&expiration=1hour`);
     });
 };
 

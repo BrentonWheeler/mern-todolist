@@ -16,7 +16,8 @@ const initialState = {
     title: "",
     listItems: [],
     githubUpdateURL: null,
-    githubAccessURL: null
+    githubAccessURL: null,
+    githubLinkOwner: null
 };
 
 export default (state = initialState, action) => {
@@ -28,7 +29,8 @@ export default (state = initialState, action) => {
                 isImporting: action.isImporting,
                 listItems: [],
                 githubUpdateURL: null,
-                githubAccessURL: null
+                githubAccessURL: null,
+                githubLinkOwner: null
             });
             break;
         case CREATE_TODO_ITEM:
@@ -44,7 +46,8 @@ export default (state = initialState, action) => {
                     listItems: action.itemArray,
                     title: action.title,
                     githubUpdateURL: action.githubUpdateURL,
-                    githubAccessURL: action.githubAccessURL
+                    githubAccessURL: action.githubAccessURL,
+                    githubLinkOwner: action.githubLinkOwner
                 }
             );
             break;
@@ -75,11 +78,11 @@ export default (state = initialState, action) => {
             });
             break;
         case UPDATE_GITHUB_LINKS:
-            console.log(3);
             console.log(action.updateURL);
             return Object.assign({}, state, {
                 githubUpdateURL: action.updateURL,
-                githubAccessURL: action.accessURL
+                githubAccessURL: action.accessURL,
+                githubLinkOwner: action.linkOwner
             });
             break;
 

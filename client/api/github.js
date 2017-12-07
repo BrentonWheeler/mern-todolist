@@ -7,7 +7,14 @@ let github = {
             gitHubAuthKey: gitHubAuthKey,
             taskListString: taskListString,
             selectedIssue: selectedIssue
-        })
+        }),
+    updateTaskList: (gitHubAuthKey, taskListString, updateURL) =>
+        api.post("/github/updateTaskList", {
+            gitHubAuthKey: gitHubAuthKey,
+            taskListString: taskListString,
+            updateURL: updateURL
+        }),
+    getCurrentUser: gitHubAuthKey => api.post("/github/getCurrentUser", { gitHubAuthKey: gitHubAuthKey })
 };
 
 export default github;
