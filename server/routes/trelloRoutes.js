@@ -48,11 +48,7 @@ var callback = (request, response) => {
             authHelpers
                 .createAuthEntry(Trello, newTrelloAuth)
                 .then(entry => {
-                    // set trello cookie to expire in 1 month
-                    var now = new Date();
-                    let expiry = now.setTime(now.getTime() + 1 * 3600 * 1000 * 24 * 30);
-
-                    response.cookie("trelloAuth", resultKey, { secure: true, expires: expiry.toUTCString() });
+                    response.cookie("trelloAuth", resultKey);
                     response.status(200);
                     response.redirect(process.env.BASE_URL);
                 })
