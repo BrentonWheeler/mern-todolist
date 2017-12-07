@@ -42415,16 +42415,7 @@ var LinkWithGitHub = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            // Unauthed with GitHub: show "link to GitHub issue" button
-            var selectListElement = _react2.default.createElement(
-                "div",
-                { className: "col s6 offset-s3 center-align" },
-                _react2.default.createElement(
-                    "button",
-                    { className: "waves-effect waves-light row btn col s4 offset-s4", onClick: this.authClicked },
-                    "Link with a GitHub Issue"
-                )
-            );
+            var selectListElement = void 0;
 
             if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && (this.props.loading || this.state.loading)) {
                 // Authed with GitHub AND loading: show loading spinner
@@ -42496,8 +42487,8 @@ var LinkWithGitHub = function (_Component) {
                         )
                     )
                 );
-            } else if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL !== null && !this.props.isLinkOwner) {
-                // Authed with GitHub AND TodoList is linked with an Issue AND current user cant update TaskList: show url
+            } else if (this.props.todoList.githubUpdateURL !== null && !this.props.isLinkOwner) {
+                // TodoList is linked with an Issue AND current user cant update TaskList: show url
                 selectListElement = _react2.default.createElement(
                     "div",
                     null,
@@ -42509,6 +42500,17 @@ var LinkWithGitHub = function (_Component) {
                             { href: this.props.todoList.githubAccessURL },
                             "Linked Issue"
                         )
+                    )
+                );
+            } else {
+                // Unauthed with GitHub: show "link to GitHub issue" button
+                selectListElement = _react2.default.createElement(
+                    "div",
+                    { className: "col s6 offset-s3 center-align" },
+                    _react2.default.createElement(
+                        "button",
+                        { className: "waves-effect waves-light row btn col s4 offset-s4", onClick: this.authClicked },
+                        "Link with a GitHub Issue"
                     )
                 );
             }

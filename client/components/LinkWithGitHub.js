@@ -122,14 +122,7 @@ class LinkWithGitHub extends Component {
     }
 
     render () {
-        // Unauthed with GitHub: show "link to GitHub issue" button
-        let selectListElement = (
-            <div className="col s6 offset-s3 center-align">
-                <button className="waves-effect waves-light row btn col s4 offset-s4" onClick={this.authClicked}>
-                    Link with a GitHub Issue
-                </button>
-            </div>
-        );
+        let selectListElement;
 
         if (cookie.parse(document.cookie).hasOwnProperty("githubAuth") && (this.props.loading || this.state.loading)) {
             // Authed with GitHub AND loading: show loading spinner
@@ -197,17 +190,22 @@ class LinkWithGitHub extends Component {
                     </div>
                 </div>
             );
-        } else if (
-            cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
-            this.props.todoList.githubUpdateURL !== null &&
-            !this.props.isLinkOwner
-        ) {
-            // Authed with GitHub AND TodoList is linked with an Issue AND current user cant update TaskList: show url
+        } else if (this.props.todoList.githubUpdateURL !== null && !this.props.isLinkOwner) {
+            // TodoList is linked with an Issue AND current user cant update TaskList: show url
             selectListElement = (
                 <div>
                     <div className="col s4 offset-s4 center-align">
                         <a href={this.props.todoList.githubAccessURL}>Linked Issue</a>
                     </div>
+                </div>
+            );
+        } else {
+            // Unauthed with GitHub: show "link to GitHub issue" button
+            selectListElement = (
+                <div className="col s6 offset-s3 center-align">
+                    <button className="waves-effect waves-light row btn col s4 offset-s4" onClick={this.authClicked}>
+                        Link with a GitHub Issue
+                    </button>
                 </div>
             );
         }
