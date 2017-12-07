@@ -1,4 +1,3 @@
-import Autosuggest from "react-autosuggest";
 import React, { Component } from "react";
 // import PropTypes from "prop-types";
 // import { bindActionCreators } from "redux";
@@ -6,6 +5,7 @@ import React, { Component } from "react";
 // import getTodoItemsAction from "../redux/actions/getTodoItemsAction";
 // import getTrelloListItemsAction from "../redux/actions/getTrelloListItemsAction";
 import styled from "styled-components";
+import Autosuggest from "react-autosuggest";
 
 const SearchInputStyledDiv = styled.div`
     body {

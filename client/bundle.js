@@ -34286,9 +34286,9 @@ function noop() {}
 	if (
 		true
 	) {
-		!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+		!(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
 			return utf8;
-		}.call(exports, __webpack_require__, exports, module),
+		}).call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	}	else if (freeExports && !freeExports.nodeType) {
 		if (freeModule) { // in Node.js or RingoJS v0.8.0+
@@ -42527,10 +42527,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _templateObject = _taggedTemplateLiteral(["\n    body {\n        font-family: Helvetica, sans-serif;\n    }\n\n    .react-autosuggest__container {\n        position: relative;\n    }\n\n    .react-autosuggest__input {\n        width: 240px;\n        height: 30px;\n        padding: 10px 20px;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border: 1px solid #aaa;\n        border-radius: 4px;\n    }\n\n    .react-autosuggest__input--focused {\n        outline: none;\n    }\n\n    .react-autosuggest__input--open {\n        border-bottom-left-radius: 0;\n        border-bottom-right-radius: 0;\n    }\n\n    .react-autosuggest__suggestions-container {\n        display: none;\n    }\n\n    .react-autosuggest__suggestions-container--open {\n        display: block;\n        position: absolute;\n        top: 51px;\n        width: 280px;\n        border: 1px solid #aaa;\n        background-color: #fff;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border-bottom-left-radius: 4px;\n        border-bottom-right-radius: 4px;\n        z-index: 2;\n    }\n\n    .react-autosuggest__suggestions-list {\n        margin: 0;\n        padding: 0;\n        list-style-type: none;\n    }\n\n    .react-autosuggest__suggestion {\n        cursor: pointer;\n        padding: 10px 20px;\n    }\n\n    .react-autosuggest__suggestion--highlighted {\n        background-color: #ddd;\n    }\n"], ["\n    body {\n        font-family: Helvetica, sans-serif;\n    }\n\n    .react-autosuggest__container {\n        position: relative;\n    }\n\n    .react-autosuggest__input {\n        width: 240px;\n        height: 30px;\n        padding: 10px 20px;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border: 1px solid #aaa;\n        border-radius: 4px;\n    }\n\n    .react-autosuggest__input--focused {\n        outline: none;\n    }\n\n    .react-autosuggest__input--open {\n        border-bottom-left-radius: 0;\n        border-bottom-right-radius: 0;\n    }\n\n    .react-autosuggest__suggestions-container {\n        display: none;\n    }\n\n    .react-autosuggest__suggestions-container--open {\n        display: block;\n        position: absolute;\n        top: 51px;\n        width: 280px;\n        border: 1px solid #aaa;\n        background-color: #fff;\n        font-family: Helvetica, sans-serif;\n        font-weight: 300;\n        font-size: 16px;\n        border-bottom-left-radius: 4px;\n        border-bottom-right-radius: 4px;\n        z-index: 2;\n    }\n\n    .react-autosuggest__suggestions-list {\n        margin: 0;\n        padding: 0;\n        list-style-type: none;\n    }\n\n    .react-autosuggest__suggestion {\n        cursor: pointer;\n        padding: 10px 20px;\n    }\n\n    .react-autosuggest__suggestion--highlighted {\n        background-color: #ddd;\n    }\n"]);
 
-var _reactAutosuggest = __webpack_require__(364);
-
-var _reactAutosuggest2 = _interopRequireDefault(_reactAutosuggest);
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -42538,6 +42534,10 @@ var _react2 = _interopRequireDefault(_react);
 var _styledComponents = __webpack_require__(146);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+var _reactAutosuggest = __webpack_require__(364);
+
+var _reactAutosuggest2 = _interopRequireDefault(_reactAutosuggest);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
