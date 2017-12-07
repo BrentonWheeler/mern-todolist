@@ -36001,7 +36001,8 @@ exports.default = function () {
             console.log(action.updateURL);
             return Object.assign({}, state, {
                 githubUpdateURL: action.updateURL,
-                githubAccessURL: action.accessURL
+                githubAccessURL: action.accessURL,
+                githubLinkOwner: action.linkOwner
             });
             break;
 
@@ -42296,7 +42297,8 @@ var LinkWithGitHub = function (_Component) {
             loading: _this.props.loading,
             githubIssues: _this.props.githubIssues,
             value: "",
-            selectedIssue: null
+            selectedIssue: null,
+            isLinkOwner: null
         };
         _this.authClicked = _this.authClicked.bind(_this);
         _this.linkButtonOnClick = _this.linkButtonOnClick.bind(_this);
@@ -42323,6 +42325,7 @@ var LinkWithGitHub = function (_Component) {
                 _github2.default.createNewTaskList(_cookie2.default.parse(document.cookie).githubAuth, _this2.parseToGitHubTaskList(_this2.props.todolist), _this2.state.selectedIssue).then(function (result) {
                     _this2.props.updateGitHubLinks(_this2.props.todoList.id, result.data.url, result.data.html_url, result.data.user.login).then(function () {
                         _this2.setState({ loading: false });
+                        _this2.setState({ isLinkOwner: true });
                         _this2.props.notify("Linked with Issue: " + _this2.state.selectedIssue.title, _reactToastify.toast.TYPE.SUCCESS);
                     });
                 });
@@ -42442,7 +42445,7 @@ var LinkWithGitHub = function (_Component) {
                     ),
                     linkButton
                 );
-            } else if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL !== null && this.props.isLinkOwner) {
+            } else if (_cookie2.default.parse(document.cookie).hasOwnProperty("githubAuth") && this.props.todoList.githubUpdateURL !== null && (this.props.isLinkOwner || this.state.isLinkOwner)) {
                 // Authed with GitHub AND TodoList is linked with an Issue AND current user can update TaskList: show update button and url
                 var updateButton = _react2.default.createElement(
                     "button",

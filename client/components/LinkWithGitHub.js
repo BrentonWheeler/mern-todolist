@@ -15,7 +15,8 @@ class LinkWithGitHub extends Component {
             loading: this.props.loading,
             githubIssues: this.props.githubIssues,
             value: "",
-            selectedIssue: null
+            selectedIssue: null,
+            isLinkOwner: null
         };
         this.authClicked = this.authClicked.bind(this);
         this.linkButtonOnClick = this.linkButtonOnClick.bind(this);
@@ -49,6 +50,7 @@ class LinkWithGitHub extends Component {
                         )
                         .then(() => {
                             this.setState({ loading: false });
+                            this.setState({ isLinkOwner: true });
                             this.props.notify(
                                 "Linked with Issue: " + this.state.selectedIssue.title,
                                 toast.TYPE.SUCCESS
@@ -176,7 +178,7 @@ class LinkWithGitHub extends Component {
         } else if (
             cookie.parse(document.cookie).hasOwnProperty("githubAuth") &&
             this.props.todoList.githubUpdateURL !== null &&
-            this.props.isLinkOwner
+            (this.props.isLinkOwner || this.state.isLinkOwner)
         ) {
             // Authed with GitHub AND TodoList is linked with an Issue AND current user can update TaskList: show update button and url
             let updateButton = (

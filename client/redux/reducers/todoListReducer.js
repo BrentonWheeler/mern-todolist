@@ -81,7 +81,8 @@ export default (state = initialState, action) => {
             console.log(action.updateURL);
             return Object.assign({}, state, {
                 githubUpdateURL: action.updateURL,
-                githubAccessURL: action.accessURL
+                githubAccessURL: action.accessURL,
+                githubLinkOwner: action.linkOwner
             });
             break;
 
