@@ -27,7 +27,7 @@ const keygen = new KeyGenerator(256, KeyGenerator.BASE62);
 const login = (req, res) => {
     oauth.getOAuthRequestToken(function (error, token, tokenSecret, results) {
         oauthSecrets[token] = tokenSecret;
-        res.redirect(`${authorizeURL}?oauth_token=${token}&name=${appName}&expiration=1hour`);
+        res.redirect(`${authorizeURL}?oauth_token=${token}&name=${appName}&expiration=30days`);
     });
 };
 
@@ -48,7 +48,11 @@ var callback = (request, response) => {
             authHelpers
                 .createAuthEntry(Trello, newTrelloAuth)
                 .then(entry => {
-                    response.cookie("trelloAuth", resultKey);
+                    // set trello cookie to expire in 1 month
+                    var now = new Date();
+                    let expiry = now.setTime(now.getTime() + 1 * 3600 * 1000 * 24 * 30);
+
+                    response.cookie("trelloAuth", resultKey, { secure: true, expires: expiry.toUTCString() });
                     response.status(200);
                     response.redirect(process.env.BASE_URL);
                 })
