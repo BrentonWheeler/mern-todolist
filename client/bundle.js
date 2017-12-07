@@ -39376,7 +39376,8 @@ var App = function (_Component) {
             toastID: null,
             githubLinkLoading: false,
             githubIssues: null,
-            isGitHubLinkOwner: false
+            isGitHubLinkOwner: false,
+            trelloItemsLoading: _this.props.todoList.isImporting
         };
         _this.notify = _this.notify.bind(_this);
         _this.loadTodoItemsFromURL = _this.loadTodoItemsFromURL.bind(_this);
@@ -39406,8 +39407,9 @@ var App = function (_Component) {
                     _this3.props.getTodoItemsAction(_this3.props.match.params.id).then(function () {
                         resolve();
                     });
-                } else if (_this3.props.todoList.isImporting) {
+                } else if (_this3.state.trelloItemsLoading) {
                     _this3.props.getTrelloListItemsAction(_this3.props.trello, _this3.props.todoList.id).then(function () {
+                        _this3.setState({ trelloItemsLoading: false });
                         resolve();
                     });
                 } else {
@@ -39456,37 +39458,59 @@ var App = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            return _react2.default.createElement(
-                "div",
-                { className: "App row" },
-                _react2.default.createElement(
-                    "span",
-                    { className: "col s6 offset-s3 center-align" },
-                    "GitHub: ",
+            if (this.state.trelloItemsLoading) {
+                return _react2.default.createElement(
+                    "div",
+                    {
+                        className: "App row valign-wrapper",
+                        style: {
+                            height: "100vh"
+                        }
+                    },
                     _react2.default.createElement(
-                        "a",
-                        { href: "https://github.com/BrentonWheeler/mern-todolist" },
-                        "BrentonWheeler/mern-todolist"
+                        "div",
+                        { className: "col s6 offset-s3 center-align " },
+                        _react2.default.createElement(
+                            "div",
+                            { className: "progress" },
+                            _react2.default.createElement("div", { className: "indeterminate" })
+                        )
+                    )
+                );
+            } else {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "App row" },
+                    _react2.default.createElement(
+                        "span",
+                        { className: "col s6 offset-s3 center-align" },
+                        "GitHub:",
+                        " ",
+                        _react2.default.createElement(
+                            "a",
+                            { href: "https://github.com/BrentonWheeler/mern-todolist" },
+                            "BrentonWheeler/mern-todolist"
+                        ),
+                        " "
                     ),
-                    " "
-                ),
-                _react2.default.createElement(_LinkWithGitHub2.default, {
-                    loading: this.state.githubLinkLoading,
-                    githubIssues: this.state.githubIssues,
-                    notify: this.notify.bind(this),
-                    isLinkOwner: this.state.isGitHubLinkOwner
-                }),
-                _react2.default.createElement(_TodoList2.default, { urlID: this.props.match.params.id, urlListID: this.props.match.params.listID }),
-                _react2.default.createElement(_reactToastify.ToastContainer, {
-                    position: "top-left",
-                    type: "success",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    newestOnTop: false,
-                    closeOnClick: true,
-                    pauseOnHover: true
-                })
-            );
+                    _react2.default.createElement(_LinkWithGitHub2.default, {
+                        loading: this.state.githubLinkLoading,
+                        githubIssues: this.state.githubIssues,
+                        notify: this.notify.bind(this),
+                        isLinkOwner: this.state.isGitHubLinkOwner
+                    }),
+                    _react2.default.createElement(_TodoList2.default, { urlID: this.props.match.params.id, urlListID: this.props.match.params.listID }),
+                    _react2.default.createElement(_reactToastify.ToastContainer, {
+                        position: "top-left",
+                        type: "success",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        newestOnTop: false,
+                        closeOnClick: true,
+                        pauseOnHover: true
+                    })
+                );
+            }
         }
     }]);
 
@@ -39498,7 +39522,8 @@ var App = function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
     return {
-        todoList: state.todoLists
+        todoList: state.todoLists,
+        trello: state.trello
     };
 };
 

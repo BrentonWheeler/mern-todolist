@@ -17,7 +17,8 @@ class App extends Component {
             toastID: null,
             githubLinkLoading: false,
             githubIssues: null,
-            isGitHubLinkOwner: false
+            isGitHubLinkOwner: false,
+            trelloItemsLoading: this.props.todoList.isImporting
         };
         this.notify = this.notify.bind(this);
         this.loadTodoItemsFromURL = this.loadTodoItemsFromURL.bind(this);
@@ -35,8 +36,9 @@ class App extends Component {
                 this.props.getTodoItemsAction(this.props.match.params.id).then(() => {
                     resolve();
                 });
-            } else if (this.props.todoList.isImporting) {
+            } else if (this.state.trelloItemsLoading) {
                 this.props.getTrelloListItemsAction(this.props.trello, this.props.todoList.id).then(() => {
+                    this.setState({ trelloItemsLoading: false });
                     resolve();
                 });
             } else {
@@ -84,36 +86,55 @@ class App extends Component {
     }
 
     render () {
-        return (
-            <div className="App row">
-                <span className="col s6 offset-s3 center-align">
-                    GitHub: <a href="https://github.com/BrentonWheeler/mern-todolist">BrentonWheeler/mern-todolist</a>{" "}
-                </span>
-                <LinkWithGitHub
-                    loading={this.state.githubLinkLoading}
-                    githubIssues={this.state.githubIssues}
-                    notify={this.notify.bind(this)}
-                    isLinkOwner={this.state.isGitHubLinkOwner}
-                />
-                <TodoList urlID={this.props.match.params.id} urlListID={this.props.match.params.listID} />
-                <ToastContainer
-                    position="top-left"
-                    type="success"
-                    autoClose={3000}
-                    hideProgressBar
-                    newestOnTop={false}
-                    closeOnClick
-                    pauseOnHover
-                />
-            </div>
-        );
+        if (this.state.trelloItemsLoading) {
+            return (
+                <div
+                    className="App row valign-wrapper"
+                    style={{
+                        height: "100vh"
+                    }}
+                >
+                    <div className="col s6 offset-s3 center-align ">
+                        <div className="progress">
+                            <div className="indeterminate" />
+                        </div>
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <div className="App row">
+                    <span className="col s6 offset-s3 center-align">
+                        GitHub:{" "}
+                        <a href="https://github.com/BrentonWheeler/mern-todolist">BrentonWheeler/mern-todolist</a>{" "}
+                    </span>
+                    <LinkWithGitHub
+                        loading={this.state.githubLinkLoading}
+                        githubIssues={this.state.githubIssues}
+                        notify={this.notify.bind(this)}
+                        isLinkOwner={this.state.isGitHubLinkOwner}
+                    />
+                    <TodoList urlID={this.props.match.params.id} urlListID={this.props.match.params.listID} />
+                    <ToastContainer
+                        position="top-left"
+                        type="success"
+                        autoClose={3000}
+                        hideProgressBar
+                        newestOnTop={false}
+                        closeOnClick
+                        pauseOnHover
+                    />
+                </div>
+            );
+        }
     }
 }
 
 // Redux Connections
 const mapStateToProps = state => {
     return {
-        todoList: state.todoLists
+        todoList: state.todoLists,
+        trello: state.trello
     };
 };
 
