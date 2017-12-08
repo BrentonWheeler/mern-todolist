@@ -9,7 +9,7 @@ Allows a user to create a new todolist with no account creation commitment and s
 ### GitHub integration flow:
 
 ![Github Flow Gif](https://github.com/BrentonWheeler/mern-todolist/blob/master/readmeGifs/GitHub%20Flow%20Gif.gif "Github Flow Gif")
-
+\*Right click and *open image in new tab* for improved visibility of Gifs
 # Steps to run your own version:
 
 1. setup a .env file to match requirements of the example.env
