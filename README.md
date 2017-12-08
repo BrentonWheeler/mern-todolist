@@ -8,7 +8,7 @@ Allows a user to create a new todolist with no account creation commitment and s
 
 ### GitHub integration flow:
 
-![Github Flow Gif](https://github.com/BrentonWheeler/mern-todolist/blob/master/readmeGifs/GitHub%Flow%20Gif.gif "Github Flow Gif")
+![Github Flow Gif](https://github.com/BrentonWheeler/mern-todolist/blob/master/readmeGifs/GitHub%20Flow%20Gif.gif "Github Flow Gif")
 
 # Steps to run your own version:
 
@@ -18,3 +18,4 @@ Allows a user to create a new todolist with no account creation commitment and s
 \*local MongoDB needs to be running, or point to an online mongoDB in the MONGODB_URL ".env" variable
 
 A docker container will be coming soon.
+Mobile compatibility coming soon.
