@@ -115,8 +115,21 @@ class ImportList extends Component {
         if (this.props.trello !== null) {
             // Showing Trello lists
             selectListElement = (
-                <div className="row col s1 offset-s5 center-align">
-                    <ul className="main-navigation col center-align" style={{ marginLeft: "50%" }}>
+                <div
+                    className="row col s1 offset-s5 center-align"
+                    style={{
+                        marginLeft: "45.83333333333333%",
+                        paddingLeft: "0px",
+                        paddingRight: "0px"
+                    }}
+                >
+                    <ul
+                        className="main-navigation col center-align"
+                        style={{
+                            paddingLeft: "0px",
+                            paddingRight: "0px"
+                        }}
+                    >
                         <li className="center-align">
                             <a className="center-align" href="#">
                                 Import from Trello

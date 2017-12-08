@@ -20,9 +20,9 @@ class Home extends Component {
 
     //Check if trello auth has been passed in cookie
     componentWillMount () {
-        if (cookie.parse(document.cookie).hasOwnProperty("tempTodoListID")) {
-            this.props.history.push("todolist/" + cookie.parse(document.cookie).tempTodoListID);
-            document.cookie = "tempTodoListID=" + "; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        if (localStorage.getItem("tempTodoListID") !== null) {
+            this.props.history.push("todolist/" + localStorage.getItem("tempTodoListID"));
+            localStorage.removeItem("tempTodoListID");
         }
         if (cookie.parse(document.cookie).hasOwnProperty("trelloAuth")) {
             this.setState({ loadingFromTrello: true });

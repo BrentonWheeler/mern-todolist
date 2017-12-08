@@ -36159,9 +36159,9 @@ var Home = function (_Component) {
     _createClass(Home, [{
         key: "componentWillMount",
         value: function componentWillMount() {
-            if (_cookie2.default.parse(document.cookie).hasOwnProperty("tempTodoListID")) {
-                this.props.history.push("todolist/" + _cookie2.default.parse(document.cookie).tempTodoListID);
-                document.cookie = "tempTodoListID=" + "; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            if (localStorage.getItem("tempTodoListID") !== null) {
+                this.props.history.push("todolist/" + localStorage.getItem("tempTodoListID"));
+                localStorage.removeItem("tempTodoListID");
             }
             if (_cookie2.default.parse(document.cookie).hasOwnProperty("trelloAuth")) {
                 this.setState({ loadingFromTrello: true });
@@ -37246,10 +37246,23 @@ var ImportList = function (_Component) {
                 // Showing Trello lists
                 selectListElement = _react2.default.createElement(
                     "div",
-                    { className: "row col s1 offset-s5 center-align" },
+                    {
+                        className: "row col s1 offset-s5 center-align",
+                        style: {
+                            marginLeft: "45.83333333333333%",
+                            paddingLeft: "0px",
+                            paddingRight: "0px"
+                        }
+                    },
                     _react2.default.createElement(
                         "ul",
-                        { className: "main-navigation col center-align", style: { marginLeft: "50%" } },
+                        {
+                            className: "main-navigation col center-align",
+                            style: {
+                                paddingLeft: "0px",
+                                paddingRight: "0px"
+                            }
+                        },
                         _react2.default.createElement(
                             "li",
                             { className: "center-align" },
@@ -42336,7 +42349,8 @@ var LinkWithGitHub = function (_Component) {
     _createClass(LinkWithGitHub, [{
         key: "authClicked",
         value: function authClicked() {
-            document.cookie = "tempTodoListID=" + this.props.todoList.id;
+            //document.cookie = "tempTodoListID=" + this.props.todoList.id;
+            localStorage.setItem("tempTodoListID", this.props.todoList.id);
             location.href = "" + "/github/login";
         }
     }, {
@@ -42510,7 +42524,7 @@ var LinkWithGitHub = function (_Component) {
                     _react2.default.createElement(
                         "button",
                         { className: "waves-effect waves-light row btn col s4 offset-s4", onClick: this.authClicked },
-                        "Link with a GitHub Issue"
+                        "Link GitHub"
                     )
                 );
             }

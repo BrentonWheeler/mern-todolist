@@ -26,7 +26,7 @@ class LinkWithGitHub extends Component {
     }
 
     authClicked () {
-        document.cookie = "tempTodoListID=" + this.props.todoList.id;
+        localStorage.setItem("tempTodoListID", this.props.todoList.id);
         location.href = process.env.BASE_URL + "/github/login";
     }
 
@@ -204,7 +204,7 @@ class LinkWithGitHub extends Component {
             selectListElement = (
                 <div className="col s6 offset-s3 center-align">
                     <button className="waves-effect waves-light row btn col s4 offset-s4" onClick={this.authClicked}>
-                        Link with a GitHub Issue
+                        Link GitHub
                     </button>
                 </div>
             );
