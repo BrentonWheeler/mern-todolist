@@ -5,6 +5,7 @@ io.on("connection", socket => {
     socket.on("action", action => {
         // These two action types signify a user joining a todolist 'room'
         if (action.type === "server/create_todo_list" || action.type === "server/get_todo_items") {
+            console.log("new socket: " + socket.id);
             //leave all other rooms minus socket.id room
             let leaveOtherRooms = new Promise((resolve, reject) => {
                 for (let room in socket.rooms) {
