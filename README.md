@@ -17,5 +17,5 @@ Allows a user to create a new todolist with no account creation commitment and s
 
 \*local MongoDB needs to be running, or point to an online mongoDB in the MONGODB_URL ".env" variable
 
-A docker container will be coming soon.
-Mobile compatibility coming soon.
+- A docker container will be coming soon.
+- Mobile compatibility coming soon.
